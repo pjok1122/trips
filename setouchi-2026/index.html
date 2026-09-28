@@ -61,12 +61,11 @@
 
   /* ---------- 날짜 탭 ---------- */
   nav.days{
-    display:flex;gap:8px;overflow-x:auto;padding:22px 2px 6px;
-    scrollbar-width:none;
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;padding:22px 2px 6px;
   }
-  nav.days::-webkit-scrollbar{display:none}
   .daytab{
-    flex:0 0 auto;min-width:86px;text-align:center;
+    min-width:0;text-align:center;
     padding:10px 12px;border-radius:12px;border:1px solid var(--line);
     background:var(--paper);cursor:pointer;user-select:none;
     transition:transform .12s, box-shadow .12s;
@@ -81,6 +80,11 @@
   .daytab.active .dnum{color:var(--sand)}
   .daytab.soon{opacity:.45}
   .daytab.soon .dname::after{content:" ·";color:transparent}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .daytab{padding:9px 8px}
+    .daytab .dnum{letter-spacing:.1em}
+  }
 
   /* ---------- 데이 섹션 ---------- */
   section.day{margin-top:28px;display:none}
