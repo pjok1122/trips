@@ -361,7 +361,7 @@
           <path d="M580,170 q10,-6 20,0 q10,6 20,0"/>
           <path d="M740,182 q10,-6 20,0 q10,6 20,0"/>
         </g>
-        <!-- 하루의 곡선 (08:00 → 21:00) -->
+        <!-- 하루의 곡선 (06:30 → 21:00) -->
         <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
         <!-- 비행 구간 표시 -->
         <text x="326" y="66" font-size="13" fill="#3E7C8A" font-family="'Noto Sans KR',sans-serif">✈</text>
@@ -369,14 +369,18 @@
         <line x1="605" y1="97" x2="605" y2="136" stroke="#CE4A2A" stroke-width="1.4" stroke-dasharray="2 4"/>
 
         <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
-          <!-- 08:00 집 출발 -->
+          <!-- 06:30 집 출발 -->
           <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/>
           <text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">집 출발</text>
-          <text x="60" y="118" font-size="10.5" fill="#7A9199">08:00</text>
-          <!-- 10:00 인천공항 -->
+          <text x="60" y="118" font-size="10.5" fill="#7A9199">06:30</text>
+          <!-- 09:00 인천공항 -->
           <circle cx="171" cy="101" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/>
-          <text x="171" y="121" font-size="10.5" fill="#7A9199">10:00</text>
+          <text x="171" y="121" font-size="10.5" fill="#7A9199">09:00</text>
           <text x="171" y="136" font-size="12.5" font-weight="700" fill="#1E3742">인천공항</text>
+          <!-- 10:30 라운지 -->
+          <circle cx="225" cy="91" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/>
+          <text x="225" y="64" font-size="12.5" font-weight="700" fill="#9A7430">라운지 아침</text>
+          <text x="225" y="79" font-size="10.5" fill="#7A9199">10:30</text>
           <!-- 12:00 이륙 -->
           <circle cx="282" cy="83" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/>
           <text x="282" y="56" font-size="12.5" font-weight="700" fill="#1E3742">이륙</text>
@@ -464,19 +468,34 @@
         </thead>
         <tbody>
           <tr>
-            <td class="t">08:00</td>
-            <td class="what"><strong>집 출발</strong> → 인천공항 <span class="tag move">약 2시간</span></td>
-            <td class="note">아침은 집에서 간단히. 이동 중 눈 붙여두면 첫날이 편함.</td>
+            <td class="t">06:30</td>
+            <td class="what"><strong>집 출발</strong> → 공항버스 정류장</td>
+            <td class="note">아침은 굶고 나선다. 라운지에서 아침 겸 점심으로 몰아 먹는 날.</td>
           </tr>
           <tr>
-            <td class="t">10:00</td>
-            <td class="what"><strong>인천공항 도착</strong>, 체크인·출국 <span class="tag move">이동</span></td>
-            <td class="note">평일 오전이라 한산한 편. 환전은 미리, 유심/로밍 체크.</td>
+            <td class="t">07:00</td>
+            <td class="what"><strong>공항버스 탑승</strong> → 인천공항 <span class="tag move">약 2시간</span></td>
+            <td class="note">이동 중 눈 붙여두면 첫날이 편함.</td>
+          </tr>
+          <tr>
+            <td class="t">09:00</td>
+            <td class="what"><strong>인천공항 도착</strong>, 체크인·수하물 위탁 <span class="tag move">이동</span></td>
+            <td class="note">출발 3시간 전 도착. 평일 오전이라 한산한 편. 환전은 미리, 유심/로밍 체크.</td>
+          </tr>
+          <tr>
+            <td class="t">09:50</td>
+            <td class="what"><strong>출국심사 → 면세점 물품 수령</strong> <span class="tag spot">잊지 말 것</span></td>
+            <td class="note">인도장은 출국심사를 통과한 뒤 면세구역에 있다. <strong>여권과 구매 내역(교환권)</strong>을 손에 들고 가기. 수령 후 짐이 늘어나니 기내 반입 부피도 감안.</td>
+          </tr>
+          <tr>
+            <td class="t">10:30</td>
+            <td class="what"><strong>라운지에서 아침 겸 점심 & 약</strong> <span class="tag meal">식사</span></td>
+            <td class="note">오늘 첫 끼. 기내식이 없으니 여기서 든든히 먹어둘 것. <strong>약은 이때 챙겨 먹기</strong>. 탑승구 위치를 미리 확인하고, 11:30에는 라운지에서 일어나기.</td>
           </tr>
           <tr>
             <td class="t">12:00</td>
             <td class="what"><strong>제주항공 출발</strong> ✈ <span class="tag move">비행 1:40</span></td>
-            <td class="note">기내식이 없으니 출국장에서 간단히 먹어두기.</td>
+            <td class="note">히로시마까지 1시간 40분. 도착하면 바로 오후 일정이라 기내에서 쉬어두기.</td>
           </tr>
           <tr>
             <td class="t">13:40</td>
