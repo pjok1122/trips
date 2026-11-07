@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>타이베이 5박 6일 — 지우펀·베이터우·단수이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-mist:#EAF2F0;      /* 배경: 아침 바다 안개 */
+    --sea-deep:#1E3742;      /* 잉크: 저녁 세토 바다 */
+    --sea-mid:#3E7C8A;       /* 보조: 낮 바다 청록 */
+    --torii:#CE4A2A;         /* 포인트: 이쓰쿠시마 도리이 주홍 */
+    --sand:#C7A45C;          /* 보조 포인트: 노을 모래빛 */
+    --paper:#FBFDFC;         /* 카드 면 */
+    --line:#C9D8D5;          /* 괘선 */
+    --dim:#7A9199;           /* 흐린 글씨 */
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--sea-mist);
+    color:var(--sea-deep);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- 헤더 ---------- */
+  header{padding:52px 0 8px;text-align:center}
+  .eyebrow{
+    font-size:12px;letter-spacing:.35em;color:var(--sea-mid);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(28px,5.4vw,44px);line-height:1.3;
+  }
+  h1 .accent{color:var(--torii)}
+  .subtitle{margin-top:10px;color:var(--dim);font-size:15px}
+  .dday{
+    display:inline-block;margin-top:18px;padding:7px 18px;
+    background:var(--sea-deep);color:var(--sea-mist);
+    border-radius:999px;font-size:13px;letter-spacing:.08em;
+  }
+  .dday strong{color:var(--sand);font-weight:700}
+
+  /* ---------- 항로 지도 ---------- */
+  .routemap{margin:36px 0 8px;background:var(--paper);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 12px 6px;overflow:hidden}
+  .routemap svg{width:100%;height:auto;display:block}
+  .routemap figcaption{
+    text-align:center;font-size:12px;color:var(--dim);
+    padding:6px 0 10px;letter-spacing:.06em;
+  }
+
+  /* ---------- 날짜 탭 ---------- */
+  nav.days{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;padding:22px 2px 6px;
+  }
+  .daytab{
+    min-width:0;text-align:center;
+    padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper);cursor:pointer;user-select:none;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .daytab:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(30,55,66,.10)}
+  .daytab .dnum{font-size:11px;letter-spacing:.18em;color:var(--dim)}
+  .daytab .dname{font-size:13.5px;font-weight:700;margin-top:2px}
+  .daytab.active{
+    background:var(--sea-deep);border-color:var(--sea-deep);color:var(--sea-mist);
+    box-shadow:0 6px 16px rgba(30,55,66,.18);
+  }
+  .daytab.active .dnum{color:var(--sand)}
+  .daytab.soon{opacity:.45}
+  .daytab.soon .dname::after{content:" ·";color:transparent}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .daytab{padding:9px 8px}
+    .daytab .dnum{letter-spacing:.1em}
+  }
+
+  /* ---------- 데이 섹션 ---------- */
+  section.day{margin-top:28px;display:none}
+  section.day.visible{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){section.day.visible{animation:none}}
+  .dayhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .dayhead h2{
+    font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;
+  }
+  .dayhead .datebadge{
+    font-size:13px;color:var(--paper);background:var(--torii);
+    padding:3px 12px;border-radius:999px;letter-spacing:.04em;
+  }
+  .daylead{color:var(--dim);font-size:14.5px;margin-bottom:20px}
+
+  /* 요약 카드 3분할 */
+  .summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;
+  }
+  .sumcard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;
+  }
+  .sumcard .k{font-size:11.5px;letter-spacing:.16em;color:var(--sea-mid);margin-bottom:4px}
+  .sumcard .v{font-size:14.5px;font-weight:700;line-height:1.45}
+  .sumcard .v small{display:block;font-weight:400;color:var(--dim);font-size:12.5px;margin-top:2px}
+
+  /* 이동 다이어그램 */
+  .transit{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 14px 8px;margin-bottom:24px;
+  }
+  .transit h3, .plancard h3{
+    font-size:13px;letter-spacing:.22em;color:var(--sea-mid);
+    margin:0 4px 10px;font-weight:700;
+  }
+  .transit svg{width:100%;height:auto;display:block}
+  .maplink{
+    display:inline-flex;align-items:center;gap:6px;margin:12px 4px 10px;
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;
+    color:var(--paper);background:var(--sea-mid);text-decoration:none;
+    transition:background .15s;
+  }
+  .maplink:hover{background:var(--sea-deep)}
+
+  /* 시간표 */
+  .plancard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 0 6px;margin-bottom:24px;overflow:hidden;
+  }
+  .plancard h3{padding:0 20px}
+  table.sched{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.sched th{
+    text-align:left;font-size:12px;letter-spacing:.12em;color:var(--dim);
+    font-weight:500;padding:10px 14px;border-bottom:1px solid var(--line);
+  }
+  table.sched td{
+    padding:12px 14px;border-bottom:1px solid #E4EDEB;vertical-align:top;
+  }
+  table.sched tr:last-child td{border-bottom:none}
+  td.t{white-space:nowrap;font-weight:700;color:var(--sea-mid);width:74px;
+    font-variant-numeric:tabular-nums}
+  td.what strong{font-weight:700}
+  td.what .tag{
+    display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;
+    margin-left:6px;vertical-align:1px;letter-spacing:.04em;
+  }
+  .tag.move{background:#E3EDF0;color:var(--sea-mid)}
+  .tag.meal{background:#F6E9D8;color:#9A7430}
+  .tag.spot{background:#F4DFD8;color:var(--torii)}
+  td.note{color:var(--dim);font-size:13px;width:34%}
+  @media (max-width:640px){
+    .summary{grid-template-columns:1fr 1fr}
+    td.note{display:none}
+    table.sched td,table.sched th{padding:11px 12px}
+  }
+
+  /* 팁 */
+  .tips{background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+  .tips h3{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin-bottom:10px}
+  .tips ul{list-style:none}
+  .tips li{
+    position:relative;padding:5px 0 5px 22px;font-size:14px;
+  }
+  .tips li::before{
+    content:"";position:absolute;left:2px;top:14px;width:8px;height:8px;
+    border-radius:50%;background:var(--sand);
+  }
+  .tips li strong{color:var(--torii)}
+
+  /* 다음 예고 */
+  .next{
+    border:1.5px dashed var(--line);border-radius:var(--radius);
+    padding:20px;text-align:center;color:var(--dim);font-size:14px;background:transparent;
+  }
+  .next b{color:var(--sea-mid)}
+
+  footer{margin-top:44px;text-align:center;font-size:12px;color:var(--dim);letter-spacing:.08em}
+  footer .wave{color:var(--sea-mid);font-size:14px;letter-spacing:.3em}
+  /* ---------- 모드 탭 (좌측 고정) ---------- */
+  .modetabs{position:fixed;left:0;top:45%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:6px}
+  .modetab{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:18px 10px;border:1px solid #D8E4E1;border-left:none;
+    border-radius:0 12px 12px 0;background:var(--paper);color:var(--dim);
+    font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;letter-spacing:.22em;
+    cursor:pointer;box-shadow:2px 2px 10px rgba(30,55,66,.10);transition:all .2s;
+  }
+  .modetab:hover{color:var(--sea-deep)}
+  .modetab.active{background:var(--sea-deep);color:var(--sea-mist);border-color:var(--sea-deep)}
+  #view-guide{display:none}
+  body.mode-guide #view-itinerary{display:none}
+  body.mode-guide #view-guide{display:block}
+  #view-guide section.region{display:none}
+  #view-guide section.region.rvisible{display:block;animation:fadein .25s ease}
+  .gtext{line-height:1.95;font-size:15px;margin:20px 4px 6px;word-break:keep-all}
+  .gsub{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin:34px 4px 2px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  ul.glist{list-style:none;margin:0 4px;padding:0}
+  ul.glist li{padding:15px 2px;border-bottom:1px dashed var(--line);line-height:1.85;font-size:14.5px;word-break:keep-all}
+  ul.glist li:last-child{border-bottom:none}
+  ul.glist .gname{display:block;font-weight:700;font-size:15.5px;color:var(--torii);margin-bottom:3px}
+  details.photo{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden}
+  details.photo summary{cursor:pointer;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--sea-deep);list-style:none}
+  details.photo summary::-webkit-details-marker{display:none}
+  details.photo summary::before{content:"📷 ";}
+  details.photo img{display:block;width:100%;height:auto}
+  details.photo figcaption{padding:8px 14px;font-size:12px;color:var(--dim)}
+  ul.glist .gname::before{content:"◦ ";color:var(--sand)}
+  @media (max-width:640px){
+    .modetabs{top:auto;bottom:14px;transform:none;left:12px;flex-direction:row;gap:8px}
+    .modetab{writing-mode:horizontal-tb;padding:10px 16px;border-radius:999px;border:1px solid #D8E4E1;letter-spacing:.12em}
+  }
+
+  nav.days{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #view-guide nav.days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .sumcard .v small{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
+  @media (max-width:640px){
+    nav.days,#view-guide nav.days{grid-template-columns:repeat(2,minmax(0,1fr))}
+    table.sched thead{display:none}
+    table.sched tr{display:block;padding:12px 0;border-bottom:1px solid #E4EDEB}
+    table.sched tr:last-child{border-bottom:none}
+    table.sched td{display:block;width:auto;border:none;padding:1px 14px}
+    table.sched td.t{width:auto;font-size:12.5px;letter-spacing:.04em}
+    table.sched td.note{display:block;width:auto;margin-top:5px}
+    .summary{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<nav class="modetabs" aria-label="보기 전환">
+  <button class="modetab active" data-view="view-itinerary">일정 🏮</button>
+  <button class="modetab" data-view="view-guide">이야기 📖</button>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">TAIPEI · 2024 겨울</div>
+  <h1>홍등과 천등,<br><span class="accent">그리고 온천</span></h1>
+  <p class="subtitle">타이베이 → 스펀 → 지우펀 → 베이터우 → 단수이 · 5박 6일 · 12/20(금) – 12/25(수)</p>
+  <div class="dday">가족 여행 · 2024년 겨울</div>
+</header>
+
+<div id="view-itinerary">
+  <figure class="routemap">
+    <svg viewBox="0 0 840 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="타이베이와 신베이를 도는 전체 동선">
+      <defs><linearGradient id="tpLand" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#E9F0EA"/><stop offset="100%" stop-color="#F2F0E4"/>
+      </linearGradient></defs>
+      <rect x="0" y="0" width="840" height="330" fill="url(#tpLand)"/>
+      <!-- 바다(동중국해·태평양) -->
+      <path d="M0,0 L0,150 Q90,120 150,60 Q180,28 200,0 Z" fill="#CFE0DF"/>
+      <path d="M840,0 L840,120 Q760,96 700,40 L680,0 Z" fill="#CFE0DF"/>
+      <g stroke="#B6CFCE" stroke-width="1.5" fill="none" stroke-linecap="round">
+        <path d="M44,80 q9,-5 18,0 q9,5 18,0"/><path d="M760,66 q9,-5 18,0 q9,5 18,0"/>
+      </g>
+      <!-- 양밍산·동북부 산지 -->
+      <g fill="#D4E0D2" opacity=".9">
+        <path d="M250,150 L330,56 L410,150 z"/><path d="M560,190 L640,96 L720,190 z"/>
+        <path d="M640,210 L700,140 L760,210 z"/>
+      </g>
+      <!-- 단수이강 -->
+      <path d="M150,96 Q250,150 330,196" fill="none" stroke="#BBD4D8" stroke-width="9" stroke-linecap="round"/>
+      <!-- 경로 -->
+      <path d="M352,224 Q470,206 596,166" fill="none" stroke="#CE4A2A" stroke-width="2.6" stroke-dasharray="7 5"/>
+      <path d="M596,166 Q660,176 690,196" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path d="M690,196 Q520,236 352,224" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path d="M352,224 Q336,176 324,130" fill="none" stroke="#CE4A2A" stroke-width="2.6"/>
+      <path d="M324,130 Q250,116 186,100" fill="none" stroke="#CE4A2A" stroke-width="2.6"/>
+
+      <g font-family="'Noto Sans KR',sans-serif">
+        <circle cx="352" cy="224" r="9" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/>
+        <text x="352" y="272" font-size="14" font-weight="700" fill="#CE4A2A" text-anchor="middle">타이베이 · 3박</text>
+        <text x="352" y="289" font-size="11.5" fill="#7A9199" text-anchor="middle">DAY 1, 3, 5~6 · 완화구 베이스</text>
+        <circle cx="596" cy="166" r="7" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="612" y="156" font-size="12.5" font-weight="700" fill="#1E3742">스펀 · 허우통</text>
+        <text x="612" y="171" font-size="11" fill="#7A9199">DAY 2 · 천등과 고양이</text>
+        <circle cx="690" cy="196" r="7.5" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.4"/>
+        <text x="706" y="202" font-size="12.5" font-weight="700" fill="#CE4A2A">지우펀 · 1박</text>
+        <text x="706" y="217" font-size="11" fill="#7A9199">DAY 2~3 · 진과스</text>
+        <circle cx="324" cy="130" r="7.5" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.4"/>
+        <text x="340" y="126" font-size="12.5" font-weight="700" fill="#CE4A2A">베이터우 · 1박</text>
+        <text x="340" y="141" font-size="11" fill="#7A9199">DAY 4~5 · 온천</text>
+        <circle cx="186" cy="100" r="7" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="170" y="96" font-size="12.5" font-weight="700" fill="#1E3742" text-anchor="end">단수이</text>
+        <text x="170" y="111" font-size="11" fill="#7A9199" text-anchor="end">DAY 5 · 석양</text>
+        <text x="474" y="215" font-size="11.5" fill="#B4552F" text-anchor="middle">기차 1시간 12분</text>
+        <text x="306" y="182" font-size="11.5" fill="#B4552F" text-anchor="end">MRT 22분</text>
+        <text x="96" y="200" font-size="12" fill="#A9BDB4" letter-spacing="3">TAIWAN STRAIT</text>
+        <text x="700" y="270" font-size="12" fill="#A9BDB4" letter-spacing="3">雪山山脈</text>
+      </g>
+    </svg>
+    <figcaption>여행 전체 동선 · 완화구를 베이스로 두고 산간과 온천을 하루씩 끼워 넣는다</figcaption>
+  </figure>
+
+  <nav class="days" aria-label="날짜 선택">
+    <div class="daytab active" data-target="day1"><div class="dnum">DAY 1 · 12/20 금</div><div class="dname">샹산 야경</div></div>
+    <div class="daytab" data-target="day2"><div class="dnum">DAY 2 · 12/21 토</div><div class="dname">스펀·지우펀</div></div>
+    <div class="daytab" data-target="day3"><div class="dnum">DAY 3 · 12/22 일</div><div class="dname">진과스·시먼딩</div></div>
+    <div class="daytab" data-target="day4"><div class="dnum">DAY 4 · 12/23 월</div><div class="dname">딘타이펑·온천</div></div>
+    <div class="daytab" data-target="day5"><div class="dnum">DAY 5 · 12/24 화</div><div class="dname">단수이</div></div>
+    <div class="daytab" data-target="day6"><div class="dnum">DAY 6 · 12/25 수</div><div class="dname">귀국</div></div>
+  </nav>
+
+  <section class="day visible" id="day1">
+    <div class="dayhead"><h2>Day 1 · 해 지는 산에 올라</h2><span class="datebadge">12월 20일 (금)</span></div>
+    <p class="daylead">오전 비행기로 타오위안에 내려 완화구에 짐을 푼다. 해 지기 전에 샹산에 올라 타이베이 101을 마주 본다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day1 하루 흐름 곡선">
+        <defs><linearGradient id="skyday1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday1)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">이륙 ✈</text><text x="60" y="118" font-size="10.5" fill="#7A9199">09:45</text><circle cx="190" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#7A9199">11:40</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#1E3742">타오위안 도착</text><circle cx="320" cy="79" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="320" y="52" font-size="12.5" font-weight="700" fill="#1E3742">완화구 체크인</text><text x="320" y="67" font-size="10.5" fill="#7A9199">오후</text><circle cx="450" cy="75" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="450" y="95" font-size="10.5" fill="#B4552F">17:05</text><text x="450" y="110" font-size="12.5" font-weight="700" fill="#CE4A2A">샹산 일몰</text><circle cx="590" cy="87" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="590" y="60" font-size="12.5" font-weight="700" fill="#9A7430">키키 레스토랑</text><text x="590" y="75" font-size="10.5" fill="#7A9199">19:30</text><circle cx="720" cy="113" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="720" y="133" font-size="10.5" fill="#B9C9CE">밤</text><text x="720" y="148" font-size="12.5" font-weight="700" fill="#EAF2F0">크리스마스 조명</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">숙소 복귀</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 1의 하루 곡선 · 도착하자마자 일몰을 쫓는다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">아시아나 인천 → 타오위안<small>09:45 출발 · 11:40 도착</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Caesar Metro Taipei<small>용산사역 도보 5분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">샹산 전망대 일몰<small>일몰 17:05 · 두 번째 전망대가 베스트</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>공항 → 시내</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="공항 → 시내">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">타오위안공항</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">공항선 급행</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">타이베이역</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">완화역</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚆 33분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚉 환승</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚆 로컬 7분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">지하철 객차와 승강장에서는 물도 못 마신다. 벌금 NT$1,500~7,500</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">09:45</td><td class="what"><strong>아시아나 인천 → 타오위안</strong> ✈ <span class="tag move">2시간 55분</span></td><td class="note">11:40 도착. 아시아나는 제2터미널.</td></tr>
+          <tr><td class="t">12:00</td><td class="what"><strong>대만 입국 수속</strong></td><td class="note">자동심사대를 쓰려면 <strong>e-Gate 등록센터</strong>에서 여권 제시 후 사진과 지문을 등록해야 한다. 온라인 입국신고서는 사전 작성.</td></tr>
+          <tr><td class="t">12:30</td><td class="what"><strong>이지카드·유심 수령</strong> <span class="tag spot">잊지 말 것</span></td><td class="note">입국장 우측 유나이트 트래블러 카운터. 유심 수령 시 여권사진 크기 촬영이 필요하다. 공항 MRT 실물 티켓은 지하 2층 Ezfly 카운터.</td></tr>
+          <tr><td class="t">12:40</td><td class="what"><strong>여행지원금 추첨</strong> <span class="tag spot">선택</span></td><td class="note">수하물 찾고 도착홀 우측 Event Area. QR 인식 후 추첨, 당첨되면 5,000NTD를 현장에서 받는다.</td></tr>
+          <tr><td class="t">13:20</td><td class="what"><strong>공항선 급행으로 타이베이역</strong> <span class="tag move">33분</span></td><td class="note"><strong>객차와 승강장에서는 물도 못 마신다.</strong> 벌금 NT$1,500~7,500.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>완화역 → 숙소 체크인</strong> <span class="tag move">7분</span></td><td class="note">15시부터 체크인. 정류장 바로 앞.</td></tr>
+          <tr><td class="t">16:00</td><td class="what"><strong>샹산역으로 이동</strong> <span class="tag move">35분</span></td><td class="note">완화 → 타이베이역 → 타이베이 메인역 → 샹산역. 일몰에 늦지 않으려면 이때는 출발해야 한다.</td></tr>
+          <tr><td class="t">17:05</td><td class="what"><strong>샹산 전망대 일몰</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">역에서 도보 16분. <strong>두 번째 전망대가 타이베이 101이 가장 가깝게 보이는 자리</strong>다. 거기서 일몰을 보고 세 번째까지 찍고 내려오면 좋다.</td></tr>
+          <tr><td class="t">19:30</td><td class="what"><strong>키키 레스토랑</strong> <span class="tag meal">식사</span></td><td class="note">att 4 fun. 대만식 사천요리로 <strong>식사 90분 제한</strong>. 계란두부튀김, 부추꽃볶음, 탄탄멘, 물만두, 마파두부.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>샹티 애비뉴 플라자</strong> <span class="tag spot">야경</span></td><td class="note">스노우 효과가 있는 크리스마스 트리. 타이베이시청까지 조명 거리가 이어진다.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>숙소 복귀와 짐 챙기기</strong></td><td class="note"><strong>용산사역 건너편 멍지아 공원 쪽은 우범지역</strong>이니 밤에는 Exit 3 쪽으로. 내일은 캐리어를 호텔에 두고 작은 짐만 챙겨 신베이로 간다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 1 체크포인트</h3>
+      <ul>
+        <li><strong>대만 지하철은 취식이 법으로 금지</strong>입니다. 객차뿐 아니라 승강장에서도 물을 마시면 안 됩니다. 벌금이 NT$1,500부터라 무심코 하지 않도록 미리 익혀두세요.</li>
+        <li><strong>e-Gate 등록을 첫날 해두면</strong> 다음부터 자동심사대를 쓸 수 있습니다. 등록 자체는 금방 끝납니다.</li>
+        <li><strong>샹산은 일몰 시간이 전부입니다.</strong> 역에서 전망대까지 16분을 올라야 하니, 일몰 40분 전에는 역에 도착해 있어야 합니다.</li>
+        <li>숙소가 용산사역인데 건너편 멍지아 공원 일대는 밤에 피하는 게 좋습니다. Exit 3 방향으로 다니세요.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day2">
+    <div class="dayhead"><h2>Day 2 · 천등을 띄우고 산으로</h2><span class="datebadge">12월 21일 (토)</span></div>
+    <p class="daylead">폐광 마을로 들어간다. 스펀에서 천등을 날리고 폭포를 본 뒤, 밤에는 홍등이 켜진 지우펀에서 잔다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day2 하루 흐름 곡선">
+        <defs><linearGradient id="skyday2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday2)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#9A7430">편의점 컵라면</text><text x="60" y="118" font-size="10.5" fill="#7A9199">아침</text><circle cx="190" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#7A9199">오전</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#1E3742">기차로 북동쪽</text><circle cx="320" cy="79" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="320" y="52" font-size="12.5" font-weight="700" fill="#CE4A2A">스펀 천등</text><text x="320" y="67" font-size="10.5" fill="#B4552F">낮</text><circle cx="450" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="450" y="95" font-size="10.5" fill="#7A9199">오후</text><text x="450" y="110" font-size="12.5" font-weight="700" fill="#1E3742">스펀 폭포</text><circle cx="580" cy="86" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="580" y="59" font-size="12.5" font-weight="700" fill="#CE4A2A">지우펀 입성</text><text x="580" y="74" font-size="10.5" fill="#B4552F">저녁</text><circle cx="710" cy="111" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="710" y="131" font-size="10.5" fill="#7A9199">저녁</text><text x="710" y="146" font-size="12.5" font-weight="700" fill="#9A7430">길거리 음식</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">홍등 거리</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 2의 하루 곡선 · 기차를 갈아타며 산속으로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">기차 두 번<small>완화 → 루이팡 → 스펀 → 지우펀</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Windsor's Sunlight Han-Guan<small>지우펀 안쪽 · 통창 객실</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">천등 날리기<small>스펀라오지에 철길 위에서</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>타이베이 → 스펀 → 지우펀</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="타이베이 → 스펀 → 지우펀">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">완화역</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">허우통/루이팡</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">스펀</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">지우펀</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚆 1시간 12분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚆 21분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚌 버스</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">캐리어는 타이베이 숙소에 두고 작은 짐만 챙겨 간다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">아침</td><td class="what"><strong>간단히</strong> <span class="tag meal">식사</span></td><td class="note">전날 사둔 편의점 음식. 숙소 근처 아만유반(6시 오픈)이나 곱창 굴국수도 후보였다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>완화역 → 허우통</strong> <span class="tag move">1시간 12분</span></td><td class="note">로컬 트레인, NT$60. <strong>비가 오면 고양이가 나오지 않아</strong> 허우통을 건너뛰고 루이팡 경유로 스펀에 직행하는 것도 방법이다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>허우통 고양이 마을</strong> <span class="tag spot">선택</span></td><td class="note">원래 타이베이 최대 규모의 탄광 마을이었다. 고양이를 만질 거면 물티슈와 손소독제를 챙길 것.</td></tr>
+          <tr><td class="t">낮</td><td class="what"><strong>허우통 → 스펀</strong> <span class="tag move">21분</span></td><td class="note">로컬 트레인, NT$15.</td></tr>
+          <tr><td class="t">낮</td><td class="what"><strong>스펀라오지에에서 천등</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">철길 위에서 소원을 적어 날린다. 가게마다 색깔별로 의미가 다르다.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>닭날개 볶음밥과 흑돼지 소시지</strong> <span class="tag meal">식사</span></td><td class="note">라오지에 길거리 음식.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>스펀 폭포 공원</strong> <span class="tag spot">명소</span></td><td class="note">도보 10분. 지룽강 위 쓰광탄 현수교를 건너면 공원으로 들어간다.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>지우펀으로</strong> <span class="tag move">버스</span></td><td class="note">스펀에서 징퉁까지 가는 평시선도 있다. 14:37 → 14:56.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>지우펀 길거리 음식</strong> <span class="tag meal">식사</span></td><td class="note">우육면, 땅콩아이스크림, 버블티.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>홍등 켜진 지우펀 거리</strong> <span class="tag spot">야경</span></td><td class="note">당일치기 관광객이 빠진 뒤의 지우펀이 숙박의 이유다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 2 체크포인트</h3>
+      <ul>
+        <li><strong>지우펀에서 자는 게 이 일정의 핵심입니다.</strong> 당일치기로 오면 가장 붐비는 낮에만 보게 되는데, 묵으면 관광객이 빠진 저녁과 이른 아침을 볼 수 있습니다.</li>
+        <li><strong>비가 오면 허우통은 건너뛰어도 됩니다.</strong> 고양이가 안 나오거든요. 실제로 그렇게 해서 스펀에 일찍 도착했더니 관광객이 훨씬 적어 더 좋았습니다.</li>
+        <li><strong>캐리어는 타이베이 숙소에 두고 갑니다.</strong> 산간 지역이라 길이 좁고 계단이 많아 큰 짐을 끌면 고생합니다.</li>
+        <li>12월 산간은 타이베이 시내보다 3~4도 낮고 비가 잦습니다. 우비와 멀미약을 챙기세요.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day3">
+    <div class="dayhead"><h2>Day 3 · 금광에서 옛 거리로</h2><span class="datebadge">12월 22일 (일)</span></div>
+    <p class="daylead">이른 아침의 지우펀을 걷고 옆 마을 진과스에서 금광을 본다. 오후엔 다시 타이베이로 내려와 용산사와 시먼딩.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day3 하루 흐름 곡선">
+        <defs><linearGradient id="skyday3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday3)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#CE4A2A">지우펀 산책</text><text x="60" y="118" font-size="10.5" fill="#B4552F">새벽</text><circle cx="180" cy="99" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="180" y="119" font-size="10.5" fill="#7A9199">08:30</text><text x="180" y="134" font-size="12.5" font-weight="700" fill="#9A7430">호텔 조식</text><circle cx="310" cy="80" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="310" y="53" font-size="12.5" font-weight="700" fill="#CE4A2A">진과스 황금박물관</text><text x="310" y="68" font-size="10.5" fill="#B4552F">오전</text><circle cx="440" cy="75" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="440" y="95" font-size="10.5" fill="#7A9199">점심</text><text x="440" y="110" font-size="12.5" font-weight="700" fill="#9A7430">우육면</text><circle cx="570" cy="85" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="570" y="58" font-size="12.5" font-weight="700" fill="#CE4A2A">용산사</text><text x="570" y="73" font-size="10.5" fill="#B4552F">오후</text><circle cx="690" cy="106" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="690" y="126" font-size="10.5" fill="#7A9199">오후</text><text x="690" y="141" font-size="12.5" font-weight="700" fill="#1E3742">보피랴오거리</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">시먼딩 야시장</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">저녁</text>
+        </g>
+      </svg>
+      <figcaption>Day 3의 하루 곡선 · 산을 내려와 도시로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">지우펀 → 타이베이<small>버스와 기차로 복귀</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Caesar Metro Taipei<small>다시 완화구로</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">사람 없는 새벽 지우펀<small>숙박객만 볼 수 있는 시간</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">새벽</td><td class="what"><strong>지우펀 새벽 산책</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">상점이 열기 전의 계단 거리. 이 장면 때문에 여기서 잤다.</td></tr>
+          <tr><td class="t">08:30</td><td class="what"><strong>호텔 조식</strong> <span class="tag meal">식사</span></td><td class="note">통창 앞에서 경치를 보며 먹도록 객실 배달 서비스를 운영한다. 10시 마감.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>지우펀 상점 투어</strong> <span class="tag spot">선물</span></td><td class="note">누가크래커, 선물용 차. 버블티와 땅콩아이스크림.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>진과스 황금박물관</strong> <span class="tag spot">명소</span></td><td class="note">지우펀 옆 마을. 일제강점기 금광 시설이 그대로 남아 있고 황금관에 거대한 금괴가 전시돼 있다.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>우육면</strong> <span class="tag meal">식사</span></td><td class="note"></td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>타이베이 복귀, 체크인</strong> <span class="tag move">이동</span></td><td class="note">완화역에서 숙소까지 1분. 맡겨둔 짐을 찾는다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>용산사</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">숙소에서 도보 1분. <strong>1700년대에 지어진 절</strong>로, 불교와 도교의 신을 함께 모신다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>보피랴오거리</strong> <span class="tag spot">명소</span></td><td class="note">도보 4분, 9:00~18:00. 18세기 전통 건축물이 남은 거리.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>야시장 음식</strong> <span class="tag meal">식사</span></td><td class="note">곱창국수, 굴전, 무떡, 드라이누들. 아종면선이 대표.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>시먼딩</strong> <span class="tag spot">명소</span></td><td class="note">무지개 횡단보도, 시먼홍러우. <strong>일요일 밤이라 인파가 상당하다.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 3 체크포인트</h3>
+      <ul>
+        <li><strong>지우펀의 진짜 얼굴은 이른 아침입니다.</strong> 상점이 열기 전 계단 거리가 비어 있는 시간은 숙박객만 볼 수 있습니다.</li>
+        <li><strong>용산사는 불교와 도교를 함께 모십니다.</strong> 앞쪽은 관세음보살, 뒤쪽은 마조와 관우 같은 도교 신들입니다. 대만 민간신앙의 전형적인 구조예요.</li>
+        <li>시먼딩은 일요일 밤이 가장 붐빕니다. 사람이 너무 많으면 한두 곳만 보고 빠지는 게 낫습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day4">
+    <div class="dayhead"><h2>Day 4 · 비 오는 날의 호캉스</h2><span class="datebadge">12월 23일 (월)</span></div>
+    <p class="daylead">원래는 양밍산 트레킹이었는데 비가 왔다. 예비안으로 바꿔 딘타이펑 본점에서 먹고 온천 호텔에서 하루를 쉰다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day4 하루 흐름 곡선">
+        <defs><linearGradient id="skyday4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday4)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">타이베이 출발</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="200" cy="96" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#B4552F">10:30</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#CE4A2A">딘타이펑</text><circle cx="360" cy="77" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="360" y="50" font-size="12.5" font-weight="700" fill="#1E3742">베이터우 체크인</text><text x="360" y="65" font-size="10.5" fill="#7A9199">오후</text><circle cx="500" cy="78" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="500" y="98" font-size="10.5" fill="#B4552F">오후</text><text x="500" y="113" font-size="12.5" font-weight="700" fill="#CE4A2A">온천과 수영장</text><circle cx="650" cy="97" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="650" y="70" font-size="12.5" font-weight="700" fill="#9A7430">문문푸드</text><text x="650" y="85" font-size="10.5" fill="#7A9199">저녁</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="153" font-size="10.5" fill="#B9C9CE">밤</text><text x="790" y="168" font-size="12.5" font-weight="700" fill="#EAF2F0">온천욕</text>
+        </g>
+      </svg>
+      <figcaption>Day 4의 하루 곡선 · 계획을 접고 쉬기로 한 날</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">MRT로 베이터우<small>타이베이 메인역에서 22분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Wellspring by Silks Beitou<small>신베이터우역 도보 3분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">딘타이펑과 온천<small>비 오는 날의 차선책이 최선이 됐다</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>타이베이 → 베이터우</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="타이베이 → 베이터우">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">용산사역</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">타이베이 메인역</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">베이터우역</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">신베이터우역</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚇 반난선</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚇 단수이신이선 22분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚇 신베이터우선 3분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">신베이터우선은 온천을 위해 1916년에 깔린 지선이다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃하고 북쪽으로</strong> <span class="tag move">이동</span></td><td class="note">용산사역 → 타이베이 메인역 → 지산역.</td></tr>
+          <tr><td class="t">10:30</td><td class="what"><strong>딘타이펑</strong> <span class="tag meal">오늘의 미션</span></td><td class="note">10:30~20:30. 월요일 오전이라 <strong>대기 20분 만에 입장</strong>했다. 샤오롱바오, 송로버섯 샤오롱바오, 우육면, 갈비튀김 계란볶음밥, 새우돼지고기 비빔만두.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>신베이터우로</strong> <span class="tag move">약 30분</span></td><td class="note">지산역 → 베이터우역 → 신베이터우역. 역에서 숙소까지 도보 3분.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>호텔 체크인과 호캉스</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">온천, 수영장, 넷플릭스. 비 오는 날 바깥을 돌지 않기로 한 결정.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>문문푸드</strong> <span class="tag meal">식사</span></td><td class="note">雙月食品社 베이터우점. 굴무침, 조개닭다리탕, 농어조림, 참깨소스 비빔면, 루로우판.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>온천욕과 피트니스</strong> <span class="tag spot">온천</span></td><td class="note">베이터우 온천수는 유황 성분이 강하다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 4 체크포인트</h3>
+      <ul>
+        <li><strong>원래 계획은 양밍산 트레킹이었습니다.</strong> 얼즈핑, 샤오유컹, 칭티엔강을 버스로 도는 하루였는데 비가 와서 접었습니다. 예비안을 미리 짜둔 덕에 하루가 날아가지 않았어요.</li>
+        <li><strong>딘타이펑은 월요일 오전이 비어 있습니다.</strong> 보수적으로 1~2시간을 잡았는데 20분 만에 들어갔습니다.</li>
+        <li><strong>신베이터우선은 온천 때문에 생긴 지선입니다.</strong> 1916년에 베이터우역에서 신베이터우역까지 온천선이 완성됐는데, 온천 하나를 위해 철도를 놓을 만큼 당시 이곳이 중요했다는 뜻입니다.</li>
+        <li>일정에 예비안을 하나 끼워두면 날씨 때문에 하루를 잃지 않습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day5">
+    <div class="dayhead"><h2>Day 5 · 강어귀의 석양</h2><span class="datebadge">12월 24일 (화)</span></div>
+    <p class="daylead">아침에 지열곡을 보고 단수이로 간다. 네덜란드와 스페인이 쌓은 요새를 지나 어항에서 해가 지는 걸 본다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day5 하루 흐름 곡선">
+        <defs><linearGradient id="skyday5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday5)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#CE4A2A">지열곡</text><text x="60" y="118" font-size="10.5" fill="#B4552F">오전</text><circle cx="190" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#7A9199">오전</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#1E3742">베이터우 산책</text><circle cx="320" cy="79" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="320" y="52" font-size="12.5" font-weight="700" fill="#9A7430">단수이 군것질</text><text x="320" y="67" font-size="10.5" fill="#7A9199">점심</text><circle cx="450" cy="75" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="450" y="95" font-size="10.5" fill="#B4552F">오후</text><text x="450" y="110" font-size="12.5" font-weight="700" fill="#CE4A2A">홍마오청</text><circle cx="580" cy="86" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="580" y="59" font-size="12.5" font-weight="700" fill="#CE4A2A">위런마터우 석양</text><text x="580" y="74" font-size="10.5" fill="#B4552F">17:11</text><circle cx="710" cy="111" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="710" y="131" font-size="10.5" fill="#7A9199">저녁</text><text x="710" y="146" font-size="12.5" font-weight="700" fill="#9A7430">토마토 라멘</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">숙소</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 5의 하루 곡선 · 김 나는 골짜기에서 강어귀 노을까지</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">베이터우 → 단수이<small>MRT 17분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Mango Station Hostel<small>타이베이 메인역 M8 출구 1분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">위런마터우 석양<small>일몰 17:11</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>베이터우 → 단수이 → 타이베이</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="베이터우 → 단수이 → 타이베이">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">신베이터우</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">베이터우역</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">단수이</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">타이베이 메인역</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚇 3분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚇 17분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚇 37분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">단수이역 코인락커에 짐을 맡기고 돈다. 큰 칸 시간당 NT$20</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>디러구(지열곡)</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">09:00~17:00, 월요일 휴무. 온천수가 솟아 김이 자욱한 골짜기. 가는 길에 <strong>타이베이공립도서관 베이터우점</strong>을 경유하면 좋다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃 후 베이터우 산책</strong></td><td class="note">11시 마감. 베이터우 온천박물관과 신베이터우 구역사 박물관은 여유 있으면.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>베이터우 → 단수이</strong> <span class="tag move">17분</span></td><td class="note">단수이신이선. 단수이역 코인락커에 짐 보관(큰 칸 시간당 NT$20, 이지카드 결제).</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>단수이 군것질</strong> <span class="tag meal">식사</span></td><td class="note">대왕 카스테라(치즈맛 추천), 할머니 우유 모찌를 흑임자나 땅콩가루에 묻혀서.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>타다에이키치 고택</strong> <span class="tag spot">명소</span></td><td class="note">일제강점기 건축가의 옛집.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>홍마오청</strong> <span class="tag spot">오늘의 미션</span></td><td class="note"><strong>1629년 스페인이 쌓은 요새</strong>로 언덕 꼭대기에 있다. 옆의 소백궁은 1860년대 세관 건물.</td></tr>
+          <tr><td class="t">17:11</td><td class="what"><strong>위런마터우 전망대 석양</strong> <span class="tag spot">야경</span></td><td class="note">홍마오청에서 R26번 버스로 17분. 연인의 다리 너머로 해가 진다.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>토마토 라멘</strong> <span class="tag meal">식사</span></td><td class="note">타이베이 메인역 카이사르파크 호텔 입점.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>숙소 체크인</strong></td><td class="note">타이베이 메인역 M8 출구에서 1분.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 5 체크포인트</h3>
+      <ul>
+        <li><strong>단수이는 해 지는 시간에 맞춰 도는 도시입니다.</strong> 일몰이 17:11이라 홍마오청과 진리대학교를 먼저 보고 버스로 어항에 내려가는 순서가 맞습니다.</li>
+        <li><strong>단수이역 코인락커를 쓰세요.</strong> 체크아웃하고 바로 오는 날이라 짐이 있는데, 시간당 NT$20이면 하루 종일 가볍게 다닐 수 있습니다.</li>
+        <li><strong>홍마오청은 스페인이 짓고 네덜란드가 고쳤습니다.</strong> 홍마오(紅毛)는 붉은 머리, 곧 서양인을 가리키던 말입니다.</li>
+        <li>디러구는 월요일 휴무입니다. 화요일에 간 게 운이 좋았습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day6">
+    <div class="dayhead"><h2>Day 6 · 크리스마스에 돌아간다</h2><span class="datebadge">12월 25일 (수)</span></div>
+    <p class="daylead">오후 비행기라 오전이 짧다. 남은 음식으로 아침을 때우고 공항선 급행을 탄다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day6 하루 흐름 곡선">
+        <defs><linearGradient id="skyday6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="45%" stop-color="#F4F0E2"/><stop offset="82%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#35505C"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday6)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#9A7430">남은 음식</text><text x="60" y="118" font-size="10.5" fill="#7A9199">아침</text><circle cx="250" cy="87" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="250" y="107" font-size="10.5" fill="#7A9199">오전</text><text x="250" y="122" font-size="12.5" font-weight="700" fill="#1E3742">공항선 급행</text><circle cx="440" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="440" y="48" font-size="12.5" font-weight="700" fill="#1E3742">면세점</text><text x="440" y="63" font-size="10.5" fill="#7A9199">오전</text><circle cx="620" cy="92" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="620" y="112" font-size="10.5" fill="#7A9199">13:40</text><text x="620" y="127" font-size="12.5" font-weight="700" fill="#1E3742">이륙 ✈</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">인천 도착</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">17:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 6의 하루 곡선 · 짧게 정리하고 떠난다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">아시아나 타오위안 → 인천<small>13:40 출발 · 17:00 도착</small></div></div>
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">공항선 급행<small>타이베이 메인역에서 45분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">비용 정산<small>집에 와서 가계부 맞추기</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>시내 → 공항</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="시내 → 공항">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">숙소</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">타이베이 메인역</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">공항선 급행</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">타오위안공항</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚶 1분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚆 45분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">✈ 13:40</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">숙소가 메인역 바로 위라 마지막 날 이동이 짧다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">아침</td><td class="what"><strong>남은 음식으로 간단히</strong> <span class="tag meal">식사</span></td><td class="note">대왕 카스테라와 과일 처리.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃</strong></td><td class="note">11:30~15:00. 열쇠를 방에 두고 나가면 된다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>공항선 급행</strong> <span class="tag move">45분</span></td><td class="note">타이베이 메인역에서 타오위안공항역.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>탑승 수속과 면세점</strong> <span class="tag spot">선물</span></td><td class="note"></td></tr>
+          <tr><td class="t">13:40</td><td class="what"><strong>아시아나 타오위안 → 인천</strong> ✈ <span class="tag move">2시간 20분</span></td><td class="note">17:00 인천 도착.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>짐 정리와 비용 정산</strong></td><td class="note">저녁은 김치찌개.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 6 체크포인트</h3>
+      <ul>
+        <li><strong>마지막 숙소를 타이베이 메인역 위로 잡은 게 좋은 선택이었습니다.</strong> 공항선 급행이 그 역에서 출발하니 체크아웃하고 1분이면 개찰구입니다.</li>
+        <li>오후 1시 40분 비행이라 오전에 할 수 있는 게 많지 않습니다. 쇼핑은 전날까지 끝내두는 게 낫습니다.</li>
+        <li>크리스마스에 돌아오는 일정이라 시내 조명을 첫날에 몰아서 봤습니다.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div id="view-guide">
+  <nav class="days" aria-label="주제 선택">
+    <div class="daytab active" data-target="g-concept"><div class="dnum">왜 이렇게 짰나</div><div class="dname">전체 컨셉</div></div>
+    <div class="daytab" data-target="g-city"><div class="dnum">DAY 1, 3, 5~6</div><div class="dname">타이베이 시내</div></div>
+    <div class="daytab" data-target="g-shankan"><div class="dnum">DAY 2~3</div><div class="dname">신베이 산간</div></div>
+    <div class="daytab" data-target="g-beitou"><div class="dnum">DAY 4~5</div><div class="dname">베이터우·단수이</div></div>
+  </nav>
+
+  <section class="region rvisible" id="g-concept">
+    <div class="dayhead"><h2 style="font-size:23px">전체 컨셉</h2></div>
+
+    <p class="gtext">5박 6일. 타이베이 시내에 베이스를 두되, 산간(지우펀)과 온천(베이터우)에 하루씩 자면서 성격이 다른 세 곳을 묶었다. 숙소를 네 번 옮기는 대신 각 지역의 저녁과 아침을 가져오는 구성이다.</p>
+    <div class="gsub">이 일정의 뼈대</div>
+    <ul class="glist">
+        <li><span class="gname">지우펀과 베이터우에서 잔 이유</span>둘 다 당일치기로 가면 가장 붐비는 낮만 보게 된다. 묵으면 관광객이 빠진 저녁과 이른 아침이 생긴다. 지우펀 새벽 산책과 베이터우 온천이 그래서 가능했다.</li>
+        <li><span class="gname">완화구를 베이스로 둔 이유</span>용산사와 보피랴오거리가 도보권이고, 완화역에서 기차로 신베이 산간까지 한 번에 간다. 다만 역 건너편 일부 구역은 밤에 피하는 게 좋다.</li>
+        <li><span class="gname">4일차에 예비안을 만들어둔 이유</span>양밍산 트레킹은 날씨를 많이 탄다. 비가 오면 산을 접고 딘타이펑과 온천 호캉스로 바꾸는 안을 미리 짜뒀고, 실제로 비가 와서 그대로 실행했다. 덕분에 하루를 통째로 잃지 않았다.</li>
+        <li><span class="gname">마지막 숙소를 메인역 위로</span>공항선 급행이 타이베이 메인역에서 출발한다. 마지막 밤을 그 위에서 자면 아침 이동이 1분으로 끝난다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-city">
+    <div class="dayhead"><h2 style="font-size:23px">타이베이 台北</h2><span class="datebadge" style="background:var(--sea-mid)">절과 야시장과 101이 한 도시에</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="샹산에서 보는 타이베이 101, 홍등이 걸린 용산사, 야시장 노점, 그리고 버블티">
+        <defs><linearGradient id="tpSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F3DFCB"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#tpSky)"/>
+
+        <circle cx="80" cy="30" r="10" fill="#F2CE7E" opacity=".8"/>
+        <!-- 샹산 언덕 -->
+        <path d="M0,140 Q110,58 240,124 L240,140 Z" fill="#9DBBA8"/>
+        <g stroke="#7FA98C" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M60,138 l18,-14 M78,124 l18,-12 M96,112 l16,-10"/>
+        </g>
+        <!-- 타이베이 101 -->
+        <g transform="translate(330,0)">
+          <rect x="-13" y="118" width="26" height="22" fill="#CBD9D4" stroke="#9FB3AB" stroke-width="1.3"/>
+          <g fill="#CBE0E4" stroke="#9FB3AB" stroke-width="1.3">
+            <path d="M-15,118 h30 l-3,-17 h-24 z"/><path d="M-17,101 h34 l-3,-17 h-28 z"/>
+            <path d="M-19,84 h38 l-3,-17 h-32 z"/><path d="M-21,67 h42 l-3,-17 h-36 z"/>
+          </g>
+          <rect x="-4" y="36" width="8" height="14" fill="#9FB3AB"/>
+          <line x1="0" y1="36" x2="0" y2="22" stroke="#9FB3AB" stroke-width="2"/>
+        </g>
+        <!-- 용산사 -->
+        <g transform="translate(540,0)">
+          <path d="M-64,140 h128 v-28 h-128 z" fill="#E0C9A6" stroke="#8A6A3E" stroke-width="1.5"/>
+          <path d="M-76,112 q76,-24 152,0 l-12,-12 q-64,-18 -128,0 z" fill="#B0463A"/>
+          <path d="M-56,88 q56,-18 112,0 l-10,-11 q-46,-13 -92,0 z" fill="#B0463A"/>
+          <path d="M0,77 v-10" stroke="#8A6A3E" stroke-width="1.8"/>
+          <g fill="#C0392B"><ellipse cx="-40" cy="122" rx="7" ry="9"/><ellipse cx="40" cy="122" rx="7" ry="9"/></g>
+          <g stroke="#B9C9CE" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8">
+            <path d="M-16,104 q5,-10 0,-18"/><path d="M16,104 q5,-10 0,-18"/>
+          </g>
+        </g>
+        <!-- 야시장 노점 -->
+        <g transform="translate(740,0)">
+          <rect x="-46" y="92" width="92" height="20" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.4"/>
+          <path d="M-54,92 h108 l-8,-11 h-92 z" fill="#C0392B"/>
+          <g stroke="#8A6A3E" stroke-width="2.2"><line x1="-38" y1="112" x2="-38" y2="140"/><line x1="38" y1="112" x2="38" y2="140"/></g>
+          <g fill="#F2CE7E"><circle cx="-20" cy="102" r="4"/><circle cx="0" cy="102" r="4"/><circle cx="20" cy="102" r="4"/></g>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#DCD3BE"/>
+        <g stroke="#CDC3AC" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="250" y1="140" x2="250" y2="170"/><line x1="450" y1="140" x2="450" y2="170"/>
+          <line x1="660" y1="140" x2="660" y2="170"/></g>
+        <!-- 버블티 -->
+        <g transform="translate(210,144)">
+          <path d="M-9,0 h18 l-3,22 h-12 z" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.3"/>
+          <path d="M-10,0 h20" stroke="#8A6A3E" stroke-width="1.4"/>
+          <line x1="4" y1="-8" x2="7" y2="2" stroke="#C0392B" stroke-width="2.2" stroke-linecap="round"/>
+          <g fill="#4A3A2E"><circle cx="-3" cy="18" r="2"/><circle cx="2" cy="19" r="2"/><circle cx="6" cy="17" r="2"/></g>
+        </g>
+      </svg>
+      <figcaption>샹산에서 보는 타이베이 101, 홍등이 걸린 용산사, 야시장 노점, 그리고 버블티</figcaption>
+    </figure>
+    <p class="gtext">타이베이는 18세기 상업 거리와 21세기 초고층 빌딩이 지하철 몇 정거장 거리에 같이 있는 도시다. 완화구는 그중 가장 오래된 동네고, 신이구는 가장 새로운 동네다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">용산사가 두 종교를 함께 모시는 이유</span>1700년대에 지어진 이 절은 앞쪽에 불교의 관세음보살, 뒤쪽에 도교의 마조와 관우를 모신다. 대만 민간신앙은 불교와 도교를 엄격히 나누지 않고, 생활에 필요한 신을 한자리에 모으는 쪽으로 자랐다.</li>
+        <li><span class="gname">보피랴오는 청대 거리가 통째로 남은 곳</span>18세기 건축물이 줄지어 있고, 완화구가 타이베이에서 가장 먼저 개발된 동네라는 증거다. 영화 세트처럼 보이지만 실제 거리다.</li>
+        <li><span class="gname">샹산이 사진 명소가 된 이유</span>타이베이 101이 분지 한가운데 있고, 샹산은 그 동쪽에 바로 붙은 낮은 산이다. 그래서 20분만 올라가면 101을 눈높이 가까이에서 마주 보게 된다. 두 번째 전망대가 가장 가깝다.</li>
+        <li><span class="gname">야시장 음식은 한 그릇씩</span>곱창국수(아종면선), 굴전, 무떡처럼 한 손에 드는 작은 그릇이 기본이다. 한 집에서 배를 채우지 않고 여러 집을 도는 구조다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">지하철 취식 금지</span>객차와 승강장에서 물도 마시면 안 된다. 벌금이 NT$1,500부터다.</li>
+        <li><span class="gname">용산사역 밤 동선</span>역 건너편 멍지아 공원 쪽은 밤에 피하는 게 좋다. Exit 3 방향으로 다니면 된다.</li>
+        <li><span class="gname">이지카드 하나로 다 된다</span>MRT, 버스, 기차, 코인락커, 편의점까지 된다. 버스는 승하차 모두 태그해야 환승 할인이 붙는다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-shankan">
+    <div class="dayhead"><h2 style="font-size:23px">지우펀 · 스펀 · 진과스</h2><span class="datebadge" style="background:var(--sea-mid)">금과 석탄이 떠난 자리</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="홍등이 걸린 지우펀의 계단 거리, 하늘로 올라가는 천등, 폐광의 광차, 그리고 허우통의 고양이">
+        <defs><linearGradient id="skSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E6E9EE"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#skSky)"/>
+
+        <!-- 산 -->
+        <path d="M0,140 Q140,40 300,126 L300,140 Z" fill="#A9BDB4"/>
+        <path d="M220,140 Q380,34 540,126 L540,140 Z" fill="#BACBC0"/>
+        <!-- 천등 -->
+        <g fill="#F2CE7E" opacity=".9">
+          <path d="M600,44 q16,-20 32,0 l-5,20 h-22 z" stroke="#D9A93E" stroke-width="1.2"/>
+          <path d="M672,70 q13,-17 26,0 l-4,17 h-18 z" stroke="#D9A93E" stroke-width="1.1"/>
+          <path d="M744,36 q11,-14 22,0 l-3,14 h-16 z" stroke="#D9A93E" stroke-width="1"/>
+        </g>
+        <g fill="#E7A9B4" opacity=".85">
+          <path d="M640,96 q11,-14 22,0 l-3,14 h-16 z" stroke="#D08E9C" stroke-width="1"/>
+        </g>
+        <!-- 지우펀 계단 거리 -->
+        <g transform="translate(180,0)">
+          <path d="M-70,140 l24,-24 h22 l22,-22 h22 l22,-22 h22" fill="none" stroke="#9FA8A0" stroke-width="5"/>
+          <g fill="#4A4036">
+            <rect x="-70" y="96" width="34" height="22"/><rect x="-26" y="74" width="34" height="22"/>
+            <rect x="18" y="52" width="34" height="22"/>
+          </g>
+          <g fill="#C0392B">
+            <ellipse cx="-44" cy="94" rx="5" ry="7"/><ellipse cx="0" cy="72" rx="5" ry="7"/>
+            <ellipse cx="44" cy="50" rx="5" ry="7"/>
+          </g>
+        </g>
+        <!-- 광차 (광산 수레) -->
+        <g transform="translate(430,0)">
+          <rect x="-22" y="112" width="44" height="18" fill="#8A7A5E" stroke="#6B5A3E" stroke-width="1.4"/>
+          <g stroke="#6B5A3E" stroke-width="2" fill="none"><circle cx="-12" cy="134" r="6"/><circle cx="12" cy="134" r="6"/></g>
+          <line x1="-34" y1="140" x2="34" y2="140" stroke="#9FA8A0" stroke-width="2.4"/>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#D4D8CC"/>
+        <g stroke="#C4C9BC" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="300" y1="140" x2="300" y2="170"/><line x1="600" y1="140" x2="600" y2="170"/></g>
+        <!-- 고양이 -->
+        <g transform="translate(700,142)" fill="#8A7A6E">
+          <ellipse cx="0" cy="16" rx="16" ry="9"/>
+          <circle cx="15" cy="8" r="7"/>
+          <path d="M10,3 l2,-6 l4,4 z"/><path d="M19,3 l4,-5 l1,6 z"/>
+          <path d="M-16,14 q-10,-6 -6,-14" fill="none" stroke="#8A7A6E" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <figcaption>홍등이 걸린 지우펀의 계단 거리, 하늘로 올라가는 천등, 폐광의 광차, 그리고 허우통의 고양이</figcaption>
+    </figure>
+    <p class="gtext">타이베이 북동쪽 산간은 전부 광산 마을이었다. 지우펀과 진과스는 금, 허우통과 핑시 일대는 석탄. 광산이 닫히면서 마을이 비었고, 그 빈자리가 지금의 관광지가 됐다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">지우펀의 시작은 1893년 사금</span>지룽강 철교 공사를 하다 계곡에서 사금이 발견되면서 금광이 열렸고, 아홉 가구뿐이던 산골이 순식간에 불야성이 됐다. 1971년 폐광으로 쇠락했다가 1989년 영화 《비정성시》가 개봉하면서 관광지로 되살아났다.</li>
+        <li><span class="gname">천등은 원래 안전 신호였다</span>핑시에 도적이 들어 사람들이 산으로 피신했을 때, 마을에 남은 사람들이 등을 띄워 이제 안전하다고 알린 것이 시작이라고 전한다. 지금은 소원을 적어 날린다.</li>
+        <li><span class="gname">평시선은 석탄을 나르던 철도</span>스펀과 징퉁을 지나는 이 지선은 원래 석탄 수송용으로 깔렸다. 지금은 천등과 철길 사진을 찍으러 오는 관광 노선이 됐다.</li>
+        <li><span class="gname">허우통에 고양이가 많은 이유</span>타이베이 최대 규모의 탄광 마을이었는데, 전후 에너지가 석탄에서 석유로 넘어가면서 사람들이 떠났다. 쥐를 잡으려고 두었던 고양이들만 남아 번식했고, 2009년 무렵 SNS를 타면서 고양이 마을이 됐다.</li>
+        <li><span class="gname">진과스는 일본이 운영하던 금광</span>황금박물관 일대에 당시 시설과 사택이 남아 있고, 일본식 신사 터도 있다. 지우펀이 상업 거리라면 진과스는 광산 그 자체를 보는 곳이다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">비 오면 허우통은 접어도 된다</span>고양이가 나오지 않는다. 건너뛰고 스펀에 일찍 가면 관광객이 적어 오히려 낫다.</li>
+        <li><span class="gname">캐리어는 타이베이에 두고</span>산간은 길이 좁고 계단이 많다. 작은 짐만 챙겨 가는 편이 낫다.</li>
+        <li><span class="gname">지우펀은 자야 보인다</span>당일치기로는 가장 붐비는 낮만 본다. 저녁과 새벽이 이 마을의 진짜 얼굴이다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-beitou">
+    <div class="dayhead"><h2 style="font-size:23px">베이터우와 단수이 北投 · 淡水</h2><span class="datebadge" style="background:var(--sea-mid)">일본이 연 온천, 스페인이 쌓은 요새</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="김이 솟는 베이터우 지열곡과 온천 료칸, 붉은 성벽의 홍마오청, 그리고 단수이의 저녁 바다">
+        <defs><linearGradient id="btSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F0E4D4"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#btSky)"/>
+
+        <circle cx="770" cy="30" r="11" fill="#F2A95C" opacity=".8"/>
+        <!-- 지열곡 -->
+        <g transform="translate(150,0)">
+          <path d="M-90,126 q90,-44 180,0 z" fill="#C3D4CA"/>
+          <ellipse cx="0" cy="124" rx="56" ry="15" fill="#9FC2C8" stroke="#7FA6AE" stroke-width="1.5"/>
+          <ellipse cx="0" cy="122" rx="34" ry="9" fill="#CBE0E4"/>
+          <g stroke="#FBFDFC" stroke-width="3.4" fill="none" opacity=".85" stroke-linecap="round">
+            <path d="M-26,112 q8,-20 0,-38"/><path d="M2,106 q9,-22 0,-42"/><path d="M28,114 q8,-18 0,-32"/>
+          </g>
+        </g>
+        <!-- 온천 료칸 -->
+        <g transform="translate(430,0)">
+          <rect x="-58" y="84" width="116" height="30" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.5"/>
+          <path d="M-68,84 h136 l-14,-14 h-108 z" fill="#5C4B36"/>
+          <g fill="#C8B998"><rect x="-44" y="92" width="18" height="15"/><rect x="-9" y="92" width="18" height="15"/><rect x="26" y="92" width="18" height="15"/></g>
+          <rect x="-44" y="120" width="88" height="16" rx="7" fill="#BBD4D8" stroke="#9FB3AB" stroke-width="1.4"/>
+          <g stroke="#FBFDFC" stroke-width="2.4" fill="none" opacity=".8" stroke-linecap="round">
+            <path d="M-22,118 q6,-10 0,-18"/><path d="M4,116 q6,-10 0,-18"/></g>
+        </g>
+        <!-- 홍마오청 -->
+        <g transform="translate(650,0)">
+          <rect x="-34" y="76" width="68" height="44" fill="#B0463A" stroke="#8A3F36" stroke-width="1.6"/>
+          <g fill="#8A3F36"><rect x="-34" y="68" width="12" height="9"/><rect x="-10" y="68" width="12" height="9"/><rect x="14" y="68" width="12" height="9"/></g>
+          <g fill="#E8DCC2"><rect x="-22" y="88" width="13" height="16"/><rect x="9" y="88" width="13" height="16"/></g>
+          <path d="M-46,120 h92 v-6 h-92 z" fill="#9FA8A0"/>
+        </g>
+        <!-- 단수이 바다와 배 -->
+        <rect x="560" y="120" width="280" height="20" fill="#C6CFC2"/>
+        <rect x="560" y="126" width="280" height="14" fill="#BBD4D8"/>
+        <g transform="translate(790,0)">
+          <path d="M-20,126 h40 l-6,8 h-28 z" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.3"/>
+          <line x1="0" y1="126" x2="0" y2="110" stroke="#7A9199" stroke-width="1.4"/>
+          <path d="M0,110 h12 l-4,6 h-8 z" fill="#C0392B"/>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#DCD3BE"/>
+        <g stroke="#CDC3AC" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="300" y1="140" x2="300" y2="170"/><line x1="580" y1="140" x2="580" y2="170"/></g>
+      </svg>
+      <figcaption>김이 솟는 베이터우 지열곡과 온천 료칸, 붉은 성벽의 홍마오청, 그리고 단수이의 저녁 바다</figcaption>
+    </figure>
+    <p class="gtext">타이베이 북쪽 끝의 두 동네는 둘 다 외부에서 온 사람들이 만든 곳이다. 베이터우는 일제강점기 일본인이 개발한 온천 마을이고, 단수이는 스페인과 네덜란드, 그리고 청과 일본이 차례로 거쳐 간 강어귀 항구다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">베이터우 온천은 1896년부터</span>일본 통치 2년째에 이미 일본인 온천 여관 두 곳이 문을 열었다. 1913년에는 시즈오카의 이즈산 온천을 본떠 공공욕장을 지었는데, 당시 대만 최대 규모였다. 지금의 베이터우 온천박물관이 그 건물이다.</li>
+        <li><span class="gname">온천 하나를 위해 철도를 놓았다</span>1916년 베이터우역에서 신베이터우역까지 온천선이 완성됐다. 온천만을 위해 지선을 깐 셈이고, 그만큼 이 동네가 중요했다는 뜻이다. 그 지선이 지금의 MRT 신베이터우선이다.</li>
+        <li><span class="gname">지열곡은 담글 수 없는 온천</span>디러구(地熱谷)는 수온이 높아 들어갈 수 없고, 유황 성분 때문에 물빛이 뿌옇다. 김이 자욱해서 지옥 골짜기라고도 불렀다.</li>
+        <li><span class="gname">홍마오청은 1629년 스페인이 쌓았다</span>이후 네덜란드가 고쳐 쓰고 청과 일본을 거쳤다. 홍마오(紅毛)는 붉은 머리, 곧 서양인을 가리키던 말이다. 옆의 소백궁은 1860년대 세관 건물이다.</li>
+        <li><span class="gname">위런마터우의 석양</span>단수이강이 바다와 만나는 어항이다. 연인의 다리 너머로 해가 지는 풍경 때문에 타이베이 사람들이 저녁에 몰려온다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">디러구는 월요일 휴무</span>09:00~17:00. 요일을 확인하고 가야 한다.</li>
+        <li><span class="gname">단수이역 코인락커</span>큰 칸 시간당 NT$20, 이지카드 결제 가능. 체크아웃한 날에 특히 요긴하다.</li>
+        <li><span class="gname">석양 시간에 맞춰 동선을 짠다</span>홍마오청과 진리대학교를 먼저 보고 버스로 어항에 내려가는 순서가 자연스럽다.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <div class="wave">～ ～ ～</div>
+  타이베이 · 지우펀 · 베이터우 · 단수이 · 2024년 겨울
+</footer>
+
+</div>
+
+<script>
+  (function(){
+    var tabs = document.querySelectorAll('#view-itinerary .daytab');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-itinerary section.day').forEach(function(s){ s.classList.remove('visible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('visible');
+      });
+    });
+  })();
+  (function(){
+    var rtabs = document.querySelectorAll('#view-guide .daytab');
+    rtabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        rtabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-guide section.region').forEach(function(s){ s.classList.remove('rvisible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('rvisible');
+      });
+    });
+  })();
+  (function(){
+    document.querySelectorAll('.modetab').forEach(function(bt){
+      bt.addEventListener('click', function(){
+        document.querySelectorAll('.modetab').forEach(function(b){ b.classList.remove('active'); });
+        bt.classList.add('active');
+        document.body.classList.toggle('mode-guide', bt.getAttribute('data-view') === 'view-guide');
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    });
+  })();
+</script>
+</body>
+</html>
