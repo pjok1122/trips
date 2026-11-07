@@ -43,17 +43,49 @@
 
   .divider{
     width:56px;height:2px;background:var(--sand);
-    margin:36px auto 40px;border-radius:2px;
+    margin:36px auto 34px;border-radius:2px;
   }
+
+  /* 연도 필터 */
+  .filters{
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    margin-bottom:38px;
+  }
+  .ychip{
+    font-family:inherit;font-size:13px;letter-spacing:.04em;
+    color:var(--sea-mid);background:var(--paper);
+    border:1px solid var(--line);border-radius:999px;
+    padding:7px 16px;cursor:pointer;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .ychip:hover{border-color:var(--sea-mid)}
+  .ychip .cnt{opacity:.55;margin-left:6px;font-size:11.5px}
+  .ychip.on{background:var(--sea-deep);border-color:var(--sea-deep);color:#F4F7F5}
+  .ychip.on .cnt{opacity:.6}
+
+  /* 연도 묶음 */
+  .yeargroup{margin-bottom:34px}
+  .yeargroup[hidden]{display:none}
+  .yearhead{
+    display:flex;align-items:center;gap:14px;
+    margin:0 2px 16px;
+  }
+  .yearhead .y{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:19px;color:var(--sea-deep);letter-spacing:.02em;
+  }
+  .yearhead .rule{flex:1;height:1px;background:var(--line)}
+  .yearhead .n{font-size:12px;color:var(--dim);letter-spacing:.06em}
 
   .trips{display:grid;gap:18px}
 
   .trip{
-    display:block;text-decoration:none;color:inherit;
+    display:grid;grid-template-columns:1fr 244px;
+    text-decoration:none;color:inherit;
     background:var(--paper);
     border:1px solid var(--line);
     border-radius:var(--radius);
-    padding:26px 28px;
+    overflow:hidden;
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
   .trip:hover{
@@ -61,30 +93,63 @@
     border-color:var(--sea-mid);
     box-shadow:0 8px 24px rgba(30,55,66,.10);
   }
+  .trip-body{padding:24px 26px}
+  .trip-art{
+    position:relative;overflow:hidden;
+    border-left:1px solid var(--line);
+    background:var(--sea-mist);
+  }
+  .trip-art svg{
+    position:absolute;inset:0;width:100%;height:100%;
+    display:block;
+    transition:transform .4s ease;
+  }
+  .trip:hover .trip-art svg{transform:scale(1.045)}
+
+  .trip-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}
   .trip-meta{
     font-size:12px;letter-spacing:.2em;color:var(--sea-mid);
-    text-transform:uppercase;margin-bottom:10px;
+    text-transform:uppercase;
   }
+  .who{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11.5px;letter-spacing:.02em;line-height:1;
+    padding:5px 10px;border-radius:999px;
+    background:#E4EEEC;color:#2F6472;border:1px solid #CFE0DD;
+  }
+  .who svg{width:11px;height:11px;flex:none;fill:currentColor}
+  .who.solo{background:#F2EADC;color:#8A6A2E;border-color:#E3D6BC}
+  .who.pair{background:#FAE4DC;color:#A8452A;border-color:#F0CEC2}
+
   .trip-title{
     font-family:'Gowun Batang',serif;font-weight:700;
-    font-size:22px;line-height:1.4;margin-bottom:8px;
+    font-size:21px;line-height:1.4;margin-bottom:7px;
   }
-  .trip-route{color:var(--dim);font-size:14px}
+  .trip-route{color:var(--dim);font-size:13.5px}
   .trip-dates{
-    margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
+    margin-top:13px;padding-top:13px;border-top:1px dashed var(--line);
     font-size:13px;color:var(--sea-mid);
   }
 
-  .empty{
+  .noresult{
     border:1px dashed var(--line);border-radius:var(--radius);
     padding:26px 28px;text-align:center;color:var(--dim);font-size:14px;
   }
 
   footer{
-    margin-top:56px;text-align:center;
+    margin-top:50px;text-align:center;
     font-size:12px;color:var(--dim);letter-spacing:.05em;
   }
   footer a{color:var(--sea-mid)}
+
+  @media (max-width:640px){
+    .trip{grid-template-columns:1fr}
+    .trip-art{height:150px;border-left:0;border-bottom:1px solid var(--line);order:-1}
+    .trip-body{padding:20px 20px 22px}
+    .trip-title{font-size:19px}
+    .filters{gap:7px}
+    .ychip{padding:6px 13px;font-size:12.5px}
+  }
 </style>
 </head>
 <body>
@@ -98,57 +163,310 @@
 
   <div class="divider"></div>
 
-  <!-- 여행 추가: 아래 <a class="trip"> 블록을 복사해 맨 위에 붙여넣으세요 -->
-  <div class="trips">
-
-    <a class="trip" href="./setouchi-2026/">
-      <div class="trip-meta">Japan · 세토내해</div>
-      <div class="trip-title">둘이서 세토내해, 천천히 서쪽으로</div>
-      <div class="trip-route">오노미치 → 히로시마 → 미야지마 → 도고온천</div>
-      <div class="trip-dates">7박 8일 · 2026. 9. 30(수) – 10. 7(수)</div>
-    </a>
-
-    <a class="trip" href="./nagoya-2026/">
-      <div class="trip-meta">Japan · 주부</div>
-      <div class="trip-title">가족 셋이서, 나고야의 봄</div>
-      <div class="trip-route">나고야 → 다카야마 → 시라카와고 → 나고야</div>
-      <div class="trip-dates">4박 5일 · 2026. 3. 28(토) – 4. 1(수)</div>
-    </a>
-
-    <a class="trip" href="./kaohsiung-2025/">
-      <div class="trip-meta">Taiwan · 남부</div>
-      <div class="trip-title">남쪽 끝 항구에서, 가장 오래된 도시까지</div>
-      <div class="trip-route">가오슝 → 타이난 → 가오슝</div>
-      <div class="trip-dates">7박 8일 · 2025. 12. 10(수) – 12. 17(수)</div>
-    </a>
-
-    <a class="trip" href="./osaka-2025/">
-      <div class="trip-meta">Japan · 간사이</div>
-      <div class="trip-title">운하의 도시에서, 언덕의 도시로</div>
-      <div class="trip-route">오사카 → 교토 → 아라시야마 → 오사카</div>
-      <div class="trip-dates">4박 5일 · 2025. 5. 5(월) – 5. 9(금)</div>
-    </a>
-
-    <a class="trip" href="./taipei-2024/">
-      <div class="trip-meta">Taiwan · 북부</div>
-      <div class="trip-title">홍등과 천등, 그리고 온천</div>
-      <div class="trip-route">타이베이 → 스펀 → 지우펀 → 베이터우 → 단수이</div>
-      <div class="trip-dates">5박 6일 · 2024. 12. 20(금) – 12. 25(수)</div>
-    </a>
-
-    <a class="trip" href="./kyushu-2023/">
-      <div class="trip-meta">Japan · 규슈</div>
-      <div class="trip-title">규슈 한 바퀴, 열이틀의 기차</div>
-      <div class="trip-route">후쿠오카 → 유후인 → 벳푸 → 가고시마 → 히타 → 구마모토</div>
-      <div class="trip-dates">12박 13일 · 2023. 9. 30(토) – 10. 12(목)</div>
-    </a>
-
+  <div class="filters" id="filters">
+    <button class="ychip on" data-y="all">전체<span class="cnt">6</span></button>
+    <button class="ychip" data-y="2026">2026<span class="cnt">2</span></button>
+    <button class="ychip" data-y="2025">2025<span class="cnt">2</span></button>
+    <button class="ychip" data-y="2024">2024<span class="cnt">1</span></button>
+    <button class="ychip" data-y="2023">2023<span class="cnt">1</span></button>
   </div>
+
+  <!-- 여행 추가: <section class="yeargroup">의 <a class="trip"> 블록을 복사해 쓰세요 -->
+
+  <section class="yeargroup" data-year="2026">
+    <div class="yearhead"><span class="y">2026</span><span class="rule"></span><span class="n">2건</span></div>
+    <div class="trips">
+
+      <a class="trip" href="./setouchi-2026/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Japan · 세토내해</span>
+            <span class="who pair"><svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.6"/><circle cx="11" cy="5" r="2.6"/><path d="M.6 14c0-2.5 2-4 4.4-4s4.4 1.5 4.4 4z"/><path d="M6.6 14c0-2.5 2-4 4.4-4s4.4 1.5 4.4 4z"/></svg>둘이서 · 2인</span>
+          </div>
+          <div class="trip-title">둘이서 세토내해, 천천히 서쪽으로</div>
+          <div class="trip-route">오노미치 → 히로시마 → 미야지마 → 도고온천</div>
+          <div class="trip-dates">7박 8일 · 2026. 9. 30(수) – 10. 7(수)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="바다 위의 붉은 도리이">
+            <defs><linearGradient id="aSe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6E7EA"/><stop offset="1" stop-color="#F1F7F4"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aSe)"/>
+            <circle cx="202" cy="30" r="12" fill="#F2CE7E" opacity=".7"/>
+            <path d="M0,106 Q40,64 88,106 Z" fill="#BACFC4"/>
+            <path d="M152,106 Q198,58 240,106 Z" fill="#A6BEA8"/>
+            <rect y="106" width="240" height="54" fill="#BBD4D8"/>
+            <g fill="#CE4A2A">
+              <path d="M82,54 q38,-8 76,0 l-3,7 q-35,-7 -70,0 z"/>
+              <rect x="86" y="66" width="68" height="6" rx="1"/>
+              <rect x="95" y="60" width="8" height="66" rx="1.5"/>
+              <rect x="137" y="60" width="8" height="66" rx="1.5"/>
+              <rect x="115" y="72" width="10" height="5"/>
+              <rect x="88" y="94" width="64" height="5" rx="1.5"/>
+            </g>
+            <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9">
+              <path d="M16,132 q8,-5 16,0 q8,5 16,0"/>
+              <path d="M172,142 q8,-5 16,0 q8,5 16,0"/>
+              <path d="M60,148 q8,-5 16,0 q8,5 16,0"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+      <a class="trip" href="./nagoya-2026/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Japan · 주부</span>
+            <span class="who"><svg viewBox="0 0 16 16"><circle cx="4" cy="4.6" r="2.4"/><circle cx="12" cy="4.6" r="2.4"/><circle cx="8" cy="6.6" r="2.4"/><path d="M0 14c0-2.3 1.8-3.7 4-3.7S8 11.7 8 14z"/><path d="M8 14c0-2.3 1.8-3.7 4-3.7S16 11.7 16 14z"/><path d="M4 15c0-2.3 1.8-3.9 4-3.9s4 1.6 4 3.9z"/></svg>가족 · 3인</span>
+          </div>
+          <div class="trip-title">가족 셋이서, 나고야의 봄</div>
+          <div class="trip-route">나고야 → 다카야마 → 시라카와고 → 나고야</div>
+          <div class="trip-dates">4박 5일 · 2026. 3. 28(토) – 4. 1(수)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="눈 덮인 시라카와고의 갓쇼즈쿠리">
+            <defs><linearGradient id="aNg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3ECF2"/><stop offset="1" stop-color="#F6F8F5"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aNg)"/>
+            <path d="M0,100 Q54,46 112,100 Z" fill="#BCC9CF"/>
+            <path d="M94,102 Q158,40 240,102 Z" fill="#A9B9C0"/>
+            <rect y="100" width="240" height="60" fill="#EFF3EE"/>
+            <g transform="translate(74,0)">
+              <path d="M-36,102 L0,40 L36,102 Z" fill="#9C7B5A"/>
+              <g stroke="#7A5C40" stroke-width="1.3" opacity=".55"><path d="M-24,102 L0,60"/><path d="M0,60 L24,102"/><path d="M-12,102 L0,81"/><path d="M0,81 L12,102"/></g>
+              <path d="M-36,102 L0,40 L36,102" fill="none" stroke="#6E5238" stroke-width="2.2" stroke-linejoin="round"/>
+              <rect x="-13" y="84" width="26" height="18" fill="#EFE3CB" stroke="#9C7B5A" stroke-width="1.2"/>
+            </g>
+            <g transform="translate(168,22) scale(.78)">
+              <path d="M-36,102 L0,40 L36,102 Z" fill="#A88664"/>
+              <g stroke="#7A5C40" stroke-width="1.5" opacity=".5"><path d="M-22,102 L0,64"/><path d="M0,64 L22,102"/></g>
+              <path d="M-36,102 L0,40 L36,102" fill="none" stroke="#6E5238" stroke-width="2.6" stroke-linejoin="round"/>
+              <rect x="-11" y="86" width="22" height="16" fill="#EFE3CB" stroke="#A88664" stroke-width="1.4"/>
+            </g>
+            <g fill="#FBFDFC" opacity=".9">
+              <circle cx="26" cy="30" r="3"/><circle cx="56" cy="54" r="2.2"/><circle cx="130" cy="26" r="2.6"/>
+              <circle cx="196" cy="48" r="2.4"/><circle cx="222" cy="22" r="3"/><circle cx="104" cy="62" r="2"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="yeargroup" data-year="2025">
+    <div class="yearhead"><span class="y">2025</span><span class="rule"></span><span class="n">2건</span></div>
+    <div class="trips">
+
+      <a class="trip" href="./kaohsiung-2025/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Taiwan · 남부</span>
+            <span class="who pair"><svg viewBox="0 0 16 16"><circle cx="5" cy="5" r="2.6"/><circle cx="11" cy="5" r="2.6"/><path d="M.6 14c0-2.5 2-4 4.4-4s4.4 1.5 4.4 4z"/><path d="M6.6 14c0-2.5 2-4 4.4-4s4.4 1.5 4.4 4z"/></svg>둘이서 · 2인</span>
+          </div>
+          <div class="trip-title">남쪽 끝 항구에서, 가장 오래된 도시까지</div>
+          <div class="trip-route">가오슝 → 타이난 → 가오슝</div>
+          <div class="trip-dates">7박 8일 · 2025. 12. 10(수) – 12. 17(수)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="롄츠탄의 용호탑과 야자수">
+            <defs><linearGradient id="aKs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E0C4"/><stop offset="1" stop-color="#F3F1E6"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aKs)"/>
+            <circle cx="36" cy="32" r="14" fill="#F2A95C" opacity=".75"/>
+            <rect y="116" width="240" height="44" fill="#BBD4D8"/>
+            <g>
+              <rect x="116" y="56" width="26" height="60" fill="#F0E6CE" stroke="#C7A45C" stroke-width="1.4"/>
+              <path d="M110,56 h38 l-7,-9 h-24 z" fill="#C0392B"/>
+              <path d="M112,74 h34" stroke="#C0392B" stroke-width="4"/>
+              <path d="M112,92 h34" stroke="#C0392B" stroke-width="4"/>
+              <path d="M129,47 v-8" stroke="#C7A45C" stroke-width="2"/>
+            </g>
+            <g>
+              <rect x="164" y="66" width="24" height="50" fill="#F0E6CE" stroke="#C7A45C" stroke-width="1.4"/>
+              <path d="M158,66 h36 l-6,-8 h-24 z" fill="#C0392B"/>
+              <path d="M160,83 h32" stroke="#C0392B" stroke-width="3.6"/>
+              <path d="M160,99 h32" stroke="#C0392B" stroke-width="3.6"/>
+              <path d="M176,58 v-7" stroke="#C7A45C" stroke-width="2"/>
+            </g>
+            <g transform="translate(56,0)">
+              <path d="M0,118 q-5,-32 2,-50" fill="none" stroke="#8A7A4E" stroke-width="5" stroke-linecap="round"/>
+              <g fill="#6B9A6E">
+                <path d="M2,68 q-24,-8 -30,6 q18,-2 30,-6z"/>
+                <path d="M2,68 q24,-10 31,4 q-19,-2 -31,-4z"/>
+                <path d="M2,68 q-14,-20 -3,-28 q4,16 3,28z"/>
+                <path d="M2,68 q16,-18 22,-6 q-13,0 -22,6z"/>
+              </g>
+            </g>
+            <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round">
+              <path d="M18,136 q8,-5 16,0 q8,5 16,0"/><path d="M186,146 q8,-5 16,0 q8,5 16,0"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+      <a class="trip" href="./osaka-2025/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Japan · 간사이</span>
+            <span class="who"><svg viewBox="0 0 16 16"><circle cx="3.4" cy="4.4" r="2.2"/><circle cx="8" cy="3.6" r="2.2"/><circle cx="12.6" cy="4.4" r="2.2"/><path d="M0 14c0-2.2 1.5-3.5 3.4-3.5S6.8 11.8 6.8 14z"/><path d="M9.2 14c0-2.2 1.5-3.5 3.4-3.5S16 11.8 16 14z"/><path d="M4.4 15c0-2.4 1.6-3.9 3.6-3.9s3.6 1.5 3.6 3.9z"/></svg>가족 · 4인</span>
+          </div>
+          <div class="trip-title">운하의 도시에서, 언덕의 도시로</div>
+          <div class="trip-route">오사카 → 교토 → 아라시야마 → 오사카</div>
+          <div class="trip-dates">4박 5일 · 2025. 5. 5(월) – 5. 9(금)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="오사카성과 도톤보리의 간판">
+            <defs><linearGradient id="aOs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2DCC6"/><stop offset="1" stop-color="#EFF4F0"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aOs)"/>
+            <circle cx="206" cy="28" r="11" fill="#F2CE7E" opacity=".75"/>
+            <g transform="translate(66,10)">
+              <path d="M-40,104 h80 l-12,-18 h-56 z" fill="#A6AFA6"/>
+              <rect x="-26" y="66" width="52" height="20" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.4"/>
+              <path d="M-34,66 h68 l-9,-11 h-50 z" fill="#4A6B54"/>
+              <rect x="-17" y="44" width="34" height="12" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.3"/>
+              <path d="M-24,44 h48 l-7,-9 h-34 z" fill="#4A6B54"/>
+              <rect x="-9" y="28" width="18" height="8" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.2"/>
+              <path d="M-15,28 h30 l-5,-8 h-20 z" fill="#4A6B54"/>
+              <g fill="#D9A93E"><ellipse cx="-5" cy="17" rx="4" ry="2.4"/><ellipse cx="5" cy="17" rx="4" ry="2.4"/></g>
+            </g>
+            <rect x="126" y="108" width="114" height="20" fill="#8FA8B4"/>
+            <g transform="translate(160,0)">
+              <rect x="-20" y="58" width="40" height="50" fill="#B0463A" stroke="#8A3F36" stroke-width="1.4"/>
+              <g fill="#F4E8D0"><rect x="-12" y="66" width="24" height="6" rx="2"/><rect x="-12" y="78" width="24" height="6" rx="2"/><rect x="-12" y="90" width="16" height="6" rx="2"/></g>
+            </g>
+            <g transform="translate(200,0)">
+              <rect x="-18" y="72" width="36" height="36" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.4"/>
+              <g fill="#3E7C8A"><rect x="-11" y="80" width="22" height="6" rx="2"/><rect x="-11" y="92" width="16" height="6" rx="2"/></g>
+            </g>
+            <rect y="128" width="240" height="32" fill="#DCD3BE"/>
+            <g stroke="#9FC2C8" stroke-width="1.8" fill="none" stroke-linecap="round"><path d="M138,120 q7,-4 14,0 q7,4 14,0"/><path d="M190,118 q7,-4 14,0 q7,4 14,0"/></g>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="yeargroup" data-year="2024">
+    <div class="yearhead"><span class="y">2024</span><span class="rule"></span><span class="n">1건</span></div>
+    <div class="trips">
+
+      <a class="trip" href="./taipei-2024/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Taiwan · 북부</span>
+            <span class="who"><svg viewBox="0 0 16 16"><circle cx="4" cy="4.6" r="2.4"/><circle cx="12" cy="4.6" r="2.4"/><circle cx="8" cy="6.6" r="2.4"/><path d="M0 14c0-2.3 1.8-3.7 4-3.7S8 11.7 8 14z"/><path d="M8 14c0-2.3 1.8-3.7 4-3.7S16 11.7 16 14z"/><path d="M4 15c0-2.3 1.8-3.9 4-3.9s4 1.6 4 3.9z"/></svg>가족 · 3인</span>
+          </div>
+          <div class="trip-title">홍등과 천등, 그리고 온천</div>
+          <div class="trip-route">타이베이 → 스펀 → 지우펀 → 베이터우 → 단수이</div>
+          <div class="trip-dates">5박 6일 · 2024. 12. 20(금) – 12. 25(수)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="타이베이 101과 하늘로 오르는 천등">
+            <defs><linearGradient id="aTp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EADFD0"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aTp)"/>
+            <path d="M0,112 Q46,56 104,112 Z" fill="#9DBBA8"/>
+            <path d="M150,112 Q196,66 240,112 Z" fill="#B3C9B8"/>
+            <g transform="translate(130,0)">
+              <rect x="-11" y="94" width="22" height="18" fill="#CBD9D4" stroke="#9FB3AB" stroke-width="1.2"/>
+              <g fill="#CBE0E4" stroke="#9FB3AB" stroke-width="1.2">
+                <path d="M-13,94 h26 l-2.6,-14 h-20.8 z"/>
+                <path d="M-15,80 h30 l-2.6,-14 h-24.8 z"/>
+                <path d="M-17,66 h34 l-2.6,-14 h-28.8 z"/>
+                <path d="M-19,52 h38 l-2.6,-14 h-32.8 z"/>
+              </g>
+              <rect x="-3.5" y="26" width="7" height="12" fill="#9FB3AB"/>
+              <line x1="0" y1="26" x2="0" y2="14" stroke="#9FB3AB" stroke-width="1.8"/>
+            </g>
+            <g fill="#F2CE7E" stroke="#D9A93E" stroke-width="1.2">
+              <path d="M34,40 q13,-16 26,0 l-4,16 h-18 z"/>
+              <path d="M70,76 q10,-13 20,0 l-3,13 h-14 z"/>
+              <path d="M198,46 q9,-11 18,0 l-2.5,11 h-13 z"/>
+            </g>
+            <path d="M188,98 q9,-11 18,0 l-2.5,11 h-13 z" fill="#E7A9B4" stroke="#D08E9C" stroke-width="1.1"/>
+            <rect y="112" width="240" height="48" fill="#DCD3BE"/>
+            <g transform="translate(58,116)">
+              <rect x="-26" y="-14" width="52" height="14" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.2"/>
+              <path d="M-31,-14 h62 l-5,-8 h-52 z" fill="#C0392B"/>
+              <g stroke="#8A6A3E" stroke-width="1.8"><line x1="-21" y1="0" x2="-21" y2="16"/><line x1="21" y1="0" x2="21" y2="16"/></g>
+              <g fill="#F2CE7E"><circle cx="-11" cy="-7" r="2.6"/><circle cx="0" cy="-7" r="2.6"/><circle cx="11" cy="-7" r="2.6"/></g>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="yeargroup" data-year="2023">
+    <div class="yearhead"><span class="y">2023</span><span class="rule"></span><span class="n">1건</span></div>
+    <div class="trips">
+
+      <a class="trip" href="./kyushu-2023/">
+        <div class="trip-body">
+          <div class="trip-top">
+            <span class="trip-meta">Japan · 규슈</span>
+            <span class="who"><svg viewBox="0 0 16 16"><circle cx="3.4" cy="4.4" r="2.2"/><circle cx="8" cy="3.6" r="2.2"/><circle cx="12.6" cy="4.4" r="2.2"/><path d="M0 14c0-2.2 1.5-3.5 3.4-3.5S6.8 11.8 6.8 14z"/><path d="M9.2 14c0-2.2 1.5-3.5 3.4-3.5S16 11.8 16 14z"/><path d="M4.4 15c0-2.4 1.6-3.9 3.6-3.9s3.6 1.5 3.6 3.9z"/></svg>가족 · 3~4인</span>
+          </div>
+          <div class="trip-title">규슈 한 바퀴, 열이틀의 기차</div>
+          <div class="trip-route">후쿠오카 → 유후인 → 벳푸 → 가고시마 → 히타 → 구마모토</div>
+          <div class="trip-dates">12박 13일 · 2023. 9. 30(토) – 10. 12(목)</div>
+        </div>
+        <div class="trip-art">
+          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="김이 오르는 온천과 규슈를 도는 기차">
+            <defs><linearGradient id="aKy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7E2D4"/><stop offset="1" stop-color="#EFF4F0"/></linearGradient></defs>
+            <rect width="240" height="160" fill="url(#aKy)"/>
+            <path d="M0,96 Q48,38 104,96 Z" fill="#B2C3B4"/>
+            <path d="M74,100 Q132,44 192,100 Z" fill="#A0B5A4"/>
+            <rect y="98" width="240" height="62" fill="#DCD9C6"/>
+            <g transform="translate(70,0)">
+              <ellipse cx="0" cy="118" rx="38" ry="11" fill="#9FC2C8" stroke="#7FA6AE" stroke-width="1.5"/>
+              <ellipse cx="0" cy="116" rx="26" ry="7" fill="#CBE0E4"/>
+              <g stroke="#FBFDFC" stroke-width="3" fill="none" opacity=".9" stroke-linecap="round">
+                <path d="M-18,108 q7,-16 0,-30"/><path d="M2,102 q8,-18 0,-34"/><path d="M20,110 q7,-14 0,-26"/>
+              </g>
+            </g>
+            <g transform="translate(158,0)">
+              <line x1="-42" y1="140" x2="50" y2="140" stroke="#A6AFA6" stroke-width="2.6"/>
+              <g stroke="#BFC6BA" stroke-width="2"><line x1="-40" y1="136" x2="-40" y2="144"/><line x1="-16" y1="136" x2="-16" y2="144"/><line x1="8" y1="136" x2="8" y2="144"/><line x1="32" y1="136" x2="32" y2="144"/></g>
+              <rect x="-34" y="112" width="40" height="22" rx="3" fill="#B0463A" stroke="#8A3F36" stroke-width="1.4"/>
+              <rect x="10" y="116" width="34" height="18" rx="3" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.3"/>
+              <g fill="#F4E8D0"><rect x="-28" y="118" width="10" height="9" rx="1.5"/><rect x="-13" y="118" width="10" height="9" rx="1.5"/></g>
+              <g fill="#CBE0E4"><rect x="16" y="121" width="9" height="8" rx="1.5"/><rect x="29" y="121" width="9" height="8" rx="1.5"/></g>
+              <g fill="#6E7A72"><circle cx="-26" cy="136" r="3.4"/><circle cx="-2" cy="136" r="3.4"/><circle cx="20" cy="136" r="3"/><circle cx="38" cy="136" r="3"/></g>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="noresult" id="noresult" hidden>해당 연도의 여행이 없습니다.</div>
 
   <footer>
     <a href="https://github.com/pjok1122/trips">github.com/pjok1122/trips</a>
   </footer>
 
 </div>
+
+<script>
+(function(){
+  var chips = document.querySelectorAll('.ychip');
+  var groups = document.querySelectorAll('.yeargroup');
+  var none = document.getElementById('noresult');
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('on'); });
+      chip.classList.add('on');
+      var y = chip.dataset.y, shown = 0;
+      groups.forEach(function(g){
+        var on = (y === 'all' || g.dataset.year === y);
+        g.hidden = !on;
+        if (on) shown++;
+      });
+      none.hidden = shown > 0;
+    });
+  });
+})();
+</script>
 </body>
 </html>
