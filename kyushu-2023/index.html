@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>규슈 12박 13일 — 후쿠오카·유후인·가고시마·구마모토</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-mist:#EAF2F0;      /* 배경: 아침 바다 안개 */
+    --sea-deep:#1E3742;      /* 잉크: 저녁 세토 바다 */
+    --sea-mid:#3E7C8A;       /* 보조: 낮 바다 청록 */
+    --torii:#CE4A2A;         /* 포인트: 이쓰쿠시마 도리이 주홍 */
+    --sand:#C7A45C;          /* 보조 포인트: 노을 모래빛 */
+    --paper:#FBFDFC;         /* 카드 면 */
+    --line:#C9D8D5;          /* 괘선 */
+    --dim:#7A9199;           /* 흐린 글씨 */
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--sea-mist);
+    color:var(--sea-deep);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- 헤더 ---------- */
+  header{padding:52px 0 8px;text-align:center}
+  .eyebrow{
+    font-size:12px;letter-spacing:.35em;color:var(--sea-mid);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(28px,5.4vw,44px);line-height:1.3;
+  }
+  h1 .accent{color:var(--torii)}
+  .subtitle{margin-top:10px;color:var(--dim);font-size:15px}
+  .dday{
+    display:inline-block;margin-top:18px;padding:7px 18px;
+    background:var(--sea-deep);color:var(--sea-mist);
+    border-radius:999px;font-size:13px;letter-spacing:.08em;
+  }
+  .dday strong{color:var(--sand);font-weight:700}
+
+  /* ---------- 항로 지도 ---------- */
+  .routemap{margin:36px 0 8px;background:var(--paper);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 12px 6px;overflow:hidden}
+  .routemap svg{width:100%;height:auto;display:block}
+  .routemap figcaption{
+    text-align:center;font-size:12px;color:var(--dim);
+    padding:6px 0 10px;letter-spacing:.06em;
+  }
+
+  /* ---------- 날짜 탭 ---------- */
+  nav.days{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;padding:22px 2px 6px;
+  }
+  .daytab{
+    min-width:0;text-align:center;
+    padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper);cursor:pointer;user-select:none;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .daytab:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(30,55,66,.10)}
+  .daytab .dnum{font-size:11px;letter-spacing:.18em;color:var(--dim)}
+  .daytab .dname{font-size:13.5px;font-weight:700;margin-top:2px}
+  .daytab.active{
+    background:var(--sea-deep);border-color:var(--sea-deep);color:var(--sea-mist);
+    box-shadow:0 6px 16px rgba(30,55,66,.18);
+  }
+  .daytab.active .dnum{color:var(--sand)}
+  .daytab.soon{opacity:.45}
+  .daytab.soon .dname::after{content:" ·";color:transparent}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .daytab{padding:9px 8px}
+    .daytab .dnum{letter-spacing:.1em}
+  }
+
+  /* ---------- 데이 섹션 ---------- */
+  section.day{margin-top:28px;display:none}
+  section.day.visible{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){section.day.visible{animation:none}}
+  .dayhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .dayhead h2{
+    font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;
+  }
+  .dayhead .datebadge{
+    font-size:13px;color:var(--paper);background:var(--torii);
+    padding:3px 12px;border-radius:999px;letter-spacing:.04em;
+  }
+  .daylead{color:var(--dim);font-size:14.5px;margin-bottom:20px}
+
+  /* 요약 카드 3분할 */
+  .summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;
+  }
+  .sumcard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;
+  }
+  .sumcard .k{font-size:11.5px;letter-spacing:.16em;color:var(--sea-mid);margin-bottom:4px}
+  .sumcard .v{font-size:14.5px;font-weight:700;line-height:1.45}
+  .sumcard .v small{display:block;font-weight:400;color:var(--dim);font-size:12.5px;margin-top:2px}
+
+  /* 이동 다이어그램 */
+  .transit{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 14px 8px;margin-bottom:24px;
+  }
+  .transit h3, .plancard h3{
+    font-size:13px;letter-spacing:.22em;color:var(--sea-mid);
+    margin:0 4px 10px;font-weight:700;
+  }
+  .transit svg{width:100%;height:auto;display:block}
+  .maplink{
+    display:inline-flex;align-items:center;gap:6px;margin:12px 4px 10px;
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;
+    color:var(--paper);background:var(--sea-mid);text-decoration:none;
+    transition:background .15s;
+  }
+  .maplink:hover{background:var(--sea-deep)}
+
+  /* 시간표 */
+  .plancard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 0 6px;margin-bottom:24px;overflow:hidden;
+  }
+  .plancard h3{padding:0 20px}
+  table.sched{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.sched th{
+    text-align:left;font-size:12px;letter-spacing:.12em;color:var(--dim);
+    font-weight:500;padding:10px 14px;border-bottom:1px solid var(--line);
+  }
+  table.sched td{
+    padding:12px 14px;border-bottom:1px solid #E4EDEB;vertical-align:top;
+  }
+  table.sched tr:last-child td{border-bottom:none}
+  td.t{white-space:nowrap;font-weight:700;color:var(--sea-mid);width:74px;
+    font-variant-numeric:tabular-nums}
+  td.what strong{font-weight:700}
+  td.what .tag{
+    display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;
+    margin-left:6px;vertical-align:1px;letter-spacing:.04em;
+  }
+  .tag.move{background:#E3EDF0;color:var(--sea-mid)}
+  .tag.meal{background:#F6E9D8;color:#9A7430}
+  .tag.spot{background:#F4DFD8;color:var(--torii)}
+  td.note{color:var(--dim);font-size:13px;width:34%}
+  @media (max-width:640px){
+    .summary{grid-template-columns:1fr 1fr}
+    td.note{display:none}
+    table.sched td,table.sched th{padding:11px 12px}
+  }
+
+  /* 팁 */
+  .tips{background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+  .tips h3{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin-bottom:10px}
+  .tips ul{list-style:none}
+  .tips li{
+    position:relative;padding:5px 0 5px 22px;font-size:14px;
+  }
+  .tips li::before{
+    content:"";position:absolute;left:2px;top:14px;width:8px;height:8px;
+    border-radius:50%;background:var(--sand);
+  }
+  .tips li strong{color:var(--torii)}
+
+  /* 다음 예고 */
+  .next{
+    border:1.5px dashed var(--line);border-radius:var(--radius);
+    padding:20px;text-align:center;color:var(--dim);font-size:14px;background:transparent;
+  }
+  .next b{color:var(--sea-mid)}
+
+  footer{margin-top:44px;text-align:center;font-size:12px;color:var(--dim);letter-spacing:.08em}
+  footer .wave{color:var(--sea-mid);font-size:14px;letter-spacing:.3em}
+  /* ---------- 모드 탭 (좌측 고정) ---------- */
+  .modetabs{position:fixed;left:0;top:45%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:6px}
+  .modetab{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:18px 10px;border:1px solid #D8E4E1;border-left:none;
+    border-radius:0 12px 12px 0;background:var(--paper);color:var(--dim);
+    font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;letter-spacing:.22em;
+    cursor:pointer;box-shadow:2px 2px 10px rgba(30,55,66,.10);transition:all .2s;
+  }
+  .modetab:hover{color:var(--sea-deep)}
+  .modetab.active{background:var(--sea-deep);color:var(--sea-mist);border-color:var(--sea-deep)}
+  #view-guide{display:none}
+  body.mode-guide #view-itinerary{display:none}
+  body.mode-guide #view-guide{display:block}
+  #view-guide section.region{display:none}
+  #view-guide section.region.rvisible{display:block;animation:fadein .25s ease}
+  .gtext{line-height:1.95;font-size:15px;margin:20px 4px 6px;word-break:keep-all}
+  .gsub{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin:34px 4px 2px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  ul.glist{list-style:none;margin:0 4px;padding:0}
+  ul.glist li{padding:15px 2px;border-bottom:1px dashed var(--line);line-height:1.85;font-size:14.5px;word-break:keep-all}
+  ul.glist li:last-child{border-bottom:none}
+  ul.glist .gname{display:block;font-weight:700;font-size:15.5px;color:var(--torii);margin-bottom:3px}
+  details.photo{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden}
+  details.photo summary{cursor:pointer;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--sea-deep);list-style:none}
+  details.photo summary::-webkit-details-marker{display:none}
+  details.photo summary::before{content:"📷 ";}
+  details.photo img{display:block;width:100%;height:auto}
+  details.photo figcaption{padding:8px 14px;font-size:12px;color:var(--dim)}
+  ul.glist .gname::before{content:"◦ ";color:var(--sand)}
+  @media (max-width:640px){
+    .modetabs{top:auto;bottom:14px;transform:none;left:12px;flex-direction:row;gap:8px}
+    .modetab{writing-mode:horizontal-tb;padding:10px 16px;border-radius:999px;border:1px solid #D8E4E1;letter-spacing:.12em}
+  }
+
+  nav.days{grid-template-columns:repeat(5,minmax(0,1fr))}
+  #view-guide nav.days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .sumcard .v small{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
+  @media (max-width:640px){
+    nav.days,#view-guide nav.days{grid-template-columns:repeat(2,minmax(0,1fr))}
+    table.sched thead{display:none}
+    table.sched tr{display:block;padding:12px 0;border-bottom:1px solid #E4EDEB}
+    table.sched tr:last-child{border-bottom:none}
+    table.sched td{display:block;width:auto;border:none;padding:1px 14px}
+    table.sched td.t{width:auto;font-size:12.5px;letter-spacing:.04em}
+    table.sched td.note{display:block;width:auto;margin-top:5px}
+    .summary{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<nav class="modetabs" aria-label="보기 전환">
+  <button class="modetab active" data-view="view-itinerary">일정 ♨</button>
+  <button class="modetab" data-view="view-guide">이야기 📖</button>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">KYUSHU · 2023 가을</div>
+  <h1>규슈 한 바퀴,<br><span class="accent">열이틀의 기차</span></h1>
+  <p class="subtitle">후쿠오카 → 시모노세키 → 유후인 → 벳푸 → 가고시마 → 히타 → 구마모토 · 12박 13일</p>
+  <div class="dday">가족 여행 · 2023. 9. 30 – 10. 12</div>
+</header>
+
+<div id="view-itinerary">
+  <figure class="routemap">
+    <svg viewBox="0 0 840 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="규슈를 한 바퀴 도는 전체 동선">
+      <defs><linearGradient id="kySea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#DCE8E6"/><stop offset="100%" stop-color="#CFE0DF"/>
+      </linearGradient></defs>
+      <rect x="0" y="0" width="840" height="330" fill="url(#kySea)"/>
+      <!-- 규슈 본섬 -->
+      <path d="M300,20 Q420,40 470,110 Q520,180 470,250 Q420,316 320,300 Q240,286 220,210 Q204,140 250,70 Q272,32 300,20 Z"
+            fill="#E9F0E6" stroke="#CBD9CC" stroke-width="2"/>
+      <!-- 혼슈 끝(시모노세키) -->
+      <path d="M470,0 Q560,10 620,40 L700,40 L700,0 Z" fill="#EDF2EA" stroke="#CBD9CC" stroke-width="2"/>
+      <g stroke="#B6CFCE" stroke-width="1.5" fill="none" stroke-linecap="round">
+        <path d="M90,120 q9,-5 18,0 q9,5 18,0"/><path d="M120,250 q9,-5 18,0 q9,5 18,0"/>
+        <path d="M700,230 q9,-5 18,0 q9,5 18,0"/>
+      </g>
+      <!-- 경로 -->
+      <path d="M318,96 Q400,70 470,46" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path d="M318,96 Q352,124 386,146" fill="none" stroke="#CE4A2A" stroke-width="2.6"/>
+      <path d="M386,146 Q404,170 416,194" fill="none" stroke="#CE4A2A" stroke-width="2.6"/>
+      <path d="M416,194 Q360,250 306,268" fill="none" stroke="#CE4A2A" stroke-width="2.6"/>
+      <path d="M306,268 Q336,214 356,168" fill="none" stroke="#CE4A2A" stroke-width="2.6" stroke-dasharray="7 5"/>
+      <path d="M356,168 Q316,186 276,216" fill="none" stroke="#CE4A2A" stroke-width="2.6" stroke-dasharray="7 5"/>
+      <path d="M276,216 Q286,156 316,112" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+
+      <g font-family="'Noto Sans KR',sans-serif">
+        <circle cx="318" cy="96" r="9" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/>
+        <text x="300" y="80" font-size="14" font-weight="700" fill="#CE4A2A" text-anchor="end">후쿠오카 · 5박</text>
+        <text x="300" y="96" font-size="11.5" fill="#7A9199" text-anchor="end">DAY 1~3, 6, 12~13 · 베이스</text>
+        <circle cx="470" cy="46" r="6.5" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="486" y="42" font-size="12.5" font-weight="700" fill="#1E3742">시모노세키 · 모지코</text>
+        <text x="486" y="57" font-size="11" fill="#7A9199">DAY 2 · 해협을 건너는 날</text>
+        <circle cx="386" cy="146" r="7" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="402" y="144" font-size="12.5" font-weight="700" fill="#1E3742">유후인</text>
+        <text x="402" y="159" font-size="11" fill="#7A9199">DAY 4 · 료칸 1박</text>
+        <circle cx="416" cy="194" r="7" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="432" y="192" font-size="12.5" font-weight="700" fill="#1E3742">벳푸</text>
+        <text x="432" y="207" font-size="11" fill="#7A9199">DAY 5 · 온천 1박</text>
+        <circle cx="306" cy="268" r="8" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/>
+        <text x="290" y="266" font-size="13" font-weight="700" fill="#CE4A2A" text-anchor="end">가고시마 · 1박</text>
+        <text x="290" y="281" font-size="11" fill="#7A9199" text-anchor="end">DAY 7 · 사쿠라지마</text>
+        <circle cx="356" cy="168" r="6.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.4"/>
+        <text x="340" y="162" font-size="12" font-weight="700" fill="#9A7430" text-anchor="end">히타 · 1박</text>
+        <text x="340" y="176" font-size="11" fill="#7A9199" text-anchor="end">DAY 8~9</text>
+        <circle cx="276" cy="216" r="7" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+        <text x="258" y="220" font-size="12.5" font-weight="700" fill="#1E3742" text-anchor="end">구마모토 · 2박</text>
+        <text x="258" y="235" font-size="11" fill="#7A9199" text-anchor="end">DAY 9~10</text>
+        <text x="96" y="60" font-size="12" fill="#A9BDB4" letter-spacing="3">EAST CHINA SEA</text>
+        <text x="640" y="80" font-size="12" fill="#A9BDB4" letter-spacing="3">本州</text>
+      </g>
+    </svg>
+    <figcaption>여행 전체 동선 · 후쿠오카를 축으로 규슈를 시계 반대 방향으로 한 바퀴</figcaption>
+  </figure>
+
+  <nav class="days" aria-label="날짜 선택">
+    <div class="daytab active" data-target="day1"><div class="dnum">DAY 1 · 9/30 토</div><div class="dname">후쿠오카</div></div>
+    <div class="daytab" data-target="day2"><div class="dnum">DAY 2 · 10/1 일</div><div class="dname">시모노세키·모지코</div></div>
+    <div class="daytab" data-target="day3"><div class="dnum">DAY 3 · 10/2 월</div><div class="dname">다자이후</div></div>
+    <div class="daytab" data-target="day4"><div class="dnum">DAY 4 · 10/3 화</div><div class="dname">유후인</div></div>
+    <div class="daytab" data-target="day5"><div class="dnum">DAY 5 · 10/4 수</div><div class="dname">벳푸</div></div>
+    <div class="daytab" data-target="day6"><div class="dnum">DAY 6 · 10/5 목</div><div class="dname">후쿠오카 복귀</div></div>
+    <div class="daytab" data-target="day7"><div class="dnum">DAY 7 · 10/6 금</div><div class="dname">가고시마</div></div>
+    <div class="daytab" data-target="day8"><div class="dnum">DAY 8 · 10/7 토</div><div class="dname">히타</div></div>
+    <div class="daytab" data-target="day9"><div class="dnum">DAY 9 · 10/8 일</div><div class="dname">히타·구마모토</div></div>
+    <div class="daytab" data-target="day10"><div class="dnum">DAY 10 · 10/9 월</div><div class="dname">구마모토</div></div>
+    <div class="daytab" data-target="day11"><div class="dnum">DAY 11 · 10/10 화</div><div class="dname">동생 귀국</div></div>
+    <div class="daytab" data-target="day12"><div class="dnum">DAY 12 · 10/11 수</div><div class="dname">후쿠오카</div></div>
+    <div class="daytab" data-target="day13"><div class="dnum">DAY 13 · 10/12 목</div><div class="dname">귀국</div></div>
+  </nav>
+
+  <section class="day visible" id="day1">
+    <div class="dayhead"><h2>Day 1 · 하카타에 짐을 풀고</h2><span class="datebadge">9월 30일 (토)</span></div>
+    <p class="daylead">오전 비행기로 후쿠오카에 내린다. 첫 임무는 JR 큐슈 레일패스 실물 교환. 저녁은 모츠나베.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day1 하루 흐름 곡선">
+        <defs><linearGradient id="skyday1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday1)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">이륙 ✈</text><text x="60" y="118" font-size="10.5" fill="#7A9199">10:05</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">11:30</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#1E3742">후쿠오카 도착</text><circle cx="340" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="340" y="51" font-size="12.5" font-weight="700" fill="#9A7430">와하치 우동</text><text x="340" y="66" font-size="10.5" fill="#7A9199">점심</text><circle cx="480" cy="77" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="480" y="97" font-size="10.5" fill="#B4552F">오후</text><text x="480" y="112" font-size="12.5" font-weight="700" fill="#CE4A2A">레일패스 교환</text><circle cx="620" cy="92" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="620" y="65" font-size="12.5" font-weight="700" fill="#1E3742">숙소 체크인</text><text x="620" y="80" font-size="10.5" fill="#7A9199">17:00</text><circle cx="740" cy="118" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="740" y="138" font-size="10.5" fill="#C9B48A">19:00</text><text x="740" y="153" font-size="12.5" font-weight="700" fill="#EBCB92">모츠나베</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">하카타 산책</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 1의 하루 곡선 · 도착하자마자 레일패스부터 바꾼다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">티웨이 인천 → 후쿠오카<small>10:05 출발 · 11:30 도착</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Legatio Hakataekihigashi<small>하카타역 EAST6 출구에서 700m</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">JR 큐슈 레일패스 교환<small>전큐슈 7일권 · 연휴라 1시간 30분 대기</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>공항 → 하카타</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="공항 → 하카타">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">후쿠오카공항</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">국내선터미널</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">후쿠오카공항역</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">하카타역</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚌 무료 셔틀 15분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚶 5분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚇 공항선 6분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">국제선에서 지하철역까지 셔틀을 한 번 타야 한다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">10:05</td><td class="what"><strong>티웨이 인천 → 후쿠오카</strong> ✈ <span class="tag move">1시간 25분</span></td><td class="note">제1여객터미널 F19~F36 카운터, 127번 게이트. <strong>Visit Japan Web</strong>과 단기방문 도장 확인.</td></tr>
+          <tr><td class="t">12:00</td><td class="what"><strong>공항 셔틀로 국내선터미널</strong> <span class="tag move">15분</span></td><td class="note">국제선터미널 중앙 출입구 왼쪽 1번 정류장에서 무료 셔틀.</td></tr>
+          <tr><td class="t">12:30</td><td class="what"><strong>후쿠오카공항역 → 하카타역</strong> <span class="tag move">6분</span></td><td class="note">공항선. 개찰구 왼편 무인 발권기(한국어), 편도 260엔. 플랫폼 1·2번 아무거나.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>와하치에서 우동</strong> <span class="tag meal">식사</span></td><td class="note">JR하카타시티 10층. 9~10층에 식당이 많지만 웨이팅과 브레이크타임 주의.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>JR 큐슈 레일패스 교환</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">하카타역 1층 중앙 녹색 창구. <strong>예약자 전원과 예약에 쓴 실물 카드</strong>가 있어야 한다. 연휴라 1시간 30분 예상.</td></tr>
+          <tr><td class="t">17:00</td><td class="what"><strong>숙소 체크인</strong></td><td class="note">하카타역 EAST6 출구에서 직진, 교차로에서 우회전해 700m.</td></tr>
+          <tr><td class="t">19:00</td><td class="what"><strong>모츠나베 이치후지</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">하카타역 서쪽 200m. 구글 예약 완료.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>하카타 둘러보고 마무리</strong></td><td class="note">내일 일정이 일찍 시작하니 일찍 접는 게 합리적.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 1 체크포인트</h3>
+      <ul>
+        <li><strong>레일패스 교환이 첫날의 전부입니다.</strong> 예약자 전원이 창구에 있어야 하고 예약에 쓴 실물 카드도 필요합니다. 연휴에는 한 시간 반씩 걸리니 대기 줄을 먼저 보고 길면 오후로 미루는 편이 낫습니다.</li>
+        <li><strong>공항에서 하카타역까지 지하철로 6분</strong>입니다. 국제선터미널에서 지하철역이 있는 국내선터미널까지는 무료 셔틀로 15분 걸리니 합쳐서 30분쯤 봅니다.</li>
+        <li>엔화 환전은 인천공항에서 미리. ATM 수수료와 환율을 비교해 두면 좋습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day2">
+    <div class="dayhead"><h2>Day 2 · 해협을 건너는 날</h2><span class="datebadge">10월 1일 (일)</span></div>
+    <p class="daylead">규슈를 벗어나 혼슈 끝 시모노세키까지 갔다가, 배로 해협을 건너 모지코로 돌아온다. 밤에는 산 위에서 야경.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day2 하루 흐름 곡선">
+        <defs><linearGradient id="skyday2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday2)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">하카타 출발</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="180" cy="99" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="180" y="119" font-size="10.5" fill="#7A9199">아점</text><text x="180" y="134" font-size="12.5" font-weight="700" fill="#9A7430">가라토시장 스시</text><circle cx="320" cy="79" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="320" y="52" font-size="12.5" font-weight="700" fill="#CE4A2A">페리로 해협 횡단</text><text x="320" y="67" font-size="10.5" fill="#B4552F">낮</text><circle cx="450" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="450" y="95" font-size="10.5" fill="#7A9199">오후</text><text x="450" y="110" font-size="12.5" font-weight="700" fill="#1E3742">모지코 레트로</text><circle cx="580" cy="86" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="580" y="59" font-size="12.5" font-weight="700" fill="#CE4A2A">사라쿠라산</text><text x="580" y="74" font-size="10.5" fill="#B4552F">17:25</text><circle cx="700" cy="108" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="700" y="128" font-size="10.5" fill="#B9C9CE">18:02</text><text x="700" y="143" font-size="12.5" font-weight="700" fill="#EAF2F0">일몰 야경</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">하카타 복귀</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 2의 하루 곡선 · 기차와 배와 케이블카를 다 타는 날</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">기차 + 페리 + 케이블카<small>하카타 → 고쿠라 → 시모노세키 → 모지코</small></div></div>
+      <div class="sumcard"><div class="k">EAT</div><div class="v">가라토시장 스시<small>11시 넘으면 인파와 매진 주의</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">사라쿠라산 야경<small>일본 신 3대 야경, 일몰 18:02</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>JR 하카타 → 고쿠라</strong> <span class="tag move">49분</span></td><td class="note">소닉 11 특급. <strong>고쿠라행 신칸센은 레일패스에서 제외</strong>라 특급으로 간다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>JR 고쿠라 → 시모노세키</strong> <span class="tag move">14분</span></td><td class="note">가고시마 본선. 여기서 혼슈로 넘어간다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>시모노세키역 → 가라토</strong> <span class="tag move">8분</span></td><td class="note">20번 버스, 7개 정류장 230엔.</td></tr>
+          <tr><td class="t">아점</td><td class="what"><strong>가라토시장 스시</strong> <span class="tag meal">식사</span></td><td class="note"><strong>11시만 넘어도 인파가 심하고 점심때면 매진</strong>. 같은 어종도 점포마다 두 배까지 차이 나니 여러 곳을 둘러보고 살 것.</td></tr>
+          <tr><td class="t">낮</td><td class="what"><strong>칸몬 키센 페리로 모지항</strong> <span class="tag move">5분</span></td><td class="note">매시 00·20·40분 출항, 400엔. 가라토시장에서 해안 따라 250m.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>모지코 레트로</strong> <span class="tag spot">명소</span></td><td class="note">블루윙모지 도개교는 <strong>10~16시 매 정각에 20분씩 열린다</strong>. 바나나맨 조형물은 일본에 바나나가 처음 들어온 항구라서 있는 것.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>큐슈철도기념관</strong> <span class="tag spot">선택</span></td><td class="note">성인 300엔. 1942년 증기기관차와 침대칸, 초기 전차. 크진 않지만 300엔 값은 한다.</td></tr>
+          <tr><td class="t">17:25</td><td class="what"><strong>JR 야하타역 → 케이블 산기슭역</strong> <span class="tag move">10분</span></td><td class="note">휴일에는 매시 5분·25분 무료 셔틀. 역 로터리 우측 파출소 앞에서 탄다.</td></tr>
+          <tr><td class="t">18:02</td><td class="what"><strong>사라쿠라산 전망대 야경</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">케이블카와 슬로프카 왕복 1인 1,230엔. 이날 기타큐슈 일몰이 18:02.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>JR 야하타 → 하카타</strong> <span class="tag move">60분</span></td><td class="note">가고시마 본선 쾌속. 돌아오는 셔틀은 매시 15분·55분.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 2 체크포인트</h3>
+      <ul>
+        <li><strong>오늘 하루에 기차·버스·배·케이블카를 다 탑니다.</strong> 레일패스로 커버되는 구간과 아닌 구간(버스 230엔, 페리 400엔, 케이블카 1,230엔)이 섞이니 현금을 들고 다니세요.</li>
+        <li><strong>가라토시장은 시간 싸움입니다.</strong> 11시가 지나면 사람도 많고 인기 어종은 매진됩니다. 일찍 가는 게 유일한 방법입니다.</li>
+        <li><strong>블루윙모지는 매 정각에 20분씩 열립니다.</strong> 다리가 열리는 걸 보려면 도착 시간을 정각에 맞추세요.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day3">
+    <div class="dayhead"><h2>Day 3 · 학문의 신과 합류</h2><span class="datebadge">10월 2일 (월)</span></div>
+    <p class="daylead">오전에 다자이후 텐만구를 보고, 오후에 아내가 합류한다. 밤에는 나카스 리버 크루즈.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day3 하루 흐름 곡선">
+        <defs><linearGradient id="skyday3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday3)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#CE4A2A">다자이후 텐만구</text><text x="60" y="118" font-size="10.5" fill="#B4552F">오전</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">아침</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">타베아루키</text><circle cx="330" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="330" y="51" font-size="12.5" font-weight="700" fill="#9A7430">세이로무시</text><text x="330" y="66" font-size="10.5" fill="#7A9199">13:00</text><circle cx="460" cy="76" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="460" y="96" font-size="10.5" fill="#7A9199">오후</text><text x="460" y="111" font-size="12.5" font-weight="700" fill="#1E3742">캐널시티</text><circle cx="580" cy="86" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="580" y="59" font-size="12.5" font-weight="700" fill="#CE4A2A">아내 합류</text><text x="580" y="74" font-size="10.5" fill="#B4552F">16:45</text><circle cx="700" cy="108" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="700" y="128" font-size="10.5" fill="#7A9199">저녁</text><text x="700" y="143" font-size="12.5" font-weight="700" fill="#9A7430">하카타 라멘</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">나카스 크루즈</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">21:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 3의 하루 곡선 · 오전은 신사, 저녁에 한 명이 늘어난다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">다자이후 왕복<small>하카타 → 후쓰카이치 → 다자이후</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Stay Hakata<small>숙소를 옮기는 날</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">아내 합류<small>16:45 후쿠오카공항 도착</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃하고 짐 보관</strong></td><td class="note">하카타역 코인락커에. 다자이후 다녀와서 찾는다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>JR 하카타 → 후쓰카이치</strong> <span class="tag move">21분</span></td><td class="note">가고시마 본선 쾌속. 내려서 니시테쓰후쓰카이치역까지 도보 15분.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>니시테쓰 → 다자이후역</strong> <span class="tag move">5분</span></td><td class="note">편도 170엔, 두 정거장.</td></tr>
+          <tr><td class="t">아침</td><td class="what"><strong>오모테산도 타베아루키</strong> <span class="tag meal">식사</span></td><td class="note">매실 사이다, 우메가에모찌, 금상고로케, 딸기모찌, 딸기모나카. <strong>스타벅스 다자이후점</strong>은 구마 겐고가 설계한 나무 격자 건물.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>다자이후 텐만구</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">1시간 30분. 학문의 신 스가와라노 미치자네를 모신 신사.</td></tr>
+          <tr><td class="t">13:00</td><td class="what"><strong>후지우나에서 세이로무시</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">하카타역에서 도보 2분. 장어를 쪄서 내는 하카타식.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>캐널시티 하카타</strong> <span class="tag spot">명소</span></td><td class="note">10:00~22:00, 30분 간격 분수쇼. 지하 1층 토토로 샵.</td></tr>
+          <tr><td class="t">16:45</td><td class="what"><strong>아내 합류</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">후쿠오카공항 도착. 공항에서 하카타역 가는 길은 1일차와 동일.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>하카타라멘 신신 텐진본점</strong> <span class="tag meal">식사</span></td><td class="note">11:00~03:00, 수요일 휴무. 웨이팅 있으니 일찍.</td></tr>
+          <tr><td class="t">21:00</td><td class="what"><strong>나카스 리버 크루즈</strong> <span class="tag spot">야경</span></td><td class="note">30분. 예약했어도 결제는 현장이고 <strong>결제 선착순으로 좌석이 배정</strong>된다. 30분 전에는 가서 티켓을 사야 좋은 자리를 받는다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 3 체크포인트</h3>
+      <ul>
+        <li><strong>나카스 크루즈는 예약만으로 끝이 아닙니다.</strong> 현장에서 결제한 순서대로 좌석이 배정돼, 늦게 가면 구명조끼 없이 간이 의자에 앉게 됩니다. 30분 전 도착을 권합니다.</li>
+        <li><strong>다자이후 가는 길은 환승이 번거롭습니다.</strong> JR 후쓰카이치역에서 니시테쓰 후쓰카이치역까지 걸어서 15분을 이동해야 합니다.</li>
+        <li>오늘 숙소를 옮깁니다. 체크아웃 후 하카타역 코인락커를 쓰면 다자이후를 가볍게 다녀올 수 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day4">
+    <div class="dayhead"><h2>Day 4 · 료칸에서 자는 밤</h2><span class="datebadge">10월 3일 (화)</span></div>
+    <p class="daylead">관광열차 유후인노모리를 타고 산속으로 들어간다. 오늘 밤은 료칸의 가이세키와 온천.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day4 하루 흐름 곡선">
+        <defs><linearGradient id="skyday4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday4)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">스미요시 신사</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">점심</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">부타동</text><circle cx="360" cy="77" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="360" y="50" font-size="12.5" font-weight="700" fill="#CE4A2A">유후인노모리</text><text x="360" y="65" font-size="10.5" fill="#B4552F">오후</text><circle cx="520" cy="79" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="520" y="99" font-size="10.5" fill="#7A9199">15:00</text><text x="520" y="114" font-size="12.5" font-weight="700" fill="#1E3742">료칸 체크인</text><circle cx="660" cy="99" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="660" y="72" font-size="12.5" font-weight="700" fill="#9A7430">와규 샤브샤브</text><text x="660" y="87" font-size="10.5" fill="#7A9199">18:30</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="153" font-size="10.5" fill="#B9C9CE">밤</text><text x="790" y="168" font-size="12.5" font-weight="700" fill="#EAF2F0">온천욕</text>
+        </g>
+      </svg>
+      <figcaption>Day 4의 하루 곡선 · 열차에 두 시간, 나머지는 료칸에서</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">유후인노모리<small>하카타 → 유후인 2시간 12분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">旅館 竹屋 Takeya<small>유후인역에서 픽업</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">료칸 가이세키와 온천<small>와규 샤브샤브 석식</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>스미요시 신사 산책</strong> <span class="tag spot">선택</span></td><td class="note">숙소 근처의 유서 깊은 신사. 아침 산책 겸.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>이나다야 선에서 부타동</strong> <span class="tag meal">식사</span></td><td class="note">숯불에 구운 돼지고기 덮밥. 부타동 금상을 받은 집이고, <strong>평일 11시~11시 반에 가면 웨이팅 없이</strong> 먹는다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>JR 하카타 → 유후인</strong> <span class="tag move">2시간 12분</span></td><td class="note"><strong>유후인노모리</strong> 관광열차. 1번칸 6-A·B, 8-A·B 좌석.</td></tr>
+          <tr><td class="t">15:00</td><td class="what"><strong>료칸 체크인</strong></td><td class="note">유후인역 택시승강장 앞에서 17시 픽업. 도착 5분 전 카카오채널로 연락.</td></tr>
+          <tr><td class="t">18:30</td><td class="what"><strong>와규 샤브샤브</strong> <span class="tag meal">식사</span></td><td class="note">료칸 제공 석식. 18:30 또는 19:00 중 선택.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>온천욕</strong> <span class="tag spot">온천</span></td><td class="note">밖에서 할 게 많지 않으니 맥주 한 잔과 온천으로 마무리.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 4 체크포인트</h3>
+      <ul>
+        <li><strong>유후인노모리는 좌석 지정 관광열차</strong>입니다. 레일패스로 타더라도 지정석을 따로 잡아야 하고, 성수기에는 금방 찹니다.</li>
+        <li><strong>료칸 픽업은 미리 신청해야 합니다.</strong> 유후인역에서 도보 5~10분이지만 캐리어가 있으면 픽업이 편합니다.</li>
+        <li>유후인은 밤에 할 게 거의 없습니다. 그게 이 날의 목적이기도 합니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day5">
+    <div class="dayhead"><h2>Day 5 · 호수와 지옥 사이</h2><span class="datebadge">10월 4일 (수)</span></div>
+    <p class="daylead">아침 안개 낀 킨린 호수를 보고 유노츠보 거리를 걷는다. 오후엔 벳푸로 넘어가 지옥을 돌고 쉰다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day5 하루 흐름 곡선">
+        <defs><linearGradient id="skyday5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday5)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#9A7430">료칸 조식</text><text x="60" y="118" font-size="10.5" fill="#7A9199">08:30</text><circle cx="190" cy="97" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#B4552F">오전</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#CE4A2A">킨린 호수</text><circle cx="330" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="330" y="51" font-size="12.5" font-weight="700" fill="#9A7430">유노츠보 타베아루키</text><text x="330" y="66" font-size="10.5" fill="#7A9199">점심</text><circle cx="470" cy="76" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="470" y="96" font-size="10.5" fill="#7A9199">오후</text><text x="470" y="111" font-size="12.5" font-weight="700" fill="#1E3742">벳푸 이동</text><circle cx="600" cy="89" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="600" y="62" font-size="12.5" font-weight="700" fill="#CE4A2A">지옥 순례</text><text x="600" y="77" font-size="10.5" fill="#B4552F">오후</text><circle cx="720" cy="113" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="720" y="133" font-size="10.5" fill="#7A9199">저녁</text><text x="720" y="148" font-size="12.5" font-weight="700" fill="#9A7430">토요츠네</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">휴식</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 5의 하루 곡선 · 아침은 유후인, 오후는 벳푸</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">유후인 → 벳푸<small>규다이선 + 닛포선, 환승 1회</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Grand Base Beppu<small>벳푸역에서 도보 7분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">킨린 호수의 물안개<small>오전에만 볼 수 있는 풍경</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">08:30</td><td class="what"><strong>료칸 조식</strong> <span class="tag meal">식사</span></td><td class="note">일본 가정식. 8:30 또는 9:00.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>킨린 호수</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">숙소에서 도보 25분. <strong>오전에 물안개가 깔린 경관</strong>이 좋다. 금빛 비늘 호수라는 뜻으로, 노을에 비친 잉어 비늘이 황금빛이 된다는 데서 왔다.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>유노츠보 거리 타베아루키</strong> <span class="tag meal">식사</span></td><td class="note">비스피크 롤케이크, 유후인 버거, 금상고로케, 미르히 치즈케이크와 푸딩. 플로랄빌리지와 미피 키친도.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>JR 유후인 → 오이타 → 벳푸</strong> <span class="tag move">1시간 17분</span></td><td class="note">규다이선으로 오이타(1시간 5분), 닛포선으로 벳푸(12분).</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>벳푸 지옥 순례</strong> <span class="tag spot">명소</span></td><td class="note">8:00~17:00, 개별 450엔. 1순위 <strong>우미지옥(바다지옥)</strong>, 2순위 가마도지옥. 벳푸역 서쪽 출구에서 7번 버스로 17개 정류장(330엔).</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>숙소 체크인 및 휴식</strong></td><td class="note">벳푸역에서 도보 7분.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>토요츠네 벳푸역점</strong> <span class="tag meal">식사</span></td><td class="note">텐동, 카이센동, 솥밥. 2순위는 오와다 스시.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>캔맥주로 마무리</strong></td><td class="note">일정이 고됐으니 쉬는 게 상책.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 5 체크포인트</h3>
+      <ul>
+        <li><strong>킨린 호수는 오전이 전부입니다.</strong> 물안개는 이른 시간에만 깔립니다. 늦잠을 자면 그냥 호수입니다.</li>
+        <li><strong>벳푸는 온천 용출량이 일본 1위</strong>입니다. 등록된 원천만 2,200곳이 넘고 전국 용출량의 10분의 1이 이 도시에서 나옵니다. 지옥은 그중 색과 성질이 특이한 것들을 관광지로 만든 것입니다.</li>
+        <li><strong>유후인은 전국 3위 용출량</strong>입니다. 어제오늘 이틀이 사실상 온천 투어입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day6">
+    <div class="dayhead"><h2>Day 6 · 한 명을 배웅하고</h2><span class="datebadge">10월 5일 (목)</span></div>
+    <p class="daylead">벳푸에서 하카타로 돌아온다. 오후에 어머니를 공항으로 배웅하고, 남은 셋은 텐진으로.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day6 하루 흐름 곡선">
+        <defs><linearGradient id="skyday6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday6)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">벳푸 체크아웃</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">점심</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">우동</text><circle cx="350" cy="77" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="350" y="50" font-size="12.5" font-weight="700" fill="#1E3742">하카타 복귀</text><text x="350" y="65" font-size="10.5" fill="#7A9199">오후</text><circle cx="490" cy="77" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="490" y="97" font-size="10.5" fill="#7A9199">오후</text><text x="490" y="112" font-size="12.5" font-weight="700" fill="#1E3742">드럭스토어</text><circle cx="620" cy="92" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="620" y="65" font-size="12.5" font-weight="700" fill="#CE4A2A">어머니 배웅</text><text x="620" y="80" font-size="10.5" fill="#B4552F">17:35</text><circle cx="750" cy="121" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="750" y="141" font-size="10.5" fill="#C9B48A">저녁</text><text x="750" y="156" font-size="12.5" font-weight="700" fill="#EBCB92">하카타 라멘</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">텐진</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 6의 하루 곡선 · 이동과 배웅으로 채워진 하루</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">벳푸 → 하카타<small>소닉 30 특급 1시간 55분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Richmond Hotel Fukuoka Tenjin<small>덴진미나미역 도보 3분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">공항 배웅<small>17:35 제주항공</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃</strong></td><td class="note">10시 마감, 짐 보관 불가.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>하루노이로에서 우동</strong> <span class="tag meal">식사</span></td><td class="note">11:00~16:00. 1순위는 라멘 테이 이치방의 냉라멘.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>JR 벳푸 → 하카타</strong> <span class="tag move">1시간 55분</span></td><td class="note">소닉 30 특급.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>드럭스토어 MORI</strong> <span class="tag spot">선물</span></td><td class="note">09:00~자정. 숙소에서 도보 3분.</td></tr>
+          <tr><td class="t">17:35</td><td class="what"><strong>어머니 공항 배웅</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">제주항공, A 카운터 53번 게이트. 공항 리무진은 <strong>돌아올 때 교통카드가 안 되니</strong> 매표소에서 티켓을 사야 한다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>숙소 체크인</strong></td><td class="note">하카타역에서 나나쿠마선으로 덴진미나미역(6분, 210엔), 도보 3분.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>하카타 라멘</strong> <span class="tag meal">식사</span></td><td class="note">원조 하카타 멘타이쥬의 명란 덮밥도 후보.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>텐진 구경</strong></td><td class="note">텐진 지하상가 09:00~21:00. 링고 애플파이, 베이크 치즈 타르트, 프레스 버터 샌드.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 6 체크포인트</h3>
+      <ul>
+        <li><strong>공항 리무진은 돌아올 때 현금만 받습니다.</strong> 교통카드가 안 되니 매표소에서 티켓을 사야 합니다.</li>
+        <li><strong>오늘부터 셋이 됩니다.</strong> 남은 일주일은 규슈 남쪽을 도는 일정입니다.</li>
+        <li>텐진과 나카스에는 야타이 문화가 있습니다. 포장마차에서 한 잔 하는 경험을 해볼 기회입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day7">
+    <div class="dayhead"><h2>Day 7 · 화산 앞에서</h2><span class="datebadge">10월 6일 (금)</span></div>
+    <p class="daylead">신칸센으로 규슈 남쪽 끝 가고시마까지. 페리를 타고 연기 나는 화산섬 사쿠라지마로 건너간다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day7 하루 흐름 곡선">
+        <defs><linearGradient id="skyday7" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday7)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">신칸센</text><text x="60" y="118" font-size="10.5" fill="#7A9199">10:20</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">점심</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">우나기노스에요시</text><circle cx="340" cy="78" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="340" y="51" font-size="12.5" font-weight="700" fill="#CE4A2A">사쿠라지마 페리</text><text x="340" y="66" font-size="10.5" fill="#B4552F">오후</text><circle cx="490" cy="77" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="490" y="97" font-size="10.5" fill="#B4552F">오후</text><text x="490" y="112" font-size="12.5" font-weight="700" fill="#CE4A2A">전망대 순회</text><circle cx="640" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="640" y="69" font-size="12.5" font-weight="700" fill="#9A7430">야키니쿠</text><text x="640" y="84" font-size="10.5" fill="#7A9199">저녁</text><circle cx="780" cy="130" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="780" y="150" font-size="10.5" fill="#B9C9CE">밤</text><text x="780" y="165" font-size="12.5" font-weight="700" fill="#EAF2F0">덴몬칸</text>
+        </g>
+      </svg>
+      <figcaption>Day 7의 하루 곡선 · 신칸센으로 내려와 화산을 본다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">규슈 신칸센<small>하카타 → 가고시마추오 1시간 35분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">FAV HOTEL KAGOSHIMA CHUO<small>가고시마추오역에서 15분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">사쿠라지마<small>페리 25분, 전망대 네 곳</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">10:20</td><td class="what"><strong>JR 하카타 → 가고시마추오</strong> <span class="tag move">1시간 35분</span></td><td class="note">규슈 신칸센 사쿠라.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>웰컴 큐트패스 구매</strong> <span class="tag spot">교통</span></td><td class="note">가고시마추오역 관광안내소, 1인 1,200엔.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>우나기노스에요시</strong> <span class="tag meal">식사</span></td><td class="note">덴몬칸 초입. 10:30~16:00 / 17:00~20:00.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>페리로 사쿠라지마</strong> <span class="tag move">25분</span></td><td class="note">매시 5·25·45분 출발. 덴몬칸에서 선착장까지 도보나 노면전차로 20분.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>사쿠라지마 관광</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">4시간. 가라스지마 전망대, 아카미즈 전망광장, 유노히라 전망대, 용암 나기사 공원.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>덴몬칸에서 야키니쿠</strong> <span class="tag meal">식사</span></td><td class="note">가루후라멘의 삿포로 생맥도 후보. 웨이팅이 길면 근처 이자카야로.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>덴몬칸 구경</strong> <span class="tag spot">명소</span></td><td class="note"><strong>무쟈키의 시로쿠마 빙수</strong>, 페스티발로의 고구마 디저트.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 7 체크포인트</h3>
+      <ul>
+        <li><strong>웰컴 큐트패스가 하루를 싸게 만듭니다.</strong> 1인 1,200엔에 페리와 시내 교통이 묶여 있어, 사쿠라지마를 왕복하면 바로 본전입니다.</li>
+        <li><strong>사쿠라지마 전망대는 버스로 돕니다.</strong> 네 곳을 걸어서 도는 건 불가능하니 아일랜드 뷰 버스를 쓰세요.</li>
+        <li>시로쿠마 빙수는 가고시마가 원조입니다. 덴몬칸 무쟈키가 그 집입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day8">
+    <div class="dayhead"><h2>Day 8 · 강가의 온천 마을로</h2><span class="datebadge">10월 7일 (토)</span></div>
+    <p class="daylead">오전에 덴몬칸을 마저 보고, 신칸센과 특급을 갈아타며 북쪽 히타로 올라간다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day8 하루 흐름 곡선">
+        <defs><linearGradient id="skyday8" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday8)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#9A7430">호텔 조식</text><text x="60" y="118" font-size="10.5" fill="#7A9199">아침</text><circle cx="190" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#7A9199">오전</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#1E3742">덴몬칸</text><circle cx="330" cy="78" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="330" y="51" font-size="12.5" font-weight="700" fill="#1E3742">신칸센</text><text x="330" y="66" font-size="10.5" fill="#7A9199">12:55</text><circle cx="470" cy="76" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="470" y="96" font-size="10.5" fill="#7A9199">15:12</text><text x="470" y="111" font-size="12.5" font-weight="700" fill="#1E3742">유후인노모리</text><circle cx="610" cy="90" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="610" y="63" font-size="12.5" font-weight="700" fill="#1E3742">히타 도착</text><text x="610" y="78" font-size="10.5" fill="#7A9199">오후</text><circle cx="730" cy="116" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="730" y="136" font-size="10.5" fill="#7A9199">저녁</text><text x="730" y="151" font-size="12.5" font-weight="700" fill="#9A7430">야키소바·짬뽕</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">온천욕</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 8의 하루 곡선 · 반나절을 기차에서 보내고 온천으로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">가고시마 → 구루메 → 히타<small>신칸센 + 유후인노모리</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">Caffel Hinanosato<small>히타역에서 13분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">미쿠마강 산책<small>온천 마을의 밤</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">아침</td><td class="what"><strong>호텔 조식</strong> <span class="tag meal">식사</span></td><td class="note"></td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>덴몬칸 마무리</strong> <span class="tag spot">선물</span></td><td class="note">사츠마 조키야 가카시 요코초(9:00~20:00)에서 케이크와 야키도넛. CenTerrace 15층 전망대에서 가고시마 도심.</td></tr>
+          <tr><td class="t">12:55</td><td class="what"><strong>JR 가고시마추오 → 구루메</strong> <span class="tag move">1시간 7분</span></td><td class="note">규슈 신칸센 사쿠라.</td></tr>
+          <tr><td class="t">15:12</td><td class="what"><strong>JR 구루메 → 히타</strong> <span class="tag move">41분</span></td><td class="note"><strong>유후인노모리</strong>를 한 번 더. 규다이 본선 쾌속도 가능.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>숙소 체크인</strong></td><td class="note">히타역에서 13분. 역에 리바이 병장 동상이 있다.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>Takaraya에서 히타 야키소바와 짬뽕</strong> <span class="tag meal">식사</span></td><td class="note">히타역 주변. 11:00~15:00 / 17:00~21:00.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>미쿠마강 산책과 온천욕</strong> <span class="tag spot">온천</span></td><td class="note">Cafebiyori의 파르페로 디저트. 이번 여행 두 번째 온천.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 8 체크포인트</h3>
+      <ul>
+        <li><strong>오늘은 이동이 절반입니다.</strong> 가고시마에서 히타까지 신칸센과 특급을 갈아타고 두 시간 반이 걸립니다. 지정석은 미리 잡아두세요.</li>
+        <li><strong>숙소 짐 보관이 12시까지만</strong>인 곳이 있습니다. 체크아웃 후 오래 돌아다닐 계획이면 미리 확인하세요.</li>
+        <li>히타는 작은 마을이라 역 주변에서 다 해결됩니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day9">
+    <div class="dayhead"><h2>Day 9 · 자전거로 도는 작은 교토</h2><span class="datebadge">10월 8일 (일)</span></div>
+    <p class="daylead">자전거를 빌려 에도 시대 거리를 돈다. 양조장과 간장 공장을 들르고, 오후엔 구마모토로.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day9 하루 흐름 곡선">
+        <defs><linearGradient id="skyday9" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday9)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#CE4A2A">자전거 대여</text><text x="60" y="118" font-size="10.5" fill="#B4552F">09:00</text><circle cx="200" cy="96" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#B4552F">오전</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#CE4A2A">마메다마치</text><circle cx="330" cy="78" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="330" y="51" font-size="12.5" font-weight="700" fill="#1E3742">쿤쵸 양조장</text><text x="330" y="66" font-size="10.5" fill="#7A9199">오전</text><circle cx="450" cy="75" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="450" y="95" font-size="10.5" fill="#7A9199">점심</text><text x="450" y="110" font-size="12.5" font-weight="700" fill="#9A7430">히타마부시</text><circle cx="590" cy="87" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="590" y="60" font-size="12.5" font-weight="700" fill="#1E3742">구마모토 이동</text><text x="590" y="75" font-size="10.5" fill="#7A9199">오후</text><circle cx="720" cy="113" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="720" y="133" font-size="10.5" fill="#7A9199">저녁</text><text x="720" y="148" font-size="12.5" font-weight="700" fill="#9A7430">고쿠테이라멘</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">사쿠라마치</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 9의 하루 곡선 · 오전은 자전거, 오후는 이동</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">히타 → 구루메 → 구마모토<small>규다이 본선 + 신칸센</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">FAV HOTEL KUMAMOTO<small>2박</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">마메다마치<small>에도 시대 거리를 자전거로</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">09:00</td><td class="what"><strong>관광안내소에서 자전거 대여</strong> <span class="tag move">자전거</span></td><td class="note">히타역 바로 옆, 9:00~17:00. 첫 1시간 300엔, 이후 시간당 200엔, <strong>4시간 넘으면 하루 1,000엔</strong>.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>마메다마치</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">약 2시간. <strong>에도 시대 막부 직할령(天領)으로 번창한 마을</strong>이고, 그때 모습이 그대로 남아 규슈의 작은 교토라 불린다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>쿤쵸 양조장</strong> <span class="tag spot">명소</span></td><td class="note">300년 전통. 사케 시음과 구매 가능.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>히타 간장 히나고텐</strong> <span class="tag meal">간식</span></td><td class="note">창업 170년이 넘은 간장 공장. <strong>간장 소프트아이스크림</strong>을 판다.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>히타마부시 센야</strong> <span class="tag meal">식사</span></td><td class="note">일요일 11:00~18:00. 주말이라 오픈런이 필요할 수 있다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>자전거 반납 후 구마모토로</strong> <span class="tag move">1시간 36분</span></td><td class="note">JR 히타 → 구루메(1시간 5분, 규다이 본선) → 구마모토(31분, 신칸센).</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>숙소 체크인</strong></td><td class="note">구마모토역에서 버스 4정거장 후 도보 3분.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>고쿠테이라멘</strong> <span class="tag meal">식사</span></td><td class="note">11:00~22:00. 아카규동, 타이피엔도 후보.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>사쿠라마치와 쿠마몬 빌리지</strong> <span class="tag spot">선물</span></td><td class="note">2층과 5층. 지하 마트 구경도.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 9 체크포인트</h3>
+      <ul>
+        <li><strong>히타가 에도 시대 막부 직할령이었다는 게 이 거리의 이유</strong>입니다. 영주가 아니라 중앙이 직접 다스린 땅이라 상업이 번창했고, 그 시절 상점 건물이 그대로 남았습니다.</li>
+        <li><strong>자전거는 4시간을 넘기면 하루 요금이 더 쌉니다.</strong> 1,000엔으로 하루 종일 쓰는 게 낫습니다.</li>
+        <li>간장 소프트아이스크림은 생각보다 괜찮습니다. 170년 된 간장 공장에서만 파는 것이라 여기서만 먹을 수 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day10">
+    <div class="dayhead"><h2>Day 10 · 정원과 성</h2><span class="datebadge">10월 9일 (월)</span></div>
+    <p class="daylead">일본 3대 성 중 하나와 다이묘 정원을 하루에 본다. 트램 1일권으로 도는 날.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day10 하루 흐름 곡선">
+        <defs><linearGradient id="skyday10" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday10)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">트램 1일권</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="200" cy="96" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#B4552F">오전</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#CE4A2A">스이젠지 조주엔</text><circle cx="340" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="340" y="51" font-size="12.5" font-weight="700" fill="#9A7430">고킨덴쥬노마</text><text x="340" y="66" font-size="10.5" fill="#7A9199">오전</text><circle cx="470" cy="76" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="470" y="96" font-size="10.5" fill="#7A9199">점심</text><text x="470" y="111" font-size="12.5" font-weight="700" fill="#9A7430">카츠레츠테이</text><circle cx="610" cy="90" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="610" y="63" font-size="12.5" font-weight="700" fill="#CE4A2A">구마모토성</text><text x="610" y="78" font-size="10.5" fill="#B4552F">오후</text><circle cx="730" cy="116" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="730" y="136" font-size="10.5" fill="#7A9199">저녁</text><text x="730" y="151" font-size="12.5" font-weight="700" fill="#9A7430">스시잔마이</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">야타이무라</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 10의 하루 곡선 · 정원에서 성으로, 트램 한 장으로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">트램 1일 이용권<small>구마모토역에서 구매, 9:00~17:30</small></div></div>
+      <div class="sumcard"><div class="k">EAT</div><div class="v">미슐랭 흑돼지 돈카츠<small>카츠레츠테이</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">구마모토성<small>가토 기요마사가 쌓은 일본 3대 성</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>트램 1일 이용권 구매</strong> <span class="tag move">교통</span></td><td class="note">구마모토역. 9:00~17:30.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>스이젠지 조주엔</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">8:30~17:00(입원 16:30까지), 약 1시간. <strong>17세기에 조성된 다이묘 정원</strong>으로, 앉아서 보는 정원이 아니라 연못과 구릉과 다실을 돌면서 전체를 유람하도록 설계된 회유식 정원이다.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>고킨덴쥬노마</strong> <span class="tag meal">디저트</span></td><td class="note">정원 안의 다실. 전경을 보며 녹차와 모찌. 실내 700엔, 실외 600엔.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>카츠레츠테이</strong> <span class="tag meal">식사</span></td><td class="note">11:00~21:30. 미슐랭에 오른 흑돼지 돈카츠. 사쿠라노바바 조사이엔 근처.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>구마모토성</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">9:00~16:30, 약 2시간. <strong>나고야성·오사카성과 함께 일본 3대 성</strong>이고, 도요토미 히데요시의 가신이자 임진왜란 당시 선봉이었던 가토 기요마사가 쌓았다.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>사쿠라노바바 조사이엔</strong> <span class="tag spot">선물</span></td><td class="note">9:00~18:00. 성 옆 관광 상점가. 지역 특산품.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>스시잔마이</strong> <span class="tag meal">식사</span></td><td class="note">히로시마풍 오코노미야키도 후보.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>쿠마모토 야타이무라</strong> <span class="tag spot">선택</span></td><td class="note">12:00~23:00. 일본식 포장마차 거리.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 10 체크포인트</h3>
+      <ul>
+        <li><strong>구마모토성은 2016년 지진 피해 복구가 진행 중</strong>입니다. 구역에 따라 출입이 제한될 수 있으니 현장 안내를 확인하세요.</li>
+        <li><strong>스이젠지는 회유식 정원</strong>입니다. 한자리에 앉아 보는 정원이 아니라 걸으면서 보는 구조라, 한 바퀴 도는 데 한 시간쯤 걸립니다.</li>
+        <li>트램 1일권은 오늘처럼 서너 번 타는 날에 이득입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day11">
+    <div class="dayhead"><h2>Day 11 · 한 명 더 떠나보내고</h2><span class="datebadge">10월 10일 (화)</span></div>
+    <p class="daylead">구마모토 라멘으로 점심을 먹고 신칸센으로 하카타. 오후에 동생이 먼저 귀국한다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day11 하루 흐름 곡선">
+        <defs><linearGradient id="skyday11" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday11)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">체크아웃</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="220" cy="92" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="220" y="112" font-size="10.5" fill="#7A9199">점심</text><text x="220" y="127" font-size="12.5" font-weight="700" fill="#9A7430">고쿠테이라멘</text><circle cx="400" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="400" y="48" font-size="12.5" font-weight="700" fill="#1E3742">신칸센</text><text x="400" y="63" font-size="10.5" fill="#7A9199">12:20</text><circle cx="560" cy="83" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="560" y="103" font-size="10.5" fill="#B4552F">17:10</text><text x="560" y="118" font-size="12.5" font-weight="700" fill="#CE4A2A">동생 귀국 ✈</text><circle cx="720" cy="113" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="720" y="86" font-size="12.5" font-weight="700" fill="#9A7430">신라면</text><text x="720" y="101" font-size="10.5" fill="#7A9199">저녁</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="156" font-size="10.5" fill="#B9C9CE">밤</text><text x="800" y="171" font-size="12.5" font-weight="700" fill="#EAF2F0">짐 정리</text>
+        </g>
+      </svg>
+      <figcaption>Day 11의 하루 곡선 · 다시 후쿠오카로, 그리고 배웅</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">티웨이 후쿠오카 → 인천<small>17:10 출발 · 18:35 도착</small></div></div>
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">구마모토 → 하카타<small>규슈 신칸센 약 40분</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">더 브렉퍼스트 호텔 후쿠오카 텐진<small>2박</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃</strong></td><td class="note">10시 마감.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>고쿠테이라멘</strong> <span class="tag meal">식사</span></td><td class="note">구마모토 라멘으로 마무리.</td></tr>
+          <tr><td class="t">12:20</td><td class="what"><strong>JR 구마모토 → 하카타</strong> <span class="tag move">약 40분</span></td><td class="note">규슈 신칸센. 12:20·12:42·13:17·13:42 편.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>공항으로</strong> <span class="tag move">25분</span></td><td class="note">하카타역 → 공항선 5분 → 국내선터미널 → 무료 셔틀 10분 → 국제선터미널.</td></tr>
+          <tr><td class="t">17:10</td><td class="what"><strong>동생 귀국</strong> ✈ <span class="tag spot">배웅</span></td><td class="note">티웨이, 18:35 인천 도착.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>신라면</strong> <span class="tag meal">식사</span></td><td class="note">긴 여행의 중간 정산 같은 한 끼.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>짐 정리와 출근 준비</strong></td><td class="note">이제 둘만 남는다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 11 체크포인트</h3>
+      <ul>
+        <li><strong>이제 둘입니다.</strong> 1일차 셋으로 시작해 3일차에 넷이 됐다가, 6일차와 11일차에 한 명씩 돌아가 마지막 이틀은 둘이 남습니다.</li>
+        <li>후쿠오카공항은 국내선과 국제선 터미널이 떨어져 있어 셔틀을 한 번 타야 합니다. 배웅할 때 시간을 넉넉히 잡으세요.</li>
+        <li>남은 이틀은 특별한 일정 없이 후쿠오카에서 쉬는 구성입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day12">
+    <div class="dayhead"><h2>Day 12 · 아무 계획 없는 날</h2><span class="datebadge">10월 11일 (수)</span></div>
+    <p class="daylead">12일 동안 돈 뒤의 하루. 일정을 비워두고 텐진 일대를 천천히 걷는다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day12 하루 흐름 곡선">
+        <defs><linearGradient id="skyday12" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday12)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">늦잠</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="260" cy="86" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="260" y="106" font-size="10.5" fill="#7A9199">낮</text><text x="260" y="121" font-size="12.5" font-weight="700" fill="#1E3742">텐진 산책</text><circle cx="460" cy="76" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="460" y="49" font-size="12.5" font-weight="700" fill="#1E3742">쇼핑과 카페</text><text x="460" y="64" font-size="10.5" fill="#7A9199">오후</text><circle cx="660" cy="99" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="660" y="119" font-size="10.5" fill="#7A9199">저녁</text><text x="660" y="134" font-size="12.5" font-weight="700" fill="#9A7430">먹고 싶은 것</text><circle cx="800" cy="136" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="800" y="109" font-size="12.5" font-weight="700" fill="#EAF2F0">짐 싸기</text><text x="800" y="124" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 12의 하루 곡선 · 비워둔 하루</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">전부 도보권<small>텐진 일대</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">더 브렉퍼스트 호텔 후쿠오카 텐진<small></small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">아무것도 안 하기<small>12일을 돌았으면 하루는 비워도 된다</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>늦잠</strong></td><td class="note">열하루를 움직였으니 하루쯤은.</td></tr>
+          <tr><td class="t">낮</td><td class="what"><strong>텐진 일대 산책</strong> <span class="tag spot">여유</span></td><td class="note">지하상가와 백화점. 링고 애플파이, 베이크 치즈 타르트, 프레스 버터 샌드.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>남은 쇼핑과 카페</strong> <span class="tag spot">선물</span></td><td class="note">드럭스토어에서 마지막 보충.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>먹고 싶었던 것</strong> <span class="tag meal">식사</span></td><td class="note">야타이에 가보기 좋은 마지막 밤.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>짐 싸기</strong></td><td class="note">내일 오후 비행기.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 12 체크포인트</h3>
+      <ul>
+        <li><strong>이 날은 원래 계획이 없던 날입니다.</strong> 13일 일정에서 하루를 통째로 비워둔 것이고, 그래서 이 여행이 끝까지 버틸 수 있었습니다.</li>
+        <li>후쿠오카 야타이는 저녁에 섭니다. 텐진과 나카스가 중심입니다.</li>
+        <li>내일은 17:35 비행기라 오전이 남습니다. 짐은 오늘 밤에 싸두는 편이 낫습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day13">
+    <div class="dayhead"><h2>Day 13 · 열이틀 만에 집으로</h2><span class="datebadge">10월 12일 (목)</span></div>
+    <p class="daylead">오후 비행기로 돌아간다. 12박 13일, 규슈를 한 바퀴 돈 여행의 마지막 날.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day13 하루 흐름 곡선">
+        <defs><linearGradient id="skyday13" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday13)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">체크아웃</text><text x="60" y="118" font-size="10.5" fill="#7A9199">오전</text><circle cx="250" cy="87" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="250" y="107" font-size="10.5" fill="#7A9199">점심</text><text x="250" y="122" font-size="12.5" font-weight="700" fill="#9A7430">마지막 한 끼</text><circle cx="450" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="450" y="48" font-size="12.5" font-weight="700" fill="#1E3742">공항 이동</text><text x="450" y="63" font-size="10.5" fill="#7A9199">오후</text><circle cx="650" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="650" y="117" font-size="10.5" fill="#7A9199">17:35</text><text x="650" y="132" font-size="12.5" font-weight="700" fill="#1E3742">이륙 ✈</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">인천 도착</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">19:05</text>
+        </g>
+      </svg>
+      <figcaption>Day 13의 하루 곡선 · 짧게 정리하고 떠난다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">제주항공 후쿠오카 → 인천<small>17:35 출발 · 19:05 도착</small></div></div>
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">텐진 → 공항<small>지하철과 셔틀로 30분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">12박 13일 완주<small>규슈를 한 바퀴</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>체크아웃</strong></td><td class="note"></td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>마지막 한 끼</strong> <span class="tag meal">식사</span></td><td class="note">하카타역이나 공항에서.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>공항으로</strong> <span class="tag move">30분</span></td><td class="note">지하철 공항선 5분, 국내선에서 국제선까지 무료 셔틀 10분.</td></tr>
+          <tr><td class="t">17:35</td><td class="what"><strong>제주항공 후쿠오카 → 인천</strong> ✈ <span class="tag move">1시간 30분</span></td><td class="note">19:05 인천 도착.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 13 체크포인트</h3>
+      <ul>
+        <li><strong>12박 13일, 규슈 거의 전부를 돌았습니다.</strong> 후쿠오카에서 시작해 시모노세키까지 올라갔다가 유후인과 벳푸, 가고시마, 히타, 구마모토를 거쳐 다시 후쿠오카로 돌아왔습니다.</li>
+        <li><strong>JR 큐슈 레일패스 전큐슈 7일권</strong>이 이 동선을 가능하게 했습니다. 신칸센과 특급을 열 번 넘게 탔습니다.</li>
+        <li>동행이 셋 → 넷 → 셋 → 둘로 바뀌는 일정이었습니다. 합류와 배웅이 각각 이틀씩 들어가 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div id="view-guide">
+  <nav class="days" aria-label="주제 선택">
+    <div class="daytab active" data-target="g-concept"><div class="dnum">왜 이렇게 짰나</div><div class="dname">전체 컨셉</div></div>
+    <div class="daytab" data-target="g-fukuoka"><div class="dnum">DAY 1~3, 6, 12~13</div><div class="dname">후쿠오카·기타큐슈</div></div>
+    <div class="daytab" data-target="g-yufuin"><div class="dnum">DAY 4~5</div><div class="dname">유후인·벳푸</div></div>
+    <div class="daytab" data-target="g-minami"><div class="dnum">DAY 7~11</div><div class="dname">남규슈</div></div>
+  </nav>
+
+  <section class="region rvisible" id="g-concept">
+    <div class="dayhead"><h2 style="font-size:23px">전체 컨셉</h2></div>
+
+    <p class="gtext">12박 13일. 후쿠오카를 축으로 삼고 규슈를 시계 반대 방향으로 한 바퀴 돌았다. 동행이 중간에 합류하고 빠지는 일정이라, 합류와 배웅이 가능한 후쿠오카로 몇 번이고 돌아오는 구조가 됐다.</p>
+    <div class="gsub">이 일정의 뼈대</div>
+    <ul class="glist">
+        <li><span class="gname">후쿠오카를 다섯 번 거친 이유</span>공항이 시내에서 지하철로 6분이라 합류와 배웅이 쉽다. 3일차에 한 명이 합류하고, 6일차와 11일차에 한 명씩 돌아가는 일정이라 그때마다 후쿠오카를 거쳐야 했다.</li>
+        <li><span class="gname">JR 큐슈 레일패스 전큐슈 7일권</span>이 동선의 전제다. 하카타에서 시모노세키, 유후인, 벳푸, 가고시마, 히타, 구마모토를 특급과 신칸센으로 오가는데 패스가 없으면 교통비가 감당이 안 된다. 다만 고쿠라행 신칸센처럼 제외되는 구간이 있다.</li>
+        <li><span class="gname">온천을 세 번 넣은 이유</span>유후인 료칸, 벳푸, 히타. 13일을 계속 돌아다니면 체력이 먼저 꺾인다. 사흘에 한 번씩 온천에서 끊어주는 구성으로 긴 여행을 버티게 했다.</li>
+        <li><span class="gname">12일차를 통째로 비운 이유</span>마지막 하루는 일정을 넣지 않았다. 열하루를 움직인 뒤라 쉬는 날이 필요했고, 밀린 일정이 있으면 흡수할 여유분이기도 했다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-fukuoka">
+    <div class="dayhead"><h2 style="font-size:23px">후쿠오카 福岡</h2><span class="datebadge" style="background:var(--sea-mid)">포장마차에서 태어난 음식들</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="하카타의 야타이와 돈코츠 라멘, 매화와 소가 있는 다자이후 텐만구, 모지코 레트로, 그리고 간몬해협의 다리">
+        <defs><linearGradient id="fkSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F3DEC8"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#fkSky)"/>
+
+        <circle cx="792" cy="28" r="10" fill="#F2CE7E" opacity=".8"/>
+        <!-- 간몬해협과 다리 -->
+        <rect x="560" y="112" width="280" height="28" fill="#BBD4D8"/>
+        <g stroke="#A3C3C8" stroke-width="1.5" fill="none" stroke-linecap="round">
+          <path d="M600,128 q9,-5 18,0 q9,5 18,0"/><path d="M740,126 q9,-5 18,0 q9,5 18,0"/>
+        </g>
+        <path d="M560,112 Q700,52 840,112" fill="none" stroke="#9FB3AB" stroke-width="3.4"/>
+        <g stroke="#9FB3AB" stroke-width="2"><line x1="640" y1="82" x2="640" y2="112"/>
+          <line x1="700" y1="70" x2="700" y2="112"/><line x1="760" y1="82" x2="760" y2="112"/></g>
+        <!-- 모지코 레트로 건물 -->
+        <g transform="translate(500,0)">
+          <rect x="-40" y="74" width="80" height="38" fill="#E3D2BA" stroke="#8A6A3E" stroke-width="1.6"/>
+          <path d="M-46,74 h92 l-10,-14 h-72 z" fill="#8A6A3E"/>
+          <g fill="#C8B998"><rect x="-30" y="84" width="12" height="14"/><rect x="-6" y="84" width="12" height="14"/><rect x="18" y="84" width="12" height="14"/></g>
+          <rect x="-6" y="52" width="12" height="9" fill="#B0463A"/>
+        </g>
+        <!-- 다자이후 텐만구: 매화와 소 -->
+        <g transform="translate(300,0)">
+          <path d="M-46,112 h92 v-10 h-92 z" fill="#B0463A"/>
+          <path d="M-52,102 h104 l-12,-13 h-80 z" fill="#8A3F36"/>
+          <g fill="#F0C8CE">
+            <circle cx="-62" cy="80" r="7"/><circle cx="-50" cy="72" r="5.5"/><circle cx="-72" cy="70" r="5.5"/>
+            <circle cx="64" cy="76" r="6.5"/><circle cx="76" cy="68" r="5"/>
+          </g>
+          <g fill="#8A7A5E"><ellipse cx="0" cy="124" rx="17" ry="9"/>
+            <circle cx="16" cy="118" r="7"/><rect x="-12" y="130" width="4" height="8"/><rect x="6" y="130" width="4" height="8"/></g>
+        </g>
+        <!-- 야타이 포장마차 -->
+        <g transform="translate(120,0)">
+          <rect x="-44" y="88" width="88" height="24" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.5"/>
+          <path d="M-52,88 h104 l-8,-10 h-88 z" fill="#B0463A"/>
+          <g fill="#C0392B"><ellipse cx="-30" cy="100" rx="7" ry="9"/><ellipse cx="30" cy="100" rx="7" ry="9"/></g>
+          <rect x="-44" y="112" width="88" height="4" fill="#8A6A3E"/>
+          <g stroke="#8A6A3E" stroke-width="2.4"><line x1="-36" y1="116" x2="-36" y2="140"/><line x1="36" y1="116" x2="36" y2="140"/></g>
+          <g fill="#3A5260"><circle cx="-14" cy="126" r="5"/><rect x="-18" y="131" width="8" height="9" rx="2"/>
+            <circle cx="10" cy="126" r="5"/><rect x="6" y="131" width="8" height="9" rx="2"/></g>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#DCD3BE"/>
+        <g stroke="#CDC3AC" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="230" y1="140" x2="230" y2="170"/><line x1="440" y1="140" x2="440" y2="170"/>
+          <line x1="660" y1="140" x2="660" y2="170"/></g>
+        <!-- 돈코츠 라멘 그릇 -->
+        <g transform="translate(224,144)">
+          <path d="M-22,2 q22,24 44,0 z" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.5"/>
+          <path d="M-22,2 h44" stroke="#7A9199" stroke-width="1.5"/>
+          <path d="M-14,2 q14,7 28,0" fill="none" stroke="#E8DCC2" stroke-width="2.4"/>
+          <rect x="-6" y="-3" width="11" height="6" rx="1.5" fill="#D9B98A"/>
+          <path d="M-8,-9 q4,-7 0,-11 M7,-9 q4,-7 0,-11" fill="none" stroke="#B9C9CE" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <figcaption>하카타의 야타이와 돈코츠 라멘, 매화와 소가 있는 다자이후 텐만구, 모지코 레트로, 그리고 간몬해협의 다리</figcaption>
+    </figure>
+    <p class="gtext">후쿠오카 음식의 상당수가 포장마차에서 나왔다. 돈코츠 라멘도, 모츠나베도 전후 혼란기의 야타이에서 시작했다. 싸고 빠르고 든든한 것이 필요했던 시절의 음식이 지금 이 도시의 간판이 됐다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">돈코츠 라멘의 시작은 구루메</span>1937년 구루메에서 우동집을 하던 미야모토 도키오가 맑은 돼지뼈 국물을 만들어 난킨센료라는 이름의 야타이를 끌었다. 지금의 뽀얗게 흐린 국물은 그 뒤 하카타에서 자리 잡았고, 1940년대 후반 야타이 문화 속에서 탄광 노동자와 시장 사람들을 상대로 퍼졌다.</li>
+        <li><span class="gname">모츠나베는 알루미늄 냄비에서 시작했다</span>패전 직후 철냄비가 없어 알루미늄 냄비에 곱창과 부추를 넣고 간장으로 간해 끓여 먹던 것이 뿌리다. 지금의 모츠나베는 그 모양을 다듬은 것이다.</li>
+        <li><span class="gname">다자이후 텐만구는 학문의 신</span>헤이안 시대의 학자이자 정치가였던 스가와라노 미치자네를 모신다. 중앙에서 밀려나 다자이후로 좌천돼 세상을 떠났고, 이후 천신으로 모셔져 지금은 수험생들이 찾는 곳이 됐다. 경내에 매화가 많은 것도 그가 매화를 아꼈다는 이야기에서 온다.</li>
+        <li><span class="gname">모지코에 바나나맨이 있는 이유</span>일본에 바나나가 처음 들어온 항구가 모지코다. 그래서 항구에 바나나맨 조형물이 서 있고 주변에서 바나나 디저트를 판다. 모지코 레트로 일대의 서양식 건물들은 개항기 무역항 시절의 흔적이다.</li>
+        <li><span class="gname">간몬해협은 규슈와 혼슈 사이</span>시모노세키와 모지코는 해협을 사이에 두고 마주 본다. 배로 5분이면 건너고, 요금은 400엔이다. 역사적으로는 단노우라 전투가 벌어진 바다이기도 하다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">가라토시장은 11시가 분기점</span>그 시간이 넘으면 인파가 몰리고 인기 어종은 매진된다. 같은 어종도 점포마다 두 배 넘게 차이 나니 여러 곳을 보고 사는 게 낫다.</li>
+        <li><span class="gname">블루윙모지는 정각에 열린다</span>10시부터 16시까지 매 정각에 20분씩 다리가 열린다. 그 시간에 맞춰 가야 볼 수 있다.</li>
+        <li><span class="gname">나카스 크루즈는 결제 순서가 좌석 순서</span>예약해도 현장 결제를 늦게 하면 구명조끼 없이 간이 의자에 앉는다. 30분 전에 가서 티켓을 사두는 게 좋다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-yufuin">
+    <div class="dayhead"><h2 style="font-size:23px">유후인과 벳푸 湯布院 · 別府</h2><span class="datebadge" style="background:var(--sea-mid)">일본에서 가장 많은 온천이 솟는 곳</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="물안개 낀 킨린 호수와 유후다케, 료칸의 노천탕, 그리고 김을 뿜는 벳푸의 지옥">
+        <defs><linearGradient id="yfSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E8EEEA"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#yfSky)"/>
+
+        <circle cx="96" cy="30" r="10" fill="#F4F1E6" opacity=".9"/>
+        <!-- 유후다케 쌍봉 -->
+        <path d="M0,130 Q130,30 268,118 L268,130 Z" fill="#AFC3B4"/>
+        <path d="M150,130 Q250,46 350,118 L350,130 Z" fill="#C0D2C2"/>
+        <path d="M118,56 l15,16 -30,0 z" fill="#FBFDFC"/>
+        <!-- 킨린 호수와 물안개 -->
+        <rect x="0" y="118" width="400" height="22" fill="#BBD4D8"/>
+        <g stroke="#A3C3C8" stroke-width="1.4" fill="none" stroke-linecap="round">
+          <path d="M60,130 q9,-5 18,0 q9,5 18,0"/><path d="M230,128 q9,-5 18,0 q9,5 18,0"/>
+        </g>
+        <g stroke="#FBFDFC" stroke-width="3" fill="none" opacity=".75" stroke-linecap="round">
+          <path d="M100,116 q7,-14 0,-26"/><path d="M130,114 q7,-14 0,-26"/><path d="M260,116 q7,-14 0,-24"/>
+        </g>
+        <!-- 료칸 노천탕 -->
+        <g transform="translate(520,0)">
+          <rect x="-66" y="78" width="132" height="34" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.6"/>
+          <path d="M-76,78 h152 l-14,-15 h-124 z" fill="#5C4B36"/>
+          <g fill="#C8B998"><rect x="-50" y="88" width="20" height="16"/><rect x="-10" y="88" width="20" height="16"/><rect x="30" y="88" width="20" height="16"/></g>
+          <rect x="-50" y="118" width="100" height="18" rx="8" fill="#BBD4D8" stroke="#9FB3AB" stroke-width="1.5"/>
+          <g stroke="#FBFDFC" stroke-width="2.6" fill="none" opacity=".8" stroke-linecap="round">
+            <path d="M-26,116 q6,-11 0,-20"/><path d="M0,114 q6,-11 0,-20"/><path d="M26,116 q6,-11 0,-18"/>
+          </g>
+        </g>
+        <!-- 벳푸 지옥: 김 뿜는 웅덩이 -->
+        <g transform="translate(730,0)">
+          <ellipse cx="0" cy="124" rx="48" ry="14" fill="#9FC2C8" stroke="#7FA6AE" stroke-width="1.5"/>
+          <ellipse cx="0" cy="122" rx="30" ry="8" fill="#CBE0E4"/>
+          <g stroke="#FBFDFC" stroke-width="3.2" fill="none" opacity=".85" stroke-linecap="round">
+            <path d="M-22,112 q8,-18 0,-34"/><path d="M4,108 q8,-20 0,-38"/><path d="M28,114 q8,-16 0,-30"/>
+          </g>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#D8DCC8"/>
+        <g stroke="#C9CEB8" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="300" y1="140" x2="300" y2="170"/><line x1="620" y1="140" x2="620" y2="170"/></g>
+      </svg>
+      <figcaption>물안개 낀 킨린 호수와 유후다케, 료칸의 노천탕, 그리고 김을 뿜는 벳푸의 지옥</figcaption>
+    </figure>
+    <p class="gtext">오이타현은 일본에서 온천이 가장 많이 솟는 땅이다. 벳푸는 원천 수와 용출량 모두 전국 1위이고, 유후인은 용출량 전국 3위다. 이틀 동안 이 둘을 연달아 묵는 구성이라 사실상 온천 투어다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">벳푸는 숫자가 압도적이다</span>시에 등록된 원천만 2,200곳이 넘고, 연간 용출량이 전국의 약 10분의 1이다. 땅에서 뜨거운 물과 증기가 너무 많이 나와 도시 곳곳에서 김이 올라온다.</li>
+        <li><span class="gname">지옥은 못 들어가는 온천이다</span>온도와 성분 때문에 몸을 담글 수 없는 원천들을 관광지로 만든 것이 지옥 순례다. 우미지옥은 그중 가장 크고, 1,200년 전 쓰루미다케 분화로 생겼다고 전해진다. 하루에 150만 리터가 솟는다.</li>
+        <li><span class="gname">유후인은 조용한 쪽을 택했다</span>벳푸가 대규모 관광지로 갔다면 유후인은 작은 료칸과 거리 중심으로 남았다. 유후다케 산 아래 분지에 마을이 들어앉아 있고, 아침에는 분지 특성상 물안개가 깔린다.</li>
+        <li><span class="gname">킨린 호수의 이름</span>금빛 비늘 호수(金鱗湖)라는 뜻이다. 노을이 비칠 때 잉어 비늘이 황금빛으로 보인다는 데서 왔다. 온천수가 흘러들어 수온이 높아 아침에 안개가 피어오른다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">킨린 호수는 오전</span>물안개는 이른 아침에만 깔린다. 늦게 가면 그냥 평범한 호수가 된다.</li>
+        <li><span class="gname">료칸 픽업은 미리 신청</span>유후인역에서 걸어서 5~10분이어도 캐리어가 있으면 픽업이 편하다. 도착 전에 연락해 두는 방식이 많다.</li>
+        <li><span class="gname">지옥은 개별 입장료</span>한 곳당 450엔이라 전부 도는 것보다 우미지옥과 가마도지옥 정도만 고르는 편이 낫다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-minami">
+    <div class="dayhead"><h2 style="font-size:23px">가고시마 · 히타 · 구마모토</h2><span class="datebadge" style="background:var(--sea-mid)">화산과 성과 막부 직할령</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="연기를 뿜는 사쿠라지마, 가토 기요마사가 쌓은 구마모토성, 히타 마메다마치의 町家, 그리고 시로쿠마 빙수">
+        <defs><linearGradient id="mkSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F2E0CE"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#mkSky)"/>
+
+        <circle cx="780" cy="28" r="10" fill="#F2CE7E" opacity=".8"/>
+        <!-- 사쿠라지마 화산 -->
+        <g transform="translate(150,0)">
+          <path d="M-96,122 Q0,34 96,122 z" fill="#A8B6A6"/>
+          <path d="M-26,62 h52 l-10,-10 h-32 z" fill="#8E9C8E"/>
+          <g fill="#C7CFC6" opacity=".9">
+            <circle cx="0" cy="40" r="15"/><circle cx="-20" cy="30" r="11"/><circle cx="20" cy="28" r="12"/>
+            <circle cx="2" cy="18" r="10"/>
+          </g>
+          <rect x="-110" y="122" width="220" height="18" fill="#BBD4D8"/>
+        </g>
+        <!-- 구마모토성 -->
+        <g transform="translate(450,0)">
+          <path d="M-70,140 h140 l-20,-30 h-100 z" fill="#9FA8A0"/>
+          <rect x="-44" y="86" width="88" height="24" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.6"/>
+          <path d="M-54,86 h108 l-12,-13 h-84 z" fill="#3A5260"/>
+          <rect x="-30" y="60" width="60" height="14" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.5"/>
+          <path d="M-40,60 h80 l-10,-11 h-60 z" fill="#3A5260"/>
+          <rect x="-16" y="40" width="32" height="10" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.4"/>
+          <path d="M-24,40 h48 l-8,-9 h-32 z" fill="#3A5260"/>
+          <g fill="#3A5260"><path d="M-10,31 q4,-8 -2,-10 q6,0 6,6 z"/><path d="M10,31 q-4,-8 2,-10 q-6,0 -6,6 z"/></g>
+        </g>
+        <!-- 히타 마메다마치 町家 -->
+        <g transform="translate(680,0)">
+          <path d="M-56,96 h112 l-12,-14 h-88 z" fill="#4A4036"/>
+          <rect x="-46" y="96" width="92" height="44" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.5"/>
+          <g stroke="#4A4036" stroke-width="1.3" opacity=".75">
+            <line x1="-32" y1="106" x2="-32" y2="130"/><line x1="-24" y1="106" x2="-24" y2="130"/>
+            <line x1="-16" y1="106" x2="-16" y2="130"/><line x1="-8" y1="106" x2="-8" y2="130"/></g>
+          <rect x="8" y="106" width="30" height="24" fill="#D9CDB0"/>
+          <rect x="-2" y="78" width="10" height="18" fill="#8A6A3E"/>
+        </g>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#DCD3BE"/>
+        <g stroke="#CDC3AC" stroke-width="1.2"><line x1="0" y1="153" x2="840" y2="153"/>
+          <line x1="300" y1="140" x2="300" y2="170"/><line x1="580" y1="140" x2="580" y2="170"/></g>
+        <!-- 시로쿠마 빙수 -->
+        <g transform="translate(300,142)">
+          <path d="M-16,2 q16,24 32,0 z" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.5"/>
+          <path d="M-16,2 h32" stroke="#7A9199" stroke-width="1.5"/>
+          <path d="M-13,0 q13,-18 26,0 z" fill="#FBFDFC" stroke="#CBD8D4" stroke-width="1.2"/>
+          <g fill="#3A5260"><circle cx="-4" cy="-7" r="1.6"/><circle cx="4" cy="-7" r="1.6"/></g>
+          <g fill="#E7A9B4"><circle cx="-9" cy="-3" r="2.4"/><circle cx="9" cy="-3" r="2.4"/></g>
+        </g>
+      </svg>
+      <figcaption>연기를 뿜는 사쿠라지마, 가토 기요마사가 쌓은 구마모토성, 히타 마메다마치의 町家, 그리고 시로쿠마 빙수</figcaption>
+    </figure>
+    <p class="gtext">규슈 남쪽 절반은 성격이 다른 세 도시로 묶인다. 연기를 뿜는 활화산을 마주 보는 가고시마, 에도 막부가 직접 다스렸던 작은 마을 히타, 그리고 일본 3대 성이 있는 구마모토다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">사쿠라지마는 지금도 활화산이다</span>가고시마 시내에서 바다 건너 바로 보이고 페리로 25분이면 닿는다. 1914년 대분화로 흘러나온 용암이 오스미 반도와 섬을 이어붙여, 지금은 엄밀히 말해 섬이 아니다.</li>
+        <li><span class="gname">시로쿠마 빙수의 고향</span>연유를 끼얹고 과일을 올린 빙수가 가고시마에서 시작했다. 위에서 보면 흰 곰 얼굴처럼 보인다고 해서 시로쿠마다. 덴몬칸의 무쟈키가 그 집이다.</li>
+        <li><span class="gname">히타가 작은 교토라 불리는 이유</span>에도 시대에 막부 직할령, 곧 천령(天領)이었다. 영주가 아니라 중앙이 직접 다스린 땅이라 행정과 상업이 번창했고, 그때 지어진 상점 건물들이 마메다마치에 그대로 남았다.</li>
+        <li><span class="gname">구마모토성을 쌓은 사람</span>도요토미 히데요시의 가신이자 임진왜란 당시 일본군 선봉이었던 가토 기요마사가 지었다. 나고야성, 오사카성과 함께 일본 3대 성으로 꼽히고, 급경사로 휘어 오르는 석축이 특징이다.</li>
+        <li><span class="gname">스이젠지는 걸어서 보는 정원</span>17세기에 조성된 다이묘 정원이다. 마루에 앉아 바라보는 좌관식이 아니라, 연못과 구릉과 다실을 배치해 돌면서 전체를 유람하도록 만든 회유식이다. 나무와 돌의 위치가 계산돼 있어 인위적이면서 정갈하다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">웰컴 큐트패스</span>가고시마추오역 관광안내소에서 1인 1,200엔. 페리와 시내 교통이 묶여 있어 사쿠라지마만 왕복해도 본전이다.</li>
+        <li><span class="gname">히타 자전거는 하루 1,000엔</span>첫 1시간 300엔에 이후 시간당 200엔인데, 4시간을 넘기면 하루 요금이 적용된다. 마메다마치를 돌면 금방 넘는다.</li>
+        <li><span class="gname">구마모토는 트램 1일권</span>스이젠지와 구마모토성이 떨어져 있어 서너 번은 타게 된다.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <div class="wave">～ ～ ～</div>
+  후쿠오카 · 유후인 · 벳푸 · 가고시마 · 히타 · 구마모토 · 2023년 가을
+</footer>
+
+</div>
+
+<script>
+  (function(){
+    var tabs = document.querySelectorAll('#view-itinerary .daytab');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-itinerary section.day').forEach(function(s){ s.classList.remove('visible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('visible');
+      });
+    });
+  })();
+  (function(){
+    var rtabs = document.querySelectorAll('#view-guide .daytab');
+    rtabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        rtabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-guide section.region').forEach(function(s){ s.classList.remove('rvisible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('rvisible');
+      });
+    });
+  })();
+  (function(){
+    document.querySelectorAll('.modetab').forEach(function(bt){
+      bt.addEventListener('click', function(){
+        document.querySelectorAll('.modetab').forEach(function(b){ b.classList.remove('active'); });
+        bt.classList.add('active');
+        document.body.classList.toggle('mode-guide', bt.getAttribute('data-view') === 'view-guide');
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    });
+  })();
+</script>
+</body>
+</html>
