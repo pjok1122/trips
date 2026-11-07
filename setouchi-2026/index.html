@@ -232,7 +232,7 @@
     <div class="eyebrow">SETOUCHI · 2026 가을</div>
     <h1>둘이서 세토내해,<br>천천히 <span class="accent">서쪽으로</span></h1>
     <p class="subtitle">오노미치 → 히로시마 → 미야지마 → 도고온천 · 7박 8일 · 9/30(수) – 10/7(수)</p>
-    <div class="dday" id="dday">출발까지 <strong>D-…</strong></div>
+    <div class="dday">7박 8일 · <strong>2026. 9. 30 – 10. 7</strong></div>
   </header>
 
   <div id="view-itinerary">
@@ -3034,17 +3034,6 @@
 </div>
 
 <script>
-  // D-day 계산 (출발일 2026-09-30)
-  (function(){
-    var target = new Date(2026, 8, 30); // month는 0부터
-    var today = new Date();
-    today.setHours(0,0,0,0);
-    var diff = Math.round((target - today) / 86400000);
-    var el = document.getElementById('dday');
-    if (diff > 0) el.innerHTML = '출발까지 <strong>D-' + diff + '</strong>';
-    else if (diff === 0) el.innerHTML = '<strong>오늘 출발!</strong> ✈';
-    else el.innerHTML = '여행 <strong>' + (Math.abs(diff)+1) + '일차</strong>';
-  })();
 
   // 날짜 탭 전환
   (function(){
