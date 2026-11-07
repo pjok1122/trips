@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나고야 4박 5일 — 다카야마·시라카와고·나고야</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-mist:#EAF2F0;      /* 배경: 아침 바다 안개 */
+    --sea-deep:#1E3742;      /* 잉크: 저녁 세토 바다 */
+    --sea-mid:#3E7C8A;       /* 보조: 낮 바다 청록 */
+    --torii:#CE4A2A;         /* 포인트: 이쓰쿠시마 도리이 주홍 */
+    --sand:#C7A45C;          /* 보조 포인트: 노을 모래빛 */
+    --paper:#FBFDFC;         /* 카드 면 */
+    --line:#C9D8D5;          /* 괘선 */
+    --dim:#7A9199;           /* 흐린 글씨 */
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--sea-mist);
+    color:var(--sea-deep);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- 헤더 ---------- */
+  header{padding:52px 0 8px;text-align:center}
+  .eyebrow{
+    font-size:12px;letter-spacing:.35em;color:var(--sea-mid);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(28px,5.4vw,44px);line-height:1.3;
+  }
+  h1 .accent{color:var(--torii)}
+  .subtitle{margin-top:10px;color:var(--dim);font-size:15px}
+  .dday{
+    display:inline-block;margin-top:18px;padding:7px 18px;
+    background:var(--sea-deep);color:var(--sea-mist);
+    border-radius:999px;font-size:13px;letter-spacing:.08em;
+  }
+  .dday strong{color:var(--sand);font-weight:700}
+
+  /* ---------- 항로 지도 ---------- */
+  .routemap{margin:36px 0 8px;background:var(--paper);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 12px 6px;overflow:hidden}
+  .routemap svg{width:100%;height:auto;display:block}
+  .routemap figcaption{
+    text-align:center;font-size:12px;color:var(--dim);
+    padding:6px 0 10px;letter-spacing:.06em;
+  }
+
+  /* ---------- 날짜 탭 ---------- */
+  nav.days{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;padding:22px 2px 6px;
+  }
+  .daytab{
+    min-width:0;text-align:center;
+    padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper);cursor:pointer;user-select:none;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .daytab:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(30,55,66,.10)}
+  .daytab .dnum{font-size:11px;letter-spacing:.18em;color:var(--dim)}
+  .daytab .dname{font-size:13.5px;font-weight:700;margin-top:2px}
+  .daytab.active{
+    background:var(--sea-deep);border-color:var(--sea-deep);color:var(--sea-mist);
+    box-shadow:0 6px 16px rgba(30,55,66,.18);
+  }
+  .daytab.active .dnum{color:var(--sand)}
+  .daytab.soon{opacity:.45}
+  .daytab.soon .dname::after{content:" ·";color:transparent}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .daytab{padding:9px 8px}
+    .daytab .dnum{letter-spacing:.1em}
+  }
+
+  /* ---------- 데이 섹션 ---------- */
+  section.day{margin-top:28px;display:none}
+  section.day.visible{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){section.day.visible{animation:none}}
+  .dayhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .dayhead h2{
+    font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;
+  }
+  .dayhead .datebadge{
+    font-size:13px;color:var(--paper);background:var(--torii);
+    padding:3px 12px;border-radius:999px;letter-spacing:.04em;
+  }
+  .daylead{color:var(--dim);font-size:14.5px;margin-bottom:20px}
+
+  /* 요약 카드 3분할 */
+  .summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;
+  }
+  .sumcard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;
+  }
+  .sumcard .k{font-size:11.5px;letter-spacing:.16em;color:var(--sea-mid);margin-bottom:4px}
+  .sumcard .v{font-size:14.5px;font-weight:700;line-height:1.45}
+  .sumcard .v small{display:block;font-weight:400;color:var(--dim);font-size:12.5px;margin-top:2px}
+
+  /* 이동 다이어그램 */
+  .transit{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 14px 8px;margin-bottom:24px;
+  }
+  .transit h3, .plancard h3{
+    font-size:13px;letter-spacing:.22em;color:var(--sea-mid);
+    margin:0 4px 10px;font-weight:700;
+  }
+  .transit svg{width:100%;height:auto;display:block}
+  .maplink{
+    display:inline-flex;align-items:center;gap:6px;margin:12px 4px 10px;
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;
+    color:var(--paper);background:var(--sea-mid);text-decoration:none;
+    transition:background .15s;
+  }
+  .maplink:hover{background:var(--sea-deep)}
+
+  /* 시간표 */
+  .plancard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 0 6px;margin-bottom:24px;overflow:hidden;
+  }
+  .plancard h3{padding:0 20px}
+  table.sched{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.sched th{
+    text-align:left;font-size:12px;letter-spacing:.12em;color:var(--dim);
+    font-weight:500;padding:10px 14px;border-bottom:1px solid var(--line);
+  }
+  table.sched td{
+    padding:12px 14px;border-bottom:1px solid #E4EDEB;vertical-align:top;
+  }
+  table.sched tr:last-child td{border-bottom:none}
+  td.t{white-space:nowrap;font-weight:700;color:var(--sea-mid);width:74px;
+    font-variant-numeric:tabular-nums}
+  td.what strong{font-weight:700}
+  td.what .tag{
+    display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;
+    margin-left:6px;vertical-align:1px;letter-spacing:.04em;
+  }
+  .tag.move{background:#E3EDF0;color:var(--sea-mid)}
+  .tag.meal{background:#F6E9D8;color:#9A7430}
+  .tag.spot{background:#F4DFD8;color:var(--torii)}
+  td.note{color:var(--dim);font-size:13px;width:34%}
+  @media (max-width:640px){
+    .summary{grid-template-columns:1fr 1fr}
+    td.note{display:none}
+    table.sched td,table.sched th{padding:11px 12px}
+  }
+
+  /* 팁 */
+  .tips{background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+  .tips h3{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin-bottom:10px}
+  .tips ul{list-style:none}
+  .tips li{
+    position:relative;padding:5px 0 5px 22px;font-size:14px;
+  }
+  .tips li::before{
+    content:"";position:absolute;left:2px;top:14px;width:8px;height:8px;
+    border-radius:50%;background:var(--sand);
+  }
+  .tips li strong{color:var(--torii)}
+
+  /* 다음 예고 */
+  .next{
+    border:1.5px dashed var(--line);border-radius:var(--radius);
+    padding:20px;text-align:center;color:var(--dim);font-size:14px;background:transparent;
+  }
+  .next b{color:var(--sea-mid)}
+
+  footer{margin-top:44px;text-align:center;font-size:12px;color:var(--dim);letter-spacing:.08em}
+  footer .wave{color:var(--sea-mid);font-size:14px;letter-spacing:.3em}
+  /* ---------- 모드 탭 (좌측 고정) ---------- */
+  .modetabs{position:fixed;left:0;top:45%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:6px}
+  .modetab{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:18px 10px;border:1px solid #D8E4E1;border-left:none;
+    border-radius:0 12px 12px 0;background:var(--paper);color:var(--dim);
+    font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;letter-spacing:.22em;
+    cursor:pointer;box-shadow:2px 2px 10px rgba(30,55,66,.10);transition:all .2s;
+  }
+  .modetab:hover{color:var(--sea-deep)}
+  .modetab.active{background:var(--sea-deep);color:var(--sea-mist);border-color:var(--sea-deep)}
+  #view-guide{display:none}
+  body.mode-guide #view-itinerary{display:none}
+  body.mode-guide #view-guide{display:block}
+  #view-guide section.region{display:none}
+  #view-guide section.region.rvisible{display:block;animation:fadein .25s ease}
+  .gtext{line-height:1.95;font-size:15px;margin:20px 4px 6px;word-break:keep-all}
+  .gsub{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin:34px 4px 2px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  ul.glist{list-style:none;margin:0 4px;padding:0}
+  ul.glist li{padding:15px 2px;border-bottom:1px dashed var(--line);line-height:1.85;font-size:14.5px;word-break:keep-all}
+  ul.glist li:last-child{border-bottom:none}
+  ul.glist .gname{display:block;font-weight:700;font-size:15.5px;color:var(--torii);margin-bottom:3px}
+  details.photo{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden}
+  details.photo summary{cursor:pointer;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--sea-deep);list-style:none}
+  details.photo summary::-webkit-details-marker{display:none}
+  details.photo summary::before{content:"📷 ";}
+  details.photo img{display:block;width:100%;height:auto}
+  details.photo figcaption{padding:8px 14px;font-size:12px;color:var(--dim)}
+  ul.glist .gname::before{content:"◦ ";color:var(--sand)}
+  @media (max-width:640px){
+    .modetabs{top:auto;bottom:14px;transform:none;left:12px;flex-direction:row;gap:8px}
+    .modetab{writing-mode:horizontal-tb;padding:10px 16px;border-radius:999px;border:1px solid #D8E4E1;letter-spacing:.12em}
+  }
+
+  /* 나고야 전용 보정 */
+  nav.days{grid-template-columns:repeat(5,minmax(0,1fr))}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr))}
+    /* 폰에서는 표를 세로로 쌓아 메모까지 다 보이게 */
+    table.sched thead{display:none}
+    table.sched tr{display:block;padding:12px 0;border-bottom:1px solid #E4EDEB}
+    table.sched tr:last-child{border-bottom:none}
+    table.sched td{display:block;width:auto;border:none;padding:1px 14px}
+    table.sched td.t{width:auto;font-size:12.5px;letter-spacing:.04em}
+    table.sched td.note{display:block;width:auto;margin-top:5px}
+    .summary{grid-template-columns:1fr}
+  }
+  .sumcard .v small{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
+  .tips li.note-src{color:var(--dim);font-size:13px}
+  table.sched td.what{font-size:14.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">NAGOYA · 2026 봄</div>
+  <h1>엄마와 셋이,<br><span class="accent">나고야의 봄</span></h1>
+  <p class="subtitle">나고야 → 다카야마 → 시라카와고 → 나고야 · 4박 5일 · 3/28(토) – 4/1(수)</p>
+  <div class="dday" id="dday">엄마 · 영재 · 영민</div>
+</header>
+
+<nav class="days">
+  <div class="daytab active" data-target="day1"><div class="dnum">DAY 1 · 3/28 토</div><div class="dname">→ 다카야마</div></div>
+  <div class="daytab" data-target="day2"><div class="dnum">DAY 2 · 3/29 일</div><div class="dname">다카야마</div></div>
+  <div class="daytab" data-target="day3"><div class="dnum">DAY 3 · 3/30 월</div><div class="dname">시라카와고</div></div>
+  <div class="daytab" data-target="day4"><div class="dnum">DAY 4 · 3/31 화</div><div class="dname">나고야 벚꽃</div></div>
+  <div class="daytab" data-target="day5"><div class="dnum">DAY 5 · 4/1 수</div><div class="dname">귀국</div></div>
+</nav>
+
+<!-- ============ DAY 1 ============ -->
+<section class="day visible" id="day1">
+  <div class="dayhead">
+    <h2>Day 1 · 이동 이동 이동</h2>
+    <span class="datebadge">3월 28일 (토)</span>
+  </div>
+  <p class="daylead">새벽 3시 20분에 일어나 서울에서 다카야마까지 간다. 오늘은 걷는 날이 아니라 실려 가는 날. 저녁에 스프카레 한 그릇과 온천이면 성공.</p>
+
+  <div class="summary">
+    <div class="sumcard">
+      <div class="k">FLIGHT</div>
+      <div class="v">아시아나 OZ122<small>08:10 인천 → 10:05 나고야 · 22J·24J·26J</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">STAY</div>
+      <div class="v">Hotel and Spa Gift Takayama<small>2박 · 체크인 코드 228285 · 온천세 900엔</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">오늘의 미션</div>
+      <div class="v">히다 프리 티켓 확보<small>공항 JTB에서 3일권 · 이게 있어야 내일모레까지 굴러간다</small></div>
+    </div>
+  </div>
+
+  <div class="plancard">
+    <h3>타임라인</h3>
+    <table class="sched">
+      <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="t">03:20</td><td class="what"><strong>기상 및 이동 준비</strong></td><td class="note">짐은 전날 다 싸두고 충전기·면도기·화장품만 아침에. <strong>알람 20개 이상.</strong></td></tr>
+        <tr><td class="t">04:24</td><td class="what"><strong>집 → 인천공항</strong> <span class="tag move">1시간 50분</span></td><td class="note">중화 6100번 리무진 04:24 → 06:10. 광교는 A8877 시외버스.</td></tr>
+        <tr><td class="t">06:10</td><td class="what"><strong>유심 수령</strong> (엄마)</td><td class="note">제2여객터미널 1층 3번 출구 옆, 06:00~22:00. 예약자 휴대폰번호 확인 후 수령.</td></tr>
+        <tr><td class="t">06:40</td><td class="what"><strong>탑승 수속</strong></td><td class="note">체크인 카운터 G17~J40, 탑승구 258이라 <strong>2번 출국장</strong>이 빠름. Visit Japan Web 미리. 마티나 라운지(법인카드 연 2회 무료).</td></tr>
+        <tr><td class="t">08:10</td><td class="what"><strong>OZ122 인천 → 나고야</strong> ✈ <span class="tag move">2시간 5분</span></td><td class="note">22J 영재 / 24J 엄마 / 26J 영민.</td></tr>
+        <tr><td class="t">10:05</td><td class="what"><strong>중부국제공항 도착</strong>, 입국 수속</td><td class="note">엄마 심 카드 교체.</td></tr>
+        <tr><td class="t">10:20</td><td class="what"><strong>엔화 인출</strong> <span class="tag spot">잊지 말 것</span></td><td class="note">2층 서브웨이 앞 세븐일레븐 ATM, 토스뱅크 카드. 프리 티켓과 뮤스카이만 4만 엔이 넘으니 <strong>10만 엔</strong> 정도.</td></tr>
+        <tr><td class="t">10:30</td><td class="what"><strong>히다 에어리어 프리 티켓 구입</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">JTB Central Japan Travel Center, 공항 2층. Rail &amp; Bus 패키지 <strong>3일권 1인 12,370엔</strong>(3인 37,110엔). JR 히다와 시라카와고 노히 버스 왕복이 다 들어 있다.</td></tr>
+        <tr><td class="t">10:47</td><td class="what"><strong>뮤스카이 → 나고야역</strong> <span class="tag move">28분</span></td><td class="note">메이테쓰 특급. 1인 1,430엔 + <strong>지정석 450엔 별도</strong>(역에서 시간 보고 결제). 10:47 / 11:07 / 11:17 / 11:37.</td></tr>
+        <tr><td class="t">11:30</td><td class="what"><strong>에키벤 점심</strong> <span class="tag meal">식사</span></td><td class="note">1층 JR 중앙 통로 옆 그랜드 키오스크. 대안은 요시다키시멘, 미센(닭날개·타이완라멘), 야바톤 에스카점.</td></tr>
+        <tr><td class="t">12:48</td><td class="what"><strong>JR 히다 → 다카야마</strong> <span class="tag move">2시간 26분</span></td><td class="note">특급 히다. <strong>진행 방향 오른쪽 D열</strong>이 히다강 절경.</td></tr>
+        <tr><td class="t">15:14</td><td class="what"><strong>다카야마역 → 숙소</strong> <span class="tag move">도보 7분</span></td><td class="note"></td></tr>
+        <tr><td class="t">15:30</td><td class="what"><strong>숙소 체크인</strong> (Gift Takayama)</td><td class="note">체크인 코드 228285. 온천 06:00~10:00 / 13:00~00:00, 온천세 1인 1박 150엔(총 900엔).</td></tr>
+        <tr><td class="t">16:00</td><td class="what"><strong>노히 버스 실물 티켓 교환</strong> <span class="tag spot">잊지 말 것</span></td><td class="note">다카야마 노히 버스센터. 프리 티켓에 포함된 시라카와고 왕복 교환권을 실물로. <strong>내일모레 탈 07:50 버스는 비예약 선착순</strong>이라 시간도 함께 확인.</td></tr>
+        <tr><td class="t">16:20</td><td class="what"><strong>나카바시 공원</strong> <span class="tag spot">명소</span></td><td class="note">숙소에서 도보 10분. 붉은 나카바시 다리가 있는 미야가와 강변 공원.</td></tr>
+        <tr><td class="t">16:40</td><td class="what"><strong>산마치스지</strong> <span class="tag spot">명소</span></td><td class="note">도보 3분, 45분쯤. 작은 교토라 불리는 구시가. 히다규 스시, 미타라시 당고 같은 간식과 기념품.</td></tr>
+        <tr><td class="t">17:40</td><td class="what"><strong>후나사카 양조장</strong> <span class="tag spot">선택</span></td><td class="note">08:30~18:00. 술잔 가챠를 뽑아 시음. 작은 병은 선물용으로. 여유 없으면 내일 가도 된다.</td></tr>
+        <tr><td class="t">19:00</td><td class="what"><strong>저녁 스프카레</strong> <span class="tag meal">식사</span></td><td class="note">SoupCurry TAMA(スープカリーたま), 12:00~19:00. 양조장에서 도보 13분. <strong>예약을 받지 않아 워크인</strong>이고 좌석이 10석뿐. 자리 없으면 테이크아웃.</td></tr>
+        <tr><td class="t">21:00</td><td class="what"><strong>온천욕 후 일찍 취침</strong></td><td class="note">13:00~00:00. 잠을 제대로 못 자고 왔으니 일찍 자고 내일 새벽에 일어나는 쪽이 낫다.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tips">
+    <h3>DAY 1 체크포인트</h3>
+    <ul>
+      <li><strong>히다 에어리어 프리 티켓이 이 여행의 축입니다.</strong> JR 히다 특급(나고야↔다카야마 왕복)과 시라카와고 노히 버스 왕복이 3일권 하나에 묶여 있어요. 공항 2층 JTB에서 사고, 실물 티켓 교환은 각 역·버스센터에서 따로 합니다.</li>
+      <li><strong>노히 버스는 비예약 선착순입니다.</strong> 시라카와고행 07:50 / 08:10 / 09:35, 다카야마행 12:35 / 13:30. 교환권이 있어도 자리를 보장하지 않으니 일찍 줄 서야 합니다.</li>
+      <li><strong>스프카레는 예약이 막혀 있습니다.</strong> 한국인 노쇼가 잦아 예약을 받지 않는다고 해요. 좌석 10석에 4인 이상 단체는 못 받는데 셋이라 괜찮습니다. 19시 마감이라 늦으면 테이크아웃으로 돌리세요.</li>
+      <li>JR 히다는 <strong>진행 방향 오른쪽 D열</strong>이 히다강 쪽입니다. 지정석 고를 때 참고하세요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DAY 2 ============ -->
+<section class="day" id="day2">
+  <div class="dayhead">
+    <h2>Day 2 · 다카야마에 머무는 날</h2>
+    <span class="datebadge">3월 29일 (일)</span>
+  </div>
+  <p class="daylead">이동이 없는 유일한 날. 아침시장에서 주워 먹고, 사람 없는 산마치스지를 걷고, 히다규를 먹고, 온천에 두 번 들어간다.</p>
+
+  <div class="summary">
+    <div class="sumcard">
+      <div class="k">MOVE</div>
+      <div class="v">전부 도보권<small>숙소에서 산마치스지 10분, 히에 신사까지 22분</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">EAT</div>
+      <div class="v">히다규 호바미소 · 다카야마 라멘<small>아침은 아침시장 타베아루키</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">오늘의 미션</div>
+      <div class="v">사람 없는 아침의 산마치스지<small>8시 이전에만 볼 수 있는 얼굴</small></div>
+    </div>
+  </div>
+
+  <div class="plancard">
+    <h3>타임라인</h3>
+    <table class="sched">
+      <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="t">06:00</td><td class="what"><strong>아침 온천욕</strong> <span class="tag spot">선택</span></td><td class="note">06:00~10:00. 희망자만.</td></tr>
+        <tr><td class="t">07:00</td><td class="what"><strong>이른 아침 산마치스지</strong> <span class="tag spot">선택</span></td><td class="note">숙소에서 도보 10분. <strong>8시 이전이라야 사람이 없습니다.</strong> 이른 아침은 추우니 겉옷.</td></tr>
+        <tr><td class="t">07:30</td><td class="what"><strong>나카바시 공원</strong> <span class="tag spot">선택</span></td><td class="note">도보 3분. 온 김에 사람 없는 나카바시도.</td></tr>
+        <tr><td class="t">08:00</td><td class="what"><strong>미야가와 아침시장에서 아침</strong> <span class="tag meal">식사</span></td><td class="note">도보 9분. <strong>12시까지만</strong> 여는 로컬 시장. 히다규 스시, 푸딩, 당고, 꼬치, 우유. 호바미소와 미소시루용 미소가 맛있다는 후기.</td></tr>
+        <tr><td class="t">09:00</td><td class="what"><strong>산마치스지</strong> <span class="tag spot">명소</span></td><td class="note">도보 7분. 어제 못 본 골목들.</td></tr>
+        <tr><td class="t">10:00</td><td class="what"><strong>다카야마 거리 구경</strong> <span class="tag spot">여유</span></td><td class="note">시간이 뜨는 구간. 골목이나 미야가와 강변을 따라 걷다 카페에서 쉬어도 좋다.</td></tr>
+        <tr><td class="t">12:00</td><td class="what"><strong>점심 호바미소 히다규</strong> <span class="tag meal">식사</span></td><td class="note">사카구치야, 11:00~14:30. <strong>웨이팅이 있으니 12시까지는 가서 줄</strong>. 히다규 스테이크 소바 정식도.</td></tr>
+        <tr><td class="t">13:30</td><td class="what"><strong>다카야마 진야</strong> <span class="tag spot">명소</span></td><td class="note">도보 5분, 08:45~16:30, 45~60분. 1인 440엔(3인 1,320엔). 1692년 에도 막부 직할 행정청으로 세워져 1969년까지 관청으로 쓰이다 박물관이 된 건물.</td></tr>
+        <tr><td class="t">14:40</td><td class="what"><strong>KAWAMURA에서 커피</strong> <span class="tag meal">디저트</span></td><td class="note">도보 11분, 11:00~18:00. 히에 신사 바로 앞 카페. 케이크도 있음.</td></tr>
+        <tr><td class="t">15:40</td><td class="what"><strong>히에 신사</strong> <span class="tag spot">명소</span></td><td class="note">도보 5분, 45~60분. <strong>너의 이름은 배경지</strong>로 쓰인 신사.</td></tr>
+        <tr><td class="t">17:00</td><td class="what"><strong>숙소 복귀, 온천욕</strong></td><td class="note">도보 22분. 13:00~00:00.</td></tr>
+        <tr><td class="t">19:00</td><td class="what"><strong>저녁 다카야마 라멘</strong> <span class="tag meal">식사</span></td><td class="note">Ramen M, 17:30~20:00, 숙소에서 도보 7분. 현대적인 스타일. 예비 선택지는 전통 스타일의 츠즈미 소바.</td></tr>
+        <tr><td class="t">20:30</td><td class="what"><strong>숙소 복귀, 캐리어 미리 싸기</strong></td><td class="note">내일 오전에 이동하니 짐은 오늘 밤에. <strong>편의점에서 내일 아침거리</strong>도 사두기.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tips">
+    <h3>DAY 2 체크포인트</h3>
+    <ul>
+      <li><strong>아침시장은 12시에 닫습니다.</strong> 크게 기대할 정도는 아니지만 한 번쯤 볼 만하고, 아침을 여기서 때우는 구성이라 늦으면 아침을 놓칩니다.</li>
+      <li><strong>산마치스지는 두 번 갑니다.</strong> 어제 저녁에 한 번, 오늘 이른 아침에 한 번. 같은 거리인데 사람 수가 완전히 달라요.</li>
+      <li>히에 신사까지 걸어갔다 돌아오면 왕복 45분입니다. 체력 보고 택시도 고려하세요.</li>
+      <li><strong>내일은 7시 50분 버스입니다.</strong> 비예약 선착순이라 아침에 서두르게 되니, 캐리어는 오늘 밤에 닫고 아침거리도 미리 사두는 게 낫습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DAY 3 ============ -->
+<section class="day" id="day3">
+  <div class="dayhead">
+    <h2>Day 3 · 시라카와고, 그리고 나고야</h2>
+    <span class="datebadge">3월 30일 (월)</span>
+  </div>
+  <p class="daylead">새벽 버스로 갓쇼즈쿠리 마을에 선빵을 친다. 오후엔 특급을 타고 도시로 내려와, 밤의 나고야 야경으로 마무리.</p>
+
+  <div class="summary">
+    <div class="sumcard">
+      <div class="k">MOVE</div>
+      <div class="v">버스 + 특급 + 지하철<small>다카야마 → 시라카와고 → 다카야마 → 나고야</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">STAY</div>
+      <div class="v">Hotel Keihan Nagoya 2박<small>히사야오도리역 도보 4분</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">오늘의 미션</div>
+      <div class="v">07:50 버스 선점<small>비예약 선착순 · 관광객 몰리기 전에</small></div>
+    </div>
+  </div>
+
+  <div class="plancard">
+    <h3>타임라인</h3>
+    <table class="sched">
+      <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="t">06:00</td><td class="what"><strong>기상, 온천욕</strong> <span class="tag spot">선택</span></td><td class="note">이른 아침 시라카와고는 <strong>5도 미만</strong>이니 방한 신경 쓸 것.</td></tr>
+        <tr><td class="t">07:00</td><td class="what"><strong>체크아웃 &amp; 짐 보관</strong></td><td class="note">체크아웃 마감 11시. 짐은 숙소에 맡기고 간다.</td></tr>
+        <tr><td class="t">07:45</td><td class="what"><strong>숙소 → 노히 버스센터</strong> <span class="tag move">3분</span></td><td class="note"></td></tr>
+        <tr><td class="t">07:50</td><td class="what"><strong>시라카와고행 버스</strong> <span class="tag move">약 50분</span></td><td class="note"><strong>비예약 선착순.</strong> 다음 편은 08:10, 09:35. 07:50이 관광객 몰리기 전에 도착하는 유일한 편.</td></tr>
+        <tr><td class="t">08:40</td><td class="what"><strong>시라카와고 전망대</strong> <span class="tag spot">명소</span></td><td class="note">터미널에서 도보 17분(셔틀버스도 있음), 체류 20분. 전망대에 화장실 있음.</td></tr>
+        <tr><td class="t">09:30</td><td class="what"><strong>갓쇼즈쿠리 마을</strong> <span class="tag spot">명소</span></td><td class="note">전망대에서 내려와 도보 13분.</td></tr>
+        <tr><td class="t">10:00</td><td class="what"><strong>칸다 가옥(Kanda House)</strong> <span class="tag spot">명소</span></td><td class="note">30분, 1인 400엔(3인 1,200엔). 내부 관람 가능한 가옥 중 <strong>4층까지 올라갈 수 있는 곳</strong>.</td></tr>
+        <tr><td class="t">10:40</td><td class="what"><strong>시라카와 하치만 신사</strong> <span class="tag spot">선택</span></td><td class="note">25분. 동선에 있어 들르는 정도.</td></tr>
+        <tr><td class="t">11:10</td><td class="what"><strong>쇼가와 강변 산책 &amp; 푸딩</strong> <span class="tag meal">간식</span></td><td class="note">Shirakawago Purin no Ie. 커스타드·말차 푸딩과 아이스크림이 맛있다는 평. 물푸딩은 예쁘지만 맛은 평범. <strong>관광객 몰리면 줄이 길어지니 일찍</strong>.</td></tr>
+        <tr><td class="t">11:40</td><td class="what"><strong>카페에서 쉬기</strong> <span class="tag meal">디저트</span></td><td class="note">30분. Hanamizuki Shirakawa(커피·녹차·팥죽·케이크) 또는 분카킷사 쿄슈(바움쿠헨·레모네이드).</td></tr>
+        <tr><td class="t">12:35</td><td class="what"><strong>다카야마행 버스</strong> <span class="tag move">약 50분</span></td><td class="note">이 편도 <strong>비예약</strong>이라 미리 가서 줄. 다음은 13:30.</td></tr>
+        <tr><td class="t">13:40</td><td class="what"><strong>점심 두부요리</strong> <span class="tag meal">식사</span></td><td class="note">두부요리 노구치야(とうふ料理 のぐちや), 10:00~14:30, 버스센터에서 도보 12분. 모리아와세 정식 2,500엔 / 두유나베 정식 1,800엔 / 두부 정식 1,600엔.</td></tr>
+        <tr><td class="t">15:00</td><td class="what"><strong>숙소에서 짐 찾고 다카야마역</strong> <span class="tag move">도보 7분</span></td><td class="note"></td></tr>
+        <tr><td class="t">15:31</td><td class="what"><strong>JR 히다 → 나고야</strong> <span class="tag move">2시간 32분</span></td><td class="note">18:06 도착. 한 편 앞인 14:43은 점심과 짐 찾기까지 하기엔 너무 빠듯하다.</td></tr>
+        <tr><td class="t">18:19</td><td class="what"><strong>사쿠라도리선 → 히사야오도리역</strong> <span class="tag move">4분</span></td><td class="note">1인 210엔(3인 630엔). 18:19 / 18:25 / 18:31.</td></tr>
+        <tr><td class="t">18:40</td><td class="what"><strong>숙소 체크인</strong> (Hotel Keihan Nagoya)</td><td class="note">역에서 도보 4분. 열차가 밀리면 숙소를 건너뛰고 노라덴으로 직행해도 된다.</td></tr>
+        <tr><td class="t">19:30</td><td class="what"><strong>저녁 핫쵸미소 오뎅</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">노라덴, 17:00~22:30. 숙소에서 도보 12분. 구글 예약 완료(Youngjae Park).</td></tr>
+        <tr><td class="t">21:00</td><td class="what"><strong>히사야오도리 공원 밤 산책</strong> <span class="tag spot">야경</span></td><td class="note">노라덴에서 도보 7분. 미라이 타워와 오아시스 21. <strong>물의 우주선 유리 지붕</strong>에 올라가면 미라이 타워 야경 사진이 잘 나온다. NAKED SAKURA TOWER 기간이라 타워 외관에 벚꽃색 조명(18:30~22:00).</td></tr>
+        <tr><td class="t">22:00</td><td class="what"><strong>숙소 복귀, 빨래</strong></td><td class="note">도보 11분. 오는 길에 드럭스토어나 편의점. <strong>이 타이밍에 빨래 한 번.</strong> 다카야마·시라카와고에서 입은 겨울옷은 할 필요 없고 속옷·양말·티셔츠면 충분. 하브스 사카에본점(11:00~21:00)이 가까우니 테이크아웃도.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tips">
+    <h3>DAY 3 체크포인트</h3>
+    <ul>
+      <li><strong>오늘의 전부는 07:50 버스입니다.</strong> 양방향 모두 비예약 선착순이라, 이 버스를 놓치면 다음이 08:10이고 그만큼 관광객과 섞입니다. 체크아웃과 짐 보관을 07:00에 끝내두는 이유가 이것입니다.</li>
+      <li><strong>시라카와고는 춥습니다.</strong> 3월 말 이른 아침 5도 미만. 다카야마보다 한 겹 더 입으세요.</li>
+      <li><strong>돌아오는 버스도 선착순</strong>입니다. 12:35를 놓치면 13:30인데, 그러면 점심과 15:31 특급이 연쇄로 밀립니다.</li>
+      <li>오늘부터 도시입니다. 겨울옷은 캐리어 깊숙이 넣고 가벼운 옷만 꺼내두세요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DAY 4 ============ -->
+<section class="day" id="day4">
+  <div class="dayhead">
+    <h2>Day 4 · 벚꽃 벚꽃 벚꽃</h2>
+    <span class="datebadge">3월 31일 (화)</span>
+  </div>
+  <p class="daylead">나고야에서 하루를 통째로 쓰는 날. 킷사텐 모닝으로 시작해 츠루마 공원 벚꽃 터널을 걷고, 해 질 녘 미라이 타워에 올라 벚꽃을 내려다본다.</p>
+
+  <div class="summary">
+    <div class="sumcard">
+      <div class="k">MOVE</div>
+      <div class="v">지하철 1일권 생각해볼 것<small>1회 210엔 · 오늘만 네 번 탄다</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">EAT</div>
+      <div class="v">오구라 토스트 · 타이완라멘 · 히츠마부시<small>나고야 메시 몰아치기</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">오늘의 미션</div>
+      <div class="v">미라이 타워 일몰<small>일몰 18:13 · 30분 전 입장</small></div>
+    </div>
+  </div>
+
+  <div class="plancard">
+    <h3>타임라인</h3>
+    <table class="sched">
+      <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="t">08:00</td><td class="what"><strong>기상 및 준비</strong></td><td class="note"></td></tr>
+        <tr><td class="t">08:30</td><td class="what"><strong>아침 오구라 토스트</strong> <span class="tag meal">식사</span></td><td class="note">킷사나나반, 숙소에서 도보 7분. 킷사텐 모닝 세트는 <strong>음료값만 내면 토스트가 따라옵니다</strong>. A세트(음료·버터토스트·바나나·계란샐러드) 음료 가격, B세트(소시지·샐러드) +200엔, <strong>오구라(팥) 추가 200엔</strong>. 블렌드 커피 400~580엔.</td></tr>
+        <tr><td class="t">09:30</td><td class="what"><strong>후시미역 → 쓰루마이역</strong> <span class="tag move">6분</span></td><td class="note">쓰루마이선. 1인 210엔(3인 630엔).</td></tr>
+        <tr><td class="t">09:45</td><td class="what"><strong>츠루마 공원</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">2시간 내외. 쓰루마이역 5분 거리 <strong>분수대 기준 남쪽이 벚꽃 터널 구간</strong>(대칭 구도라 사진이 잘 나옴). 남쪽 메인 라인을 먼저 찍고 북쪽 라인을 천천히 산책. <strong>야타이는 11시 이후</strong> 오픈.</td></tr>
+        <tr><td class="t">11:50</td><td class="what"><strong>쓰루마이역 → 가미마에즈역</strong> <span class="tag move">1분</span></td><td class="note">1인 210엔. 내려서 미센까지 도보 8분.</td></tr>
+        <tr><td class="t">12:30</td><td class="what"><strong>점심 타이완라멘</strong> <span class="tag meal">식사</span></td><td class="note">미센 야바점, 11:30~13:30 / 17:00~00:30. 마파두부, 닭날개, 교자도 함께.</td></tr>
+        <tr><td class="t">13:30</td><td class="what"><strong>오스상점가</strong> <span class="tag spot">선택</span></td><td class="note">점심 먹고 구경하고 싶으면. 츠루마 공원에서 일찍 나왔다면 점심 전에 들러도 된다.</td></tr>
+        <tr><td class="t">15:00</td><td class="what"><strong>랄프스 커피</strong> <span class="tag meal">디저트</span></td><td class="note">나고야 히사야오도리 파크점, 미센에서 도보 18분. <strong>미라이 타워가 보이는 카페</strong>.</td></tr>
+        <tr><td class="t">16:00</td><td class="what"><strong>히사야오도리 공원</strong> <span class="tag spot">명소</span></td><td class="note">타워 아래 공원. 오아시스 21 유리 지붕에서 벚꽃과 타워를 같이 볼 수 있다.</td></tr>
+        <tr><td class="t">17:40</td><td class="what"><strong>중부전력 미라이 타워 전망대</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">10:00~21:00, 1층 티켓 카운터. <strong>일몰 18:13이니 30분 전에 올라갈 것.</strong> 노을에 물드는 벚꽃과 일몰 직후 벚꽃길을 다 볼 수 있다. 1인 1,800엔(3인 5,400엔), <strong>NAKED SAKURA TOWER 기간 500엔 인상</strong>. 18:30~21:00 벚꽃 테마 프로젝션.</td></tr>
+        <tr><td class="t">19:30</td><td class="what"><strong>사카에역 → 후시미역</strong> <span class="tag move">2분</span></td><td class="note">히가시야마선, 1인 210엔. 내려서 식당까지 도보 4분.</td></tr>
+        <tr><td class="t">20:00</td><td class="what"><strong>저녁 히츠마부시</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">우나우 오카후지, 11:00~14:30 / 17:00~22:00. 90분 예상. 구글 예약 완료(Youngjae Park).</td></tr>
+        <tr><td class="t">21:40</td><td class="what"><strong>드럭스토어 쇼핑</strong> <span class="tag spot">선물</span></td><td class="note">히사야오도리 공원 주변에 많다. 오늘 안 하면 내일 오전에 쫓긴다.</td></tr>
+        <tr><td class="t">22:30</td><td class="what"><strong>숙소 복귀, 짐 정리</strong></td><td class="note">도보 18분. 아침에 분주하기 싫으면 캐리어를 미리 정리하고 내일 쓸 것만 꺼내둘 것. <strong>이후 안 입을 옷은 엄마 캐리어로</strong> 옮겨두기.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tips">
+    <h3>DAY 4 체크포인트</h3>
+    <ul>
+      <li><strong>오늘 지하철을 네 번 탑니다.</strong> 1회 210엔이니 3인 기준 왕복만 해도 금방 쌓입니다. 역에서 1일 승차권 가격을 한 번 비교해 보세요.</li>
+      <li><strong>미라이 타워는 시간 싸움입니다.</strong> 일몰이 18:13이라 17:40에 올라가야 노을과 야경을 다 봅니다. 벚꽃 기간 요금이 500엔 올라 1인 1,800엔입니다.</li>
+      <li><strong>킷사텐 모닝은 음료값만 받습니다.</strong> 나고야 특유의 문화라 커피 한 잔 값에 토스트와 계란이 딸려 나옵니다. 오구라(팥) 추가가 나고야식.</li>
+      <li>츠루마 공원 야타이는 밤이 제일 분위기 좋은데, 오늘 저녁은 히츠마부시 예약이 있어 재방문이 어렵습니다. 낮에 충분히 보고 오세요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DAY 5 ============ -->
+<section class="day" id="day5">
+  <div class="dayhead">
+    <h2>Day 5 · 나고야성, 그리고 각자의 길</h2>
+    <span class="datebadge">4월 1일 (수)</span>
+  </div>
+  <p class="daylead">마지막 날 오전은 나고야성 해자를 따라 걷는다. 점심에 미소카츠를 먹고, 나고야역에서 엄마와 영재는 공항으로, 영민은 히로시마로 갈라진다.</p>
+
+  <div class="summary">
+    <div class="sumcard">
+      <div class="k">FLIGHT</div>
+      <div class="v">아시아나 나고야 → 인천<small>19:10 출발 · 21:10 도착 · 엄마, 영재</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">MOVE</div>
+      <div class="v">영민은 히로시마로<small>신칸센 노조미 · 14,810엔</small></div>
+    </div>
+    <div class="sumcard">
+      <div class="k">오늘의 미션</div>
+      <div class="v">나고야성 해자 벚꽃<small>성 안쪽보다 바깥 라인</small></div>
+    </div>
+  </div>
+
+  <div class="plancard">
+    <h3>타임라인</h3>
+    <table class="sched">
+      <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td class="t">08:00</td><td class="what"><strong>기상 및 이동 준비</strong></td><td class="note">놓고 가는 짐 없는지 다시 확인. 세면도구, 화장품, 충전기, 어댑터, 케이블.</td></tr>
+        <tr><td class="t">09:00</td><td class="what"><strong>체크아웃 &amp; 짐 보관</strong></td><td class="note">오후에 다시 들러 찾는다.</td></tr>
+        <tr><td class="t">09:20</td><td class="what"><strong>히사야오도리역 → 나고야조역</strong> <span class="tag move">1분</span></td><td class="note">메이조선, 1인 210엔. 숙소에서 역까지 도보 9분.</td></tr>
+        <tr><td class="t">09:30</td><td class="what"><strong>나고야성</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">2시간, 1인 500엔(3인 1,500엔). <strong>동문에서 시작해 해자 바깥으로 반시계 방향.</strong> 성 내부로 들어가는 것보다 바깥 라인이 벚꽃 보기엔 낫다는 평이 많다. 안쪽 진입 여부는 현장 판단.</td></tr>
+        <tr><td class="t">11:00</td><td class="what"><strong>메이조 공원</strong> <span class="tag spot">명소</span></td><td class="note">나고야성 북동쪽에서 그대로 이어진다. 해자를 따라 돌다 공원 안쪽까지.</td></tr>
+        <tr><td class="t">11:40</td><td class="what"><strong>나고야조역 → 야바초역</strong> <span class="tag move">5분</span></td><td class="note">메이조선 좌측 순환, 1인 210엔. 내려서 식당까지 도보 6분.</td></tr>
+        <tr><td class="t">12:00</td><td class="what"><strong>점심 미소카츠</strong> <span class="tag meal">식사</span></td><td class="note">라무치이, 11:00~15:00 / 17:30~22:00. <strong>11시 정각에 가도 웨이팅은 있을 가능성</strong>이 높고 30분 이내로 예상. 예비 후보는 야바톤 야바쵸본점.</td></tr>
+        <tr><td class="t">13:30</td><td class="what"><strong>드럭스토어 쇼핑</strong> <span class="tag spot">선물</span></td><td class="note">어제 못 끝냈으면 여기서. 히사야오도리 공원 주변에 몰려 있다.</td></tr>
+        <tr><td class="t">14:30</td><td class="what"><strong>숙소에서 짐 찾기</strong></td><td class="note">히사야오도리역까지 도보 8분.</td></tr>
+        <tr><td class="t">15:00</td><td class="what"><strong>나고야역</strong> <span class="tag move">5분</span></td><td class="note">사쿠라도리선, 1인 210엔. <strong>피요링</strong>(1층, 병아리 머리 모양 나고야 한정 푸딩)과 요시다키시멘의 키시멘이 마지막 쇼핑.</td></tr>
+        <tr><td class="t">15:59</td><td class="what"><strong>[엄마·영재] 나고야역 → 중부국제공항</strong> <span class="tag move">약 40분</span></td><td class="note">메이테쓰 특급. 1인 980엔. 15:59 / 16:18 / 16:29 중 선택.</td></tr>
+        <tr><td class="t">15:59</td><td class="what"><strong>[영민] 나고야역 → 히로시마역</strong> <span class="tag move">신칸센</span></td><td class="note">도카이도·산요 신칸센 노조미(하카타행, 환승 없음). 14,810엔.</td></tr>
+        <tr><td class="t">19:10</td><td class="what"><strong>아시아나 나고야 → 인천</strong> ✈</td><td class="note">21:10 인천 도착. 기내식이 저녁.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tips">
+    <h3>DAY 5 체크포인트</h3>
+    <ul>
+      <li><strong>나고야성은 바깥을 도는 게 핵심입니다.</strong> 천수각 내부보다 해자를 따라 도는 라인이 벚꽃 풍경이 좋다는 평입니다. 동문에서 반시계 방향으로 돌면 그대로 메이조 공원까지 이어집니다.</li>
+      <li><strong>미소카츠는 웨이팅을 각오하세요.</strong> 11시 오픈에 맞춰 가도 줄이 있고 30분쯤 봅니다. 공항 가는 시간이 정해져 있으니 길어지면 야바톤으로 돌리는 게 낫습니다.</li>
+      <li>영민은 나고야역에서 히로시마로 갈라집니다. <strong>작별 인사는 나고야역에서.</strong></li>
+      <li>공항 가는 메이테쓰 특급은 15:59 / 16:18 / 16:29 세 편이 있습니다. 19:10 비행이라 어느 편을 타도 여유가 있습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 지출 ============ -->
+<div class="plancard" style="margin-top:36px">
+  <h3>지출 정산</h3>
+  <table class="sched">
+    <thead><tr><th>분류</th><th>사전 결제 (원화)</th><th>현지 (엔화)</th></tr></thead>
+    <tbody>
+      <tr><td class="what">항공</td><td class="what">706,600원</td><td class="what">–</td></tr>
+      <tr><td class="what">숙박</td><td class="what">972,616원</td><td class="what">2,100엔 <span style="color:var(--dim)">(온천세·숙박세)</span></td></tr>
+      <tr><td class="what">교통</td><td class="what">–</td><td class="what">43,920엔</td></tr>
+      <tr><td class="what">음식</td><td class="what">–</td><td class="what">31,271엔</td></tr>
+      <tr><td class="what">쇼핑</td><td class="what">–</td><td class="what">3,000엔</td></tr>
+      <tr><td class="what">관광</td><td class="what">–</td><td class="what">1,200엔</td></tr>
+      <tr><td class="what">생활</td><td class="what">22,000원</td><td class="what">–</td></tr>
+      <tr><td class="what"><strong>합계</strong></td><td class="what"><strong>1,701,216원</strong></td><td class="what"><strong>81,491엔</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="tips" style="margin-top:20px">
+  <h3>지출 메모</h3>
+  <ul>
+    <li><strong>교통비의 대부분이 히다 에어리어 프리 티켓</strong>입니다. 37,110엔으로 교통 지출 43,920엔의 85%예요. JR 히다 왕복과 시라카와고 버스 왕복이 여기 다 들어 있습니다.</li>
+    <li>숙박은 아고다 사전 결제로 다카야마 2박 624,252원, 나고야 2박 348,364원. 항공은 참좋은여행에서 1인 280,200원씩 3인.</li>
+    <li>현지 지출 81,491엔은 3인 합계이고, 이 중 음식이 31,271엔으로 가장 큽니다.</li>
+    <li class="note-src">출처는 노션 지갑 DB 33건.</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="wave">～ ～ ～</div>
+  나고야 · 다카야마 · 시라카와고 · 2026년 봄
+</footer>
+
+</div>
+
+<script>
+  (function(){
+    var tabs = document.querySelectorAll('.daytab');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('section.day').forEach(function(s){ s.classList.remove('visible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('visible');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
