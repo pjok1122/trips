@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제주 6박 7일 — 2025년 4월 워케이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-mist:#EAF2F0;      /* 배경: 아침 바다 안개 */
+    --sea-deep:#1E3742;      /* 잉크: 저녁 세토 바다 */
+    --sea-mid:#3E7C8A;       /* 보조: 낮 바다 청록 */
+    --torii:#CE4A2A;         /* 포인트: 이쓰쿠시마 도리이 주홍 */
+    --sand:#C7A45C;          /* 보조 포인트: 노을 모래빛 */
+    --paper:#FBFDFC;         /* 카드 면 */
+    --line:#C9D8D5;          /* 괘선 */
+    --dim:#7A9199;           /* 흐린 글씨 */
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--sea-mist);
+    color:var(--sea-deep);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px}
+
+  /* ---------- 헤더 ---------- */
+  header{padding:52px 0 8px;text-align:center}
+  .eyebrow{
+    font-size:12px;letter-spacing:.35em;color:var(--sea-mid);
+    text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(28px,5.4vw,44px);line-height:1.3;
+  }
+  h1 .accent{color:var(--torii)}
+  .subtitle{margin-top:10px;color:var(--dim);font-size:15px}
+  .dday{
+    display:inline-block;margin-top:18px;padding:7px 18px;
+    background:var(--sea-deep);color:var(--sea-mist);
+    border-radius:999px;font-size:13px;letter-spacing:.08em;
+  }
+  .dday strong{color:var(--sand);font-weight:700}
+
+  /* ---------- 항로 지도 ---------- */
+  .routemap{margin:36px 0 8px;background:var(--paper);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 12px 6px;overflow:hidden}
+  .routemap svg{width:100%;height:auto;display:block}
+  .routemap figcaption{
+    text-align:center;font-size:12px;color:var(--dim);
+    padding:6px 0 10px;letter-spacing:.06em;
+  }
+
+  /* ---------- 날짜 탭 ---------- */
+  nav.days{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;padding:22px 2px 6px;
+  }
+  .daytab{
+    min-width:0;text-align:center;
+    padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper);cursor:pointer;user-select:none;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .daytab:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(30,55,66,.10)}
+  .daytab .dnum{font-size:11px;letter-spacing:.18em;color:var(--dim)}
+  .daytab .dname{font-size:13.5px;font-weight:700;margin-top:2px}
+  .daytab.active{
+    background:var(--sea-deep);border-color:var(--sea-deep);color:var(--sea-mist);
+    box-shadow:0 6px 16px rgba(30,55,66,.18);
+  }
+  .daytab.active .dnum{color:var(--sand)}
+  .daytab.soon{opacity:.45}
+  .daytab.soon .dname::after{content:" ·";color:transparent}
+  @media (max-width:640px){
+    nav.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .daytab{padding:9px 8px}
+    .daytab .dnum{letter-spacing:.1em}
+  }
+
+  /* ---------- 데이 섹션 ---------- */
+  section.day{margin-top:28px;display:none}
+  section.day.visible{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){section.day.visible{animation:none}}
+  .dayhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .dayhead h2{
+    font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;
+  }
+  .dayhead .datebadge{
+    font-size:13px;color:var(--paper);background:var(--torii);
+    padding:3px 12px;border-radius:999px;letter-spacing:.04em;
+  }
+  .daylead{color:var(--dim);font-size:14.5px;margin-bottom:20px}
+
+  /* 요약 카드 3분할 */
+  .summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;
+  }
+  .sumcard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;
+  }
+  .sumcard .k{font-size:11.5px;letter-spacing:.16em;color:var(--sea-mid);margin-bottom:4px}
+  .sumcard .v{font-size:14.5px;font-weight:700;line-height:1.45}
+  .sumcard .v small{display:block;font-weight:400;color:var(--dim);font-size:12.5px;margin-top:2px}
+
+  /* 이동 다이어그램 */
+  .transit{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 14px 8px;margin-bottom:24px;
+  }
+  .transit h3, .plancard h3{
+    font-size:13px;letter-spacing:.22em;color:var(--sea-mid);
+    margin:0 4px 10px;font-weight:700;
+  }
+  .transit svg{width:100%;height:auto;display:block}
+  .maplink{
+    display:inline-flex;align-items:center;gap:6px;margin:12px 4px 10px;
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;
+    color:var(--paper);background:var(--sea-mid);text-decoration:none;
+    transition:background .15s;
+  }
+  .maplink:hover{background:var(--sea-deep)}
+
+  /* 시간표 */
+  .plancard{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 0 6px;margin-bottom:24px;overflow:hidden;
+  }
+  .plancard h3{padding:0 20px}
+  table.sched{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.sched th{
+    text-align:left;font-size:12px;letter-spacing:.12em;color:var(--dim);
+    font-weight:500;padding:10px 14px;border-bottom:1px solid var(--line);
+  }
+  table.sched td{
+    padding:12px 14px;border-bottom:1px solid #E4EDEB;vertical-align:top;
+  }
+  table.sched tr:last-child td{border-bottom:none}
+  td.t{white-space:nowrap;font-weight:700;color:var(--sea-mid);width:74px;
+    font-variant-numeric:tabular-nums}
+  td.what strong{font-weight:700}
+  td.what .tag{
+    display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;
+    margin-left:6px;vertical-align:1px;letter-spacing:.04em;
+  }
+  .tag.move{background:#E3EDF0;color:var(--sea-mid)}
+  .tag.meal{background:#F6E9D8;color:#9A7430}
+  .tag.spot{background:#F4DFD8;color:var(--torii)}
+  td.note{color:var(--dim);font-size:13px;width:34%}
+  @media (max-width:640px){
+    .summary{grid-template-columns:1fr 1fr}
+    td.note{display:none}
+    table.sched td,table.sched th{padding:11px 12px}
+  }
+
+  /* 팁 */
+  .tips{background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+  .tips h3{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin-bottom:10px}
+  .tips ul{list-style:none}
+  .tips li{
+    position:relative;padding:5px 0 5px 22px;font-size:14px;
+  }
+  .tips li::before{
+    content:"";position:absolute;left:2px;top:14px;width:8px;height:8px;
+    border-radius:50%;background:var(--sand);
+  }
+  .tips li strong{color:var(--torii)}
+
+  /* 다음 예고 */
+  .next{
+    border:1.5px dashed var(--line);border-radius:var(--radius);
+    padding:20px;text-align:center;color:var(--dim);font-size:14px;background:transparent;
+  }
+  .next b{color:var(--sea-mid)}
+
+  footer{margin-top:44px;text-align:center;font-size:12px;color:var(--dim);letter-spacing:.08em}
+  footer .wave{color:var(--sea-mid);font-size:14px;letter-spacing:.3em}
+  /* ---------- 모드 탭 (좌측 고정) ---------- */
+  .modetabs{position:fixed;left:0;top:45%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:6px}
+  .modetab{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:18px 10px;border:1px solid #D8E4E1;border-left:none;
+    border-radius:0 12px 12px 0;background:var(--paper);color:var(--dim);
+    font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;letter-spacing:.22em;
+    cursor:pointer;box-shadow:2px 2px 10px rgba(30,55,66,.10);transition:all .2s;
+  }
+  .modetab:hover{color:var(--sea-deep)}
+  .modetab.active{background:var(--sea-deep);color:var(--sea-mist);border-color:var(--sea-deep)}
+  #view-guide{display:none}
+  body.mode-guide #view-itinerary{display:none}
+  body.mode-guide #view-guide{display:block}
+  #view-guide section.region{display:none}
+  #view-guide section.region.rvisible{display:block;animation:fadein .25s ease}
+  .gtext{line-height:1.95;font-size:15px;margin:20px 4px 6px;word-break:keep-all}
+  .gsub{font-size:13px;letter-spacing:.22em;color:var(--sea-mid);margin:34px 4px 2px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+  ul.glist{list-style:none;margin:0 4px;padding:0}
+  ul.glist li{padding:15px 2px;border-bottom:1px dashed var(--line);line-height:1.85;font-size:14.5px;word-break:keep-all}
+  ul.glist li:last-child{border-bottom:none}
+  ul.glist .gname{display:block;font-weight:700;font-size:15.5px;color:var(--torii);margin-bottom:3px}
+  details.photo{margin:10px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden}
+  details.photo summary{cursor:pointer;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--sea-deep);list-style:none}
+  details.photo summary::-webkit-details-marker{display:none}
+  details.photo summary::before{content:"📷 ";}
+  details.photo img{display:block;width:100%;height:auto}
+  details.photo figcaption{padding:8px 14px;font-size:12px;color:var(--dim)}
+  ul.glist .gname::before{content:"◦ ";color:var(--sand)}
+  @media (max-width:640px){
+    .modetabs{top:auto;bottom:14px;transform:none;left:12px;flex-direction:row;gap:8px}
+    .modetab{writing-mode:horizontal-tb;padding:10px 16px;border-radius:999px;border:1px solid #D8E4E1;letter-spacing:.12em}
+  }
+
+  nav.days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #view-guide nav.days{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .sumcard .v small{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
+  @media (max-width:640px){
+    nav.days,#view-guide nav.days{grid-template-columns:repeat(2,minmax(0,1fr))}
+    table.sched thead{display:none}
+    table.sched tr{display:block;padding:12px 0;border-bottom:1px solid #E4EDEB}
+    table.sched tr:last-child{border-bottom:none}
+    table.sched td{display:block;width:auto;border:none;padding:1px 14px}
+    table.sched td.t{width:auto;font-size:12.5px;letter-spacing:.04em}
+    table.sched td.note{display:block;width:auto;margin-top:5px}
+    .summary{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<nav class="modetabs" aria-label="보기 전환">
+  <button class="modetab active" data-view="view-itinerary">일정 🏯</button>
+  <button class="modetab" data-view="view-guide">이야기 📖</button>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">JEJU · 2025 봄</div>
+  <h1>일하다가,<br><span class="accent">섬을 한 바퀴</span></h1>
+  <p class="subtitle">제주시 → 중문 → 가파도 → 애월 · 6박 7일 · 4/20(일) – 4/26(토)</p>
+  <div class="dday">둘이서 · 2025년 봄 워케이션</div>
+</header>
+
+<div id="view-itinerary">
+  <figure class="routemap">
+    <svg viewBox="0 0 840 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="제주 한 바퀴 전체 동선">
+      <defs><linearGradient id="jjSea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#D8E8EB"/><stop offset="100%" stop-color="#C6DCE1"/>
+      </linearGradient></defs>
+      <rect x="0" y="0" width="840" height="330" fill="url(#jjSea)"/>
+      <g stroke="#B2CED5" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8">
+        <path d="M40,60 q10,-6 20,0 q10,6 20,0"/><path d="M740,70 q10,-6 20,0 q10,6 20,0"/>
+        <path d="M60,290 q10,-6 20,0 q10,6 20,0"/><path d="M700,300 q10,-6 20,0 q10,6 20,0"/>
+      </g>
+      <!-- 제주 본섬 -->
+      <path d="M150,170 Q210,88 420,80 Q630,88 692,170 Q630,254 420,264 Q210,254 150,170 Z" fill="#E7EDE2" stroke="#C3D4C6" stroke-width="2"/>
+      <!-- 한라산 -->
+      <path d="M352,196 Q420,118 490,196 Z" fill="#CBDCC9"/>
+      <path d="M404,152 q16,-16 34,0 q-17,-6 -34,0z" fill="#F4F7F5"/>
+      <text x="421" y="214" font-size="11" fill="#8AA09A" text-anchor="middle" letter-spacing="2">한 라 산</text>
+      <!-- 동선 -->
+      <path d="M252,146 Q300,126 352,132" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path d="M252,146 Q292,210 356,238" fill="none" stroke="#CE4A2A" stroke-width="2.8"/>
+      <path d="M356,238 Q420,250 468,232" fill="none" stroke="#CE4A2A" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path d="M356,238 Q286,208 232,178" fill="none" stroke="#CE4A2A" stroke-width="2.8"/>
+      <!-- 노드 -->
+      <circle cx="252" cy="146" r="7.5" fill="#CE4A2A"/>
+      <circle cx="352" cy="132" r="6" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+      <circle cx="356" cy="238" r="7.5" fill="#CE4A2A"/>
+      <circle cx="468" cy="232" r="6" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+      <circle cx="232" cy="178" r="6" fill="#FBFDFC" stroke="#CE4A2A" stroke-width="2.4"/>
+      <!-- 라벨 -->
+      <text x="252" y="106" font-size="14" font-weight="700" fill="#CE4A2A" text-anchor="middle">제주시 · 3박</text>
+      <text x="252" y="122" font-size="11.5" fill="#7A9199" text-anchor="middle">DAY 1~3 · 맹그로브</text>
+      <text x="388" y="124" font-size="11.5" fill="#7A9199">김녕 · 서우봉</text>
+      <text x="356" y="276" font-size="14" font-weight="700" fill="#CE4A2A" text-anchor="middle">중문 · 2박</text>
+      <text x="356" y="292" font-size="11.5" fill="#7A9199" text-anchor="middle">DAY 4~5 · 산방산과 가파도</text>
+      <text x="492" y="236" font-size="11.5" fill="#7A9199">가파도</text>
+      <text x="196" y="196" font-size="11.5" fill="#7A9199" text-anchor="end">애월 · 한림</text>
+      <text x="196" y="210" font-size="11.5" fill="#7A9199" text-anchor="end">DAY 6</text>
+    </svg>
+    <figcaption>여행 전체 동선 · 앞 사흘은 제주시에서 일하고, 뒤 사흘은 섬을 돌았다</figcaption>
+  </figure>
+
+  <nav class="days" aria-label="날짜 선택">
+    <div class="daytab active" data-target="day1"><div class="dnum">DAY 1 · 4/20 일</div><div class="dname">동문시장</div></div>
+    <div class="daytab" data-target="day2"><div class="dnum">DAY 2 · 4/21 월</div><div class="dname">김녕과 서우봉</div></div>
+    <div class="daytab" data-target="day3"><div class="dnum">DAY 3 · 4/22 화</div><div class="dname">업무일</div></div>
+    <div class="daytab" data-target="day4"><div class="dnum">DAY 4 · 4/23 수</div><div class="dname">산방산·용머리</div></div>
+    <div class="daytab" data-target="day5"><div class="dnum">DAY 5 · 4/24 목</div><div class="dname">가파도</div></div>
+    <div class="daytab" data-target="day6"><div class="dnum">DAY 6 · 4/25 금</div><div class="dname">애월 해안</div></div>
+    <div class="daytab" data-target="day7"><div class="dnum">DAY 7 · 4/26 토</div><div class="dname">귀국</div></div>
+  </nav>
+
+  <section class="day visible" id="day1">
+    <div class="dayhead"><h2>Day 1 · 섬에 도착하는 저녁</h2><span class="datebadge">4월 20일 (일)</span></div>
+    <p class="daylead">오후 비행기로 들어와 숙소에 짐을 풀고, 순댓국과 카이막으로 시작해 동문시장 야시장까지.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day1 하루 흐름 곡선">
+        <defs><linearGradient id="skyday1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F4F0E2"/><stop offset="44%" stop-color="#F4E0C4"/><stop offset="78%" stop-color="#35505C"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday1)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">집 출발</text><text x="60" y="118" font-size="10.5" fill="#7A9199">12:30</text><circle cx="220" cy="92" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="220" y="112" font-size="10.5" fill="#7A9199">15:05</text><text x="220" y="127" font-size="12.5" font-weight="700" fill="#1E3742">김포 → 제주 ✈</text><circle cx="390" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="390" y="48" font-size="12.5" font-weight="700" fill="#1E3742">맹그로브 체크인</text><text x="390" y="63" font-size="10.5" fill="#7A9199">17:20</text><circle cx="560" cy="83" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="560" y="103" font-size="10.5" fill="#C9B48A">18:00</text><text x="560" y="118" font-size="12.5" font-weight="700" fill="#EBCB92">성공식당 순댓국</text><circle cx="680" cy="104" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="680" y="77" font-size="12.5" font-weight="700" fill="#EBCB92">시소카이막</text><text x="680" y="92" font-size="10.5" fill="#C9B48A">19:00</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">동문시장 야시장</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">21:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 1의 하루 곡선 · 낮에 떠나 밤의 시장까지</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">김포 → 제주<small>15:05 출발 · 16:20 도착</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">맹그로브 제주<small>3박 · 제주시 동문시장 근처</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">동문시장 야시장<small>1945년 광복과 함께 생긴 제주 최대 시장</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>집 → 숙소</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="집 → 숙소">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">광교중앙</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">김포공항</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">제주공항</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">맹그로브 제주</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚌 1시간 30분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">✈ 1시간 15분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚕 1시간</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">첫날은 이동만 다섯 시간이라 저녁 일정을 가볍게 잡았다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">12:30</td><td class="what"><strong>광교중앙 → 김포공항</strong> <span class="tag move">1시간 30분</span></td><td class="note"></td></tr>
+          <tr><td class="t">15:05</td><td class="what"><strong>김포 → 제주</strong> ✈ <span class="tag move">1시간 15분</span></td><td class="note">16:20 도착.</td></tr>
+          <tr><td class="t">16:20</td><td class="what"><strong>제주공항 → 맹그로브 제주</strong> <span class="tag move">1시간</span></td><td class="note"></td></tr>
+          <tr><td class="t">17:20</td><td class="what"><strong>체크인과 숙소 구경</strong></td><td class="note">코리빙 숙소라 공용 라운지와 주방을 한 번 둘러본다.</td></tr>
+          <tr><td class="t">18:00</td><td class="what"><strong>성공 식당 순댓국</strong> <span class="tag meal">식사</span></td><td class="note">09:00~21:00.</td></tr>
+          <tr><td class="t">19:00</td><td class="what"><strong>시소카이막</strong> <span class="tag meal">디저트</span></td><td class="note">09:00~20:00. 식당에서 걸어서 금방.</td></tr>
+          <tr><td class="t">19:15</td><td class="what"><strong>동문시장 야시장</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">야시장은 저녁에 열린다. 천혜향은 택배로 부칠 수 있다.</td></tr>
+          <tr><td class="t">21:00</td><td class="what"><strong>숙소 복귀</strong></td><td class="note"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 1 체크포인트</h3>
+      <ul>
+        <li><strong>첫날은 이동이 대부분입니다.</strong> 광교에서 집을 나와 숙소에 짐을 푸는 데까지 다섯 시간입니다. 저녁 일정은 숙소 근처로만 잡는 편이 편합니다.</li>
+        <li><strong>동문시장은 제주시 숙소의 가장 큰 장점입니다.</strong> 걸어서 갈 수 있는 거리에 야시장이 매일 서기 때문에, 늦게 도착한 날의 저녁 문제가 해결됩니다.</li>
+        <li>천혜향·한라봉은 들고 다니지 말고 시장에서 바로 택배로 부치는 쪽이 낫습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day2">
+    <div class="dayhead"><h2>Day 2 · 일하고, 해 지는 오름</h2><span class="datebadge">4월 21일 (월)</span></div>
+    <p class="daylead">오전에 일하고 오후에 차를 빌려 동쪽으로. 김녕 바다를 걷고 서우봉에서 해가 지는 걸 본다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day2 하루 흐름 곡선">
+        <defs><linearGradient id="skyday2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="46%" stop-color="#F4F0E2"/><stop offset="82%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#35505C"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday2)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">기상</text><text x="60" y="118" font-size="10.5" fill="#7A9199">09:45</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">11:00</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">고집돌우럭</text><circle cx="340" cy="78" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="340" y="51" font-size="12.5" font-weight="700" fill="#1E3742">업무</text><text x="340" y="66" font-size="10.5" fill="#7A9199">13:00</text><circle cx="480" cy="77" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="480" y="97" font-size="10.5" fill="#7A9199">16:00</text><text x="480" y="112" font-size="12.5" font-weight="700" fill="#1E3742">김녕 해수욕장</text><circle cx="620" cy="92" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="620" y="65" font-size="12.5" font-weight="700" fill="#9A7430">해녀촌 회국수</text><text x="620" y="80" font-size="10.5" fill="#7A9199">16:40</text><circle cx="790" cy="133" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#F3A890">서우봉 노을</text><text x="790" y="121" font-size="10.5" fill="#E0917C">18:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 2의 하루 곡선 · 책상에서 시작해 노을로 끝난다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">WORK</div><div class="v">오후 두 시간<small>13:00~15:00 숙소에서</small></div></div>
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">쏘카<small>15:10~20:00 대여</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">서우봉 노을<small>함덕 옆 오름, 한 시간이면 충분</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>제주시 → 동부</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="제주시 → 동부">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">맹그로브</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">쏘카 스테이션</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">김녕 해수욕장</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">서우봉</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚶 픽업</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 약 40분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚗 15분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">쏘카 반납이 20시라 노을까지 보고 바로 복귀한다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">09:45</td><td class="what"><strong>기상 및 준비</strong></td><td class="note"></td></tr>
+          <tr><td class="t">11:00</td><td class="what"><strong>고집돌우럭 제주공항점</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">2인. 갈치조림과 고등어구이.</td></tr>
+          <tr><td class="t">12:30</td><td class="what"><strong>산책 후 숙소 복귀</strong></td><td class="note"></td></tr>
+          <tr><td class="t">13:00</td><td class="what"><strong>업무</strong> <span class="tag spot">워케이션</span></td><td class="note">숙소 라운지에서 두 시간.</td></tr>
+          <tr><td class="t">15:00</td><td class="what"><strong>쏘카 픽업</strong> <span class="tag move">15:10~20:00</span></td><td class="note">반납 시각을 기준으로 뒤 일정을 짠다.</td></tr>
+          <tr><td class="t">16:00</td><td class="what"><strong>김녕 해수욕장 산책</strong> <span class="tag spot">명소</span></td><td class="note">에메랄드빛 얕은 바다.</td></tr>
+          <tr><td class="t">16:40</td><td class="what"><strong>해녀촌</strong> <span class="tag meal">식사</span></td><td class="note"><strong>19:00 마감.</strong> 회국수.</td></tr>
+          <tr><td class="t">17:45</td><td class="what"><strong>서우봉 등반과 노을</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">함덕해수욕장 동쪽 오름. 왕복 한 시간.</td></tr>
+          <tr><td class="t">18:45</td><td class="what"><strong>맹그로브 복귀</strong> <span class="tag move">약 1시간</span></td><td class="note"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 2 체크포인트</h3>
+      <ul>
+        <li><strong>쏘카 반납 시각이 하루의 마감입니다.</strong> 20시 반납이면 노을까지 보고 바로 돌아와야 합니다. 동부에서 제주시까지 한 시간을 빼고 계산하세요.</li>
+        <li><strong>해녀촌은 19시에 닫습니다.</strong> 제주 동부 식당은 저녁 영업이 일찍 끝나는 곳이 많아, 노을을 보고 먹으려다 굶기 쉽습니다. 밥을 먼저 먹고 오름에 오르는 순서가 안전합니다.</li>
+        <li>서우봉은 길이 잘 닦여 있어 운동화면 충분합니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day3">
+    <div class="dayhead"><h2>Day 3 · 온전히 일하는 하루</h2><span class="datebadge">4월 22일 (화)</span></div>
+    <p class="daylead">차 없이 숙소 반경에서 보내는 날. 점심은 말고기, 저녁은 동문시장 고기국수.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day3 하루 흐름 곡선">
+        <defs><linearGradient id="skyday3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="46%" stop-color="#F4F0E2"/><stop offset="82%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#35505C"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday3)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">기상</text><text x="60" y="118" font-size="10.5" fill="#7A9199">아침</text><circle cx="240" cy="89" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="240" y="109" font-size="10.5" fill="#7A9199">점심</text><text x="240" y="124" font-size="12.5" font-weight="700" fill="#9A7430">말고기연구소</text><circle cx="430" cy="75" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="430" y="48" font-size="12.5" font-weight="700" fill="#1E3742">업무</text><text x="430" y="63" font-size="10.5" fill="#7A9199">10:30~16:00</text><circle cx="620" cy="92" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="620" y="112" font-size="10.5" fill="#7A9199">저녁</text><text x="620" y="127" font-size="12.5" font-weight="700" fill="#9A7430">동진식당 고기국수</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EAF2F0">동문시장</text><text x="790" y="121" font-size="10.5" fill="#B9C9CE">밤</text>
+        </g>
+      </svg>
+      <figcaption>Day 3의 하루 곡선 · 일하는 날의 평평한 선</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">WORK</div><div class="v">하루 종일<small>10:30~16:00</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">맹그로브 제주<small>마지막 밤</small></div></div>
+      <div class="sumcard"><div class="k">EAT</div><div class="v">고기국수<small>동진식당 동문시장점</small></div></div>
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">오전</td><td class="what"><strong>기상 및 업무 준비</strong></td><td class="note">차 없는 날이라 일정이 숙소 반경 안에 있다.</td></tr>
+          <tr><td class="t">점심</td><td class="what"><strong>말고기연구소</strong> <span class="tag meal">식사</span></td><td class="note">제주에서만 먹을 수 있는 메뉴로.</td></tr>
+          <tr><td class="t">10:30~16:00</td><td class="what"><strong>업무</strong> <span class="tag spot">워케이션</span></td><td class="note">오늘은 온전히 일하는 날.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>동진식당 고기국수 동문시장점</strong> <span class="tag meal">식사</span></td><td class="note">08:00~19:00.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>동문시장 야시장</strong> <span class="tag spot">야시장</span></td><td class="note">오메기떡과 과일.</td></tr>
+          <tr><td class="t">밤</td><td class="what"><strong>짐 싸기</strong></td><td class="note">내일 중문으로 옮긴다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 3 체크포인트</h3>
+      <ul>
+        <li><strong>워케이션은 일하는 날과 노는 날을 섞지 않는 편이 낫습니다.</strong> 반나절 일하고 반나절 돌아다니면 둘 다 어정쩡해집니다. 차를 아예 빌리지 않은 날을 하루 두는 게 효율적이었습니다.</li>
+        <li><strong>동진식당은 19시에 닫습니다.</strong> 저녁을 늦게 먹을 생각이면 다른 곳을 봐야 합니다.</li>
+        <li>내일은 체크아웃하고 바로 서쪽으로 움직이니 짐은 오늘 밤에 싸둡니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day4">
+    <div class="dayhead"><h2>Day 4 · 섬에서 가장 오래된 바위</h2><span class="datebadge">4월 23일 (수)</span></div>
+    <p class="daylead">중문으로 숙소를 옮기는 날. 산방산 아래 유채밭을 보고 용머리 해안을 걷는다.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day4 하루 흐름 곡선">
+        <defs><linearGradient id="skyday4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#DCE9E4"/><stop offset="40%" stop-color="#F4F0E2"/><stop offset="76%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday4)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">기상</text><text x="60" y="118" font-size="10.5" fill="#7A9199">08:30</text><circle cx="190" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="190" y="117" font-size="10.5" fill="#7A9199">10:00</text><text x="190" y="132" font-size="12.5" font-weight="700" fill="#1E3742">쏘카 픽업</text><circle cx="330" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="330" y="51" font-size="12.5" font-weight="700" fill="#9A7430">소규모식탁</text><text x="330" y="66" font-size="10.5" fill="#7A9199">11:20</text><circle cx="470" cy="76" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="470" y="96" font-size="10.5" fill="#B4552F">13:00</text><text x="470" y="111" font-size="12.5" font-weight="700" fill="#CE4A2A">산방산 유채꽃</text><circle cx="610" cy="90" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="610" y="63" font-size="12.5" font-weight="700" fill="#CE4A2A">용머리 해안</text><text x="610" y="78" font-size="10.5" fill="#B4552F">13:30</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EBCB92">숙성도 중문점</text><text x="790" y="121" font-size="10.5" fill="#C9B48A">17:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 4의 하루 곡선 · 제주시를 떠나 남서쪽으로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">쏘카 3일<small>수요일부터 금요일까지</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">콤마 앤 리조트<small>2박 · 중문</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">용머리 해안<small>제주에서 가장 오래된 화산체</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>제주시 → 중문</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="제주시 → 중문">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="240" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="240" y1="52" x2="400" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="400" y1="52" x2="560" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="560" y1="52" x2="720" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">맹그로브</text><circle cx="240" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="240" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">쏘카 스테이션</text><circle cx="400" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="400" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">소규모식탁</text><circle cx="560" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="560" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">산방산</text><circle cx="720" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="720" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">콤마 앤 리조트</text><text x="160" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚕 택시 30분</text><text x="320" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 1시간 20분</text><text x="480" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 16분</text><text x="640" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚗 11분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">체크아웃하고 바로 서쪽으로 내려간다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">08:30</td><td class="what"><strong>기상 및 체크아웃</strong></td><td class="note"></td></tr>
+          <tr><td class="t">09:30</td><td class="what"><strong>맹그로브 → 쏘카 스테이션</strong> <span class="tag move">택시 30분</span></td><td class="note"></td></tr>
+          <tr><td class="t">10:00</td><td class="what"><strong>베이커블 들러 소규모식탁으로</strong> <span class="tag move">1시간 20분</span></td><td class="note"></td></tr>
+          <tr><td class="t">11:20</td><td class="what"><strong>소규모식탁</strong> <span class="tag meal">식사</span></td><td class="note">11:00~15:00.</td></tr>
+          <tr><td class="t">12:30</td><td class="what"><strong>산방산 공영주차장</strong> <span class="tag move">16분</span></td><td class="note"></td></tr>
+          <tr><td class="t">13:00</td><td class="what"><strong>산방산 유채꽃</strong> <span class="tag spot">명소</span></td><td class="note">유채밭은 사유지라 입장료를 받는 곳이 있다.</td></tr>
+          <tr><td class="t">13:30</td><td class="what"><strong>용머리 해안</strong> <span class="tag spot">오늘의 미션</span></td><td class="note"><strong>물때와 파도에 따라 통제된다.</strong> 당일 공지를 확인하고, 닫혀 있으면 제주곶자왈(09:00~16:00, 19분)로.</td></tr>
+          <tr><td class="t">15:40</td><td class="what"><strong>콤마 앤 리조트 체크인</strong> <span class="tag move">7분</span></td><td class="note">15:00부터.</td></tr>
+          <tr><td class="t">17:00</td><td class="what"><strong>숙성도 중문점</strong> <span class="tag meal">식사</span></td><td class="note">숙소에서 20분.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 4 체크포인트</h3>
+      <ul>
+        <li><strong>용머리 해안은 못 들어갈 수 있습니다.</strong> 만조이거나 파도가 높으면 통제됩니다. 출발 전에 당일 개방 여부를 확인하고, 대체지(제주곶자왈)를 미리 정해두면 하루가 꼬이지 않습니다.</li>
+        <li><strong>산방산 유채밭은 대부분 사유지입니다.</strong> 사진을 찍으려면 입장료를 받는 곳이 많으니 현금이나 계좌이체를 준비하세요.</li>
+        <li>제주시에서 중문까지는 한 시간 반입니다. 체크아웃하고 바로 내려오는 동선이라 중간 식사 자리를 하나 끼워 넣는 게 좋습니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day5">
+    <div class="dayhead"><h2>Day 5 · 청보리 섬</h2><span class="datebadge">4월 24일 (목)</span></div>
+    <p class="daylead">운진항에서 배를 타고 가파도로. 돌아와서는 오설록 차밭, 저녁은 포장 회.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day5 하루 흐름 곡선">
+        <defs><linearGradient id="skyday5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CDE2E8"/><stop offset="42%" stop-color="#F4F0E2"/><stop offset="80%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#35505C"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday5)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">기상</text><text x="60" y="118" font-size="10.5" fill="#7A9199">09:00</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">10:20</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#1E3742">운진항 발권</text><circle cx="350" cy="77" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="350" y="50" font-size="12.5" font-weight="700" fill="#CE4A2A">가파도 청보리</text><text x="350" y="65" font-size="10.5" fill="#B4552F">11:00</text><circle cx="500" cy="78" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="500" y="98" font-size="10.5" fill="#7A9199">14:30</text><text x="500" y="113" font-size="12.5" font-weight="700" fill="#9A7430">올레마당</text><circle cx="650" cy="97" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="650" y="70" font-size="12.5" font-weight="700" fill="#1E3742">오설록</text><text x="650" y="85" font-size="10.5" fill="#7A9199">16:00</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EBCB92">우정회센타 포장</text><text x="790" y="121" font-size="10.5" fill="#C9B48A">저녁</text>
+        </g>
+      </svg>
+      <figcaption>Day 5의 하루 곡선 · 배를 타고 나갔다 돌아오는 하루</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">가파도 왕복선<small>운진항 출발 · 약 15분</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">청보리 축제<small>4/4~5/6</small></div></div>
+      <div class="sumcard"><div class="k">EAT</div><div class="v">모듬회<small>우정회센타에서 포장</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>중문 → 가파도</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="중문 → 가파도">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">콤마 앤 리조트</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">운진항</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">가파도</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">오설록</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 10분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">⛴ 약 15분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚗 20분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">배는 출발 10분 전까지 탑승해야 한다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">09:00</td><td class="what"><strong>기상 및 준비</strong></td><td class="note"></td></tr>
+          <tr><td class="t">10:10</td><td class="what"><strong>숙소 → 운진항 주차장</strong> <span class="tag move">10분</span></td><td class="note"></td></tr>
+          <tr><td class="t">10:20</td><td class="what"><strong>발권 및 승선</strong></td><td class="note"><strong>출발 10분 전까지 탑승.</strong> 신분증이 필요하다.</td></tr>
+          <tr><td class="t">11:00</td><td class="what"><strong>가파도</strong> <span class="tag spot">오늘의 미션</span></td><td class="note">청보리 축제 기간. 자전거를 빌려 섬을 돌 수 있다. 김진현 핫도그.</td></tr>
+          <tr><td class="t">14:00</td><td class="what"><strong>가파도 → 올레마당</strong> <span class="tag move">30분</span></td><td class="note"></td></tr>
+          <tr><td class="t">14:30</td><td class="what"><strong>올레마당</strong> <span class="tag meal">식사</span></td><td class="note">생선구이 2인.</td></tr>
+          <tr><td class="t">15:30</td><td class="what"><strong>제주 오설록</strong> <span class="tag move">20분</span></td><td class="note"></td></tr>
+          <tr><td class="t">16:00</td><td class="what"><strong>오설록 티뮤지엄</strong> <span class="tag spot">명소</span></td><td class="note">09:00~18:00. 그린티 롤케익.</td></tr>
+          <tr><td class="t">저녁</td><td class="what"><strong>우정회센타 포장</strong> <span class="tag meal">식사</span></td><td class="note">모듬회를 숙소에서.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 5 체크포인트</h3>
+      <ul>
+        <li><strong>가파도 배는 결항이 잦습니다.</strong> 바람이 조금만 불어도 뜨지 않으니 전날 저녁에 운항 여부를 확인하세요. 멀미약도 챙기면 좋습니다.</li>
+        <li><strong>섬에서 세 시간이면 충분합니다.</strong> 해발 20m대의 평평한 섬이라 걸어서도 한 바퀴가 가능하고, 자전거를 빌리면 더 여유롭습니다.</li>
+        <li>배 시간이 하루를 결정합니다. 돌아오는 배를 놓치면 다음 배까지 섬에 묶입니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day6">
+    <div class="dayhead"><h2>Day 6 · 서쪽 해안을 따라</h2><span class="datebadge">4월 25일 (금)</span></div>
+    <p class="daylead">보말칼국수로 시작해 협재와 곽지를 지나고, 돌염전에서 해가 지는 걸 본 뒤 애월에서 저녁.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day6 하루 흐름 곡선">
+        <defs><linearGradient id="skyday6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CDE2E8"/><stop offset="42%" stop-color="#F4F0E2"/><stop offset="80%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#35505C"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday6)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#1E3742">기상</text><text x="60" y="118" font-size="10.5" fill="#7A9199">10:00</text><circle cx="200" cy="96" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="200" y="116" font-size="10.5" fill="#7A9199">12:00</text><text x="200" y="131" font-size="12.5" font-weight="700" fill="#9A7430">바당길 보말칼국수</text><circle cx="350" cy="77" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="350" y="50" font-size="12.5" font-weight="700" fill="#1E3742">협재해수욕장</text><text x="350" y="65" font-size="10.5" fill="#7A9199">13:40</text><circle cx="500" cy="78" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="500" y="98" font-size="10.5" fill="#7A9199">15:00</text><text x="500" y="113" font-size="12.5" font-weight="700" fill="#1E3742">곽지와 애월</text><circle cx="650" cy="97" r="7" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="2.5"/><text x="650" y="70" font-size="12.5" font-weight="700" fill="#CE4A2A">구엄리 돌염전</text><text x="650" y="85" font-size="10.5" fill="#B4552F">17:50</text><circle cx="790" cy="133" r="5.5" fill="#FBFDFC" stroke="#C7A45C" stroke-width="2.5"/><text x="790" y="106" font-size="12.5" font-weight="700" fill="#EBCB92">까사데마마</text><text x="790" y="121" font-size="10.5" fill="#C9B48A">19:00</text>
+        </g>
+      </svg>
+      <figcaption>Day 6의 하루 곡선 · 해안도로를 따라 북쪽으로</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">해안도로<small>한림에서 애월까지</small></div></div>
+      <div class="sumcard"><div class="k">STAY</div><div class="v">제주 노블레스 관광호텔<small>마지막 밤 · 제주시</small></div></div>
+      <div class="sumcard"><div class="k">오늘의 미션</div><div class="v">구엄리 돌염전<small>일몰 19:15</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>한림 → 애월</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한림 → 애월">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="240" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="240" y1="52" x2="400" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="400" y1="52" x2="560" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="560" y1="52" x2="720" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">바당길</text><circle cx="240" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="240" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">협재해수욕장</text><circle cx="400" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="400" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">곽지해수욕장</text><circle cx="560" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="560" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">구엄리 돌염전</text><circle cx="720" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="720" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">까사데마마</text><text x="160" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 5분</text><text x="320" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 20분</text><text x="480" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 20분</text><text x="640" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">🚗 10분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">해안도로를 따라 서쪽에서 북쪽으로 올라온다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">10:00</td><td class="what"><strong>기상 및 체크아웃</strong></td><td class="note"></td></tr>
+          <tr><td class="t">12:00</td><td class="what"><strong>바당길</strong> <span class="tag meal">식사</span></td><td class="note">08:00~15:30. 보말칼국수와 톳칼국수.</td></tr>
+          <tr><td class="t">13:40</td><td class="what"><strong>협재해수욕장</strong> <span class="tag spot">명소</span></td><td class="note">조개껍질이 부서져 섞인 흰 모래. 앞바다에 비양도.</td></tr>
+          <tr><td class="t">15:00</td><td class="what"><strong>곽지해수욕장과 애월 카페거리</strong> <span class="tag spot">명소</span></td><td class="note">주차비가 따로 있다.</td></tr>
+          <tr><td class="t">15:30</td><td class="what"><strong>카페에서 업무</strong> <span class="tag spot">워케이션</span></td><td class="note">에이바우트.</td></tr>
+          <tr><td class="t">17:50</td><td class="what"><strong>구엄리 돌염전</strong> <span class="tag spot">오늘의 미션</span></td><td class="note"><strong>일몰 19:15.</strong> 20분이면 다 본다.</td></tr>
+          <tr><td class="t">19:00</td><td class="what"><strong>까사데마마</strong> <span class="tag meal">예약 완료 ✓</span></td><td class="note">90분 코스. 19:00 예약.</td></tr>
+          <tr><td class="t">20:30</td><td class="what"><strong>숙소로</strong> <span class="tag move">30분</span></td><td class="note">제주 노블레스 관광호텔.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 6 체크포인트</h3>
+      <ul>
+        <li><strong>돌염전은 일몰 시각이 전부입니다.</strong> 낮에 가면 그냥 평평한 검은 바위라 20분이면 끝납니다. 해 지기 한 시간 전에 맞춰 가세요.</li>
+        <li><strong>까사데마마는 전화 예약이 필요합니다.</strong> 코스가 90분이라 뒤에 일정을 붙이기 어렵습니다.</li>
+        <li>협재와 곽지는 차로 20분 거리라 둘 다 보기 좋습니다. 협재는 비양도 때문에 사진이 잘 나옵니다.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="day" id="day7">
+    <div class="dayhead"><h2>Day 7 · 공항 가는 길</h2><span class="datebadge">4월 26일 (토)</span></div>
+    <p class="daylead">마지막 날은 공항 근처만. 박물관 하나 보고 선물을 사서 김포로.</p>
+    <figure class="routemap">
+      <svg viewBox="0 0 840 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="day7 하루 흐름 곡선">
+        <defs><linearGradient id="skyday7" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#4A6470"/><stop offset="18%" stop-color="#DCE9E4"/><stop offset="48%" stop-color="#F4F0E2"/><stop offset="80%" stop-color="#F4E0C4"/><stop offset="100%" stop-color="#2E4450"/></linearGradient></defs>
+        <rect x="0" y="0" width="840" height="150" fill="url(#skyday7)"/>
+        
+        <rect x="0" y="150" width="840" height="50" fill="#CBDCD2"/>
+        <g stroke="#B2CCC2" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M250,175 q10,-6 20,0 q10,6 20,0"/><path d="M560,172 q10,-6 20,0 q10,6 20,0"/>
+        </g>
+        <path d="M60,130 Q420,20 780,130" fill="none" stroke="#3E7C8A" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round"/>
+        <g font-family="'Noto Sans KR',sans-serif" text-anchor="middle">
+          <circle cx="60" cy="130" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="60" y="103" font-size="12.5" font-weight="700" fill="#EAF2F0">기상</text><text x="60" y="118" font-size="10.5" fill="#B9C9CE">아침</text><circle cx="280" cy="83" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="280" y="103" font-size="10.5" fill="#7A9199">오전</text><text x="280" y="118" font-size="12.5" font-weight="700" fill="#1E3742">넥슨컴퓨터박물관</text><circle cx="500" cy="78" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="500" y="51" font-size="12.5" font-weight="700" fill="#1E3742">차량 반납</text><text x="500" y="66" font-size="10.5" fill="#7A9199">오전</text><circle cx="700" cy="108" r="5.5" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="2.5"/><text x="700" y="128" font-size="10.5" fill="#7A9199">오후</text><text x="700" y="143" font-size="12.5" font-weight="700" fill="#1E3742">제주 → 김포 ✈</text><circle cx="795" cy="135" r="5.5" fill="#FBFDFC" stroke="#EAF2F0" stroke-width="2.5"/><text x="795" y="108" font-size="12.5" font-weight="700" fill="#EAF2F0">집</text><text x="795" y="123" font-size="10.5" fill="#B9C9CE">오후</text>
+        </g>
+      </svg>
+      <figcaption>Day 7의 하루 곡선 · 짧게 정리하고 돌아간다</figcaption>
+    </figure>
+    <div class="summary">
+      <div class="sumcard"><div class="k">FLIGHT</div><div class="v">제주 → 김포<small>마일리지 발권</small></div></div>
+      <div class="sumcard"><div class="k">MOVE</div><div class="v">차량 반납<small>공항 근처에서</small></div></div>
+      <div class="sumcard"><div class="k">BUY</div><div class="v">제주마음샌드<small>공항 파리바게뜨</small></div></div>
+    </div>
+    <div class="transit">
+      <h3>숙소 → 공항</h3>
+      <svg viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="숙소 → 공항">
+        <g font-family="'Noto Sans KR',sans-serif"><line x1="80" y1="52" x2="293" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="293" y1="52" x2="506" y2="52" stroke="#3E7C8A" stroke-width="3" stroke-linecap="round"/><line x1="506" y1="52" x2="719" y2="52" stroke="#CE4A2A" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="80" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">제주 노블레스</text><circle cx="293" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="293" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">넥슨컴퓨터박물관</text><circle cx="506" cy="52" r="9" fill="#FBFDFC" stroke="#3E7C8A" stroke-width="3"/><text x="506" y="86" font-size="13" fill="#1E3742" text-anchor="middle" font-weight="700">제주공항</text><circle cx="719" cy="52" r="10" fill="#CE4A2A" stroke="#FBFDFC" stroke-width="3"/><text x="719" y="86" font-size="13" fill="#CE4A2A" text-anchor="middle" font-weight="700">김포공항</text><text x="186" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 10분</text><text x="399" y="40" font-size="11.5" fill="#3E7C8A" text-anchor="middle">🚗 15분</text><text x="612" y="40" font-size="11.5" fill="#CE4A2A" text-anchor="middle">✈ 1시간 15분</text><text x="400" y="112" font-size="12" fill="#7A9199" text-anchor="middle">박물관도 공항도 노형 쪽이라 동선이 짧다</text></g>
+      </svg>
+      
+    </div>
+    <div class="plancard">
+      <h3>타임라인</h3>
+      <table class="sched">
+        <thead><tr><th>시간</th><th>일정</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td class="t">아침</td><td class="what"><strong>기상 및 체크아웃</strong></td><td class="note"></td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>넥슨컴퓨터박물관</strong> <span class="tag spot">선택</span></td><td class="note">노형동. 공항에서 차로 15분.</td></tr>
+          <tr><td class="t">오전</td><td class="what"><strong>차량 반납</strong> <span class="tag move">이동</span></td><td class="note"></td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>공항 쇼핑</strong> <span class="tag meal">선물</span></td><td class="note">제주마음샌드와 오메기떡.</td></tr>
+          <tr><td class="t">오후</td><td class="what"><strong>제주 → 김포</strong> ✈ <span class="tag move">1시간 15분</span></td><td class="note"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips">
+      <h3>DAY 7 체크포인트</h3>
+      <ul>
+        <li><strong>제주마음샌드는 공항 파리바게뜨에서만 삽니다.</strong> 수량 제한이 있고 일찍 품절되니, 보안검색 전에 들르는 쪽이 확실합니다.</li>
+        <li><strong>렌터카 반납 시간을 비행기 시각에서 두 시간 앞으로 잡으세요.</strong> 주유와 셔틀 대기가 생각보다 오래 걸립니다.</li>
+        <li>마지막 날 일정은 공항 반경 안에서만 잡는 게 안전합니다.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div id="view-guide">
+  <nav class="days" aria-label="주제 선택">
+    <div class="daytab active" data-target="g-concept"><div class="dnum">왜 이렇게 짰나</div><div class="dname">전체 컨셉</div></div>
+    <div class="daytab" data-target="g-jeju"><div class="dnum">섬 전체</div><div class="dname">제주</div></div>
+    <div class="daytab" data-target="g-southwest"><div class="dnum">DAY 4~5</div><div class="dname">서귀포 남서쪽</div></div>
+    <div class="daytab" data-target="g-aewol"><div class="dnum">DAY 6</div><div class="dname">애월 · 한림</div></div>
+  </nav>
+
+  <section class="region rvisible" id="g-concept">
+    <div class="dayhead"><h2 style="font-size:23px">전체 컨셉</h2></div>
+
+    <p class="gtext">6박 7일인데 절반은 일하는 날이었다. 앞 사흘은 제주시에 숙소를 두고 일과 가까운 일정만 붙였고, 뒤 사흘은 차를 빌려 섬 남서쪽과 서쪽을 돌았다. 숙소를 세 번 옮긴 건 동선 때문이지 좋아서가 아니다.</p>
+    <div class="gsub">이 일정의 뼈대</div>
+    <ul class="glist">
+        <li><span class="gname">일하는 날과 노는 날을 섞지 않았다</span>반나절 일하고 반나절 돌아다니면 둘 다 어정쩡해진다. 차를 아예 빌리지 않는 날을 하루 두고, 그날은 숙소 반경 안에서만 움직였다.</li>
+        <li><span class="gname">제주시에 먼저 묵은 이유</span>공항에서 가깝고 동문시장이 걸어갈 거리다. 늦게 도착한 날과 일하는 날의 저녁 문제가 한 번에 해결된다.</li>
+        <li><span class="gname">남서쪽을 한 덩어리로 묶었다</span>산방산·용머리·가파도·오설록은 모두 서귀포 남서쪽에 몰려 있다. 중문에 이틀 자면서 이 일대만 도는 편이 왕복 시간을 아낀다.</li>
+        <li><span class="gname">마지막 날은 공항 반경</span>귀국일에 먼 곳을 넣으면 반납과 체크인이 쫓긴다. 노형동 박물관 하나만 넣고 끝냈다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-jeju">
+    <div class="dayhead"><h2 style="font-size:23px">제주 濟州</h2><span class="datebadge" style="background:var(--sea-mid)">화산이 쌓아 올린 섬</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한라산과 오름, 검은 현무암 밭담, 돌하르방, 감귤나무, 그리고 봄의 유채꽃">
+        <defs><linearGradient id="jjSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#DCEAF0"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#jjSky)"/>
+
+        <circle cx="96" cy="30" r="11" fill="#F2CE7E" opacity=".75"/>
+        <path d="M250,140 Q430,16 610,140 Z" fill="#A9BDB4"/>
+        <path d="M340,93.5 Q430,62.5 520,93.5 Q490,108 460,99 Q430,110 400,99 Q370,108 340,93.5 Z" fill="#F4F7F5"/>
+        <path d="M150,140 Q214,92 280,140 Z" fill="#BACFC4"/>
+        <path d="M576,140 Q640,96 706,140 Z" fill="#BACFC4"/>
+        <!-- 지면 -->
+        <rect x="0" y="140" width="840" height="30" fill="#D9D5C2"/>
+        <!-- 밭담 -->
+        <g fill="#6E7A72">
+          <g opacity=".9">
+            <circle cx="150" cy="130" r="4"/><circle cx="162" cy="127" r="4.4"/><circle cx="175" cy="130" r="4"/>
+            <circle cx="188" cy="126" r="4.4"/><circle cx="201" cy="129" r="4"/><circle cx="214" cy="127" r="4.4"/>
+            <circle cx="227" cy="130" r="4"/><circle cx="156" cy="138" r="4.2"/><circle cx="169" cy="137" r="4"/>
+            <circle cx="182" cy="136" r="4.4"/><circle cx="195" cy="137" r="4"/><circle cx="208" cy="136" r="4.2"/>
+            <circle cx="221" cy="137" r="4"/>
+          </g>
+          <g opacity=".9">
+            <circle cx="620" cy="130" r="4"/><circle cx="633" cy="127" r="4.4"/><circle cx="646" cy="130" r="4"/>
+            <circle cx="659" cy="126" r="4.4"/><circle cx="672" cy="129" r="4"/><circle cx="685" cy="128" r="4.2"/>
+            <circle cx="626" cy="138" r="4.2"/><circle cx="639" cy="137" r="4"/><circle cx="652" cy="136" r="4.4"/>
+            <circle cx="665" cy="137" r="4"/><circle cx="678" cy="136" r="4.2"/>
+          </g>
+        </g>
+        <!-- 돌하르방 -->
+        <g transform="translate(90,0)" fill="#8A8F86">
+          <path d="M-16,140 q-2,-32 16,-32 q18,0 16,32 z"/>
+          <ellipse cx="0" cy="96" rx="15" ry="17"/>
+          <path d="M-15,92 q15,-14 30,0 l0,-8 q-15,-12 -30,0 z" fill="#767C73"/>
+          <g fill="#F1F4F0"><circle cx="-6" cy="97" r="3.4"/><circle cx="6" cy="97" r="3.4"/></g>
+          <ellipse cx="0" cy="104" rx="2.6" ry="3.4" fill="#6E7369"/>
+          <path d="M-9,112 q9,5 18,0" fill="none" stroke="#6E7369" stroke-width="1.6"/>
+        </g>
+        <!-- 감귤나무 -->
+        <g transform="translate(762,0)">
+          <rect x="-3" y="112" width="6" height="28" fill="#8A6A4E"/>
+          <circle cx="0" cy="100" r="26" fill="#6B9A6E"/>
+          <circle cx="-14" cy="110" r="16" fill="#7CA87C"/>
+          <circle cx="15" cy="108" r="15" fill="#7CA87C"/>
+          <g fill="#F2A95C"><circle cx="-10" cy="96" r="4.4"/><circle cx="8" cy="90" r="4.4"/><circle cx="2" cy="110" r="4.4"/><circle cx="-18" cy="112" r="4"/><circle cx="17" cy="104" r="4"/></g>
+        </g>
+        <!-- 유채밭 -->
+        <g transform="translate(430,0)">
+          <g fill="#F2CE42"><circle cx="-40" cy="148" r="4.4"/><circle cx="-20" cy="152" r="4.8"/><circle cx="0" cy="146" r="4.4"/><circle cx="20" cy="151" r="4.8"/><circle cx="40" cy="147" r="4.4"/></g>
+          <g stroke="#7FA054" stroke-width="2" stroke-linecap="round"><path d="M-40,160 v-9"/><path d="M-20,164 v-9"/><path d="M0,158 v-9"/><path d="M20,163 v-9"/><path d="M40,159 v-9"/></g>
+        </g>
+      </svg>
+      <figcaption>한라산과 오름, 검은 현무암 밭담, 돌하르방, 감귤나무, 그리고 봄의 유채꽃</figcaption>
+    </figure>
+    <p class="gtext">제주는 바다 밑 화산이 여러 번 터지면서 만들어진 섬이다. 한라산 하나가 아니라 360개가 넘는 오름이 각각 작은 화산이고, 밭에 쌓인 검은 돌담도 땅을 갈다 나온 현무암을 치워 쌓은 것이다. 이 섬의 풍경은 대부분 화산과 바람에 대한 대응의 결과다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">밭담은 2만 2천 km</span>밭을 갈면 끝없이 나오는 현무암을 치워 경계에 쌓은 것이 밭담이다. 제주 전역을 합치면 약 2만 2천 km로, 검은 용이 만 리를 간다는 뜻의 흑룡만리라 불린다. 2014년 FAO 세계중요농업유산에 올랐다.</li>
+        <li><span class="gname">돌담에 구멍이 많은 이유</span>촘촘히 쌓지 않고 사이를 비워 둔다. 바람이 틈으로 빠져나가야 무너지지 않기 때문이다. 제주 바람을 견디는 방식이 성긴 구조다.</li>
+        <li><span class="gname">오름은 각각이 화산</span>한라산 하나만 화산인 게 아니라, 섬 전역에 흩어진 오름 하나하나가 작은 분화구다. 동부 평지에 봉긋한 언덕이 끝없이 이어지는 건 그래서다.</li>
+        <li><span class="gname">해녀는 세계무형유산</span>숨을 참고 맨몸으로 바다에 드는 기술과 공동체 규범이 통째로 2016년 유네스코 인류무형문화유산에 등재됐다. 바닷가에 뜬 주황색 공은 테왁이라는 부표다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">차 없이는 힘들다</span>버스로도 갈 수는 있지만 배차가 길다. 하루 단위로 쏘카를 빌리면 안 쓰는 날의 비용을 아낄 수 있다.</li>
+        <li><span class="gname">동쪽 식당은 일찍 닫는다</span>19시면 문을 닫는 곳이 많다. 노을을 보고 밥을 먹으려다 굶기 쉬우니 순서를 뒤집는 게 안전하다.</li>
+        <li><span class="gname">바람이 일정을 바꾼다</span>배가 뜨는지, 해안 산책로가 열렸는지는 당일 아침에 정해진다. 야외 일정마다 실내 대체지를 하나씩 붙여두면 하루를 잃지 않는다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-southwest">
+    <div class="dayhead"><h2 style="font-size:23px">산방산 · 용머리 · 가파도</h2><span class="datebadge" style="background:var(--sea-mid)">섬에서 가장 오래된 바위</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="80만 년 된 산방산 용암돔, 층층이 쌓인 용머리 해안, 유채꽃, 그리고 청보리의 가파도">
+        <defs><linearGradient id="jwSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E9EEDC"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#jwSky)"/>
+
+        <circle cx="96" cy="32" r="12" fill="#F2CE7E" opacity=".7"/>
+        <!-- 산방산 용암돔 -->
+        <g transform="translate(300,0)">
+          <path d="M-86,132 Q-72,30 0,26 Q72,30 86,132 Z" fill="#93A89C"/>
+          <path d="M-62,132 Q-54,56 0,50 Q54,56 62,132 Z" fill="#A4B9A9" opacity=".7"/>
+          <g stroke="#7D9287" stroke-width="1.6" fill="none" opacity=".7">
+            <path d="M-56,100 q28,-8 56,0"/><path d="M-66,118 q34,-9 68,0"/>
+          </g>
+        </g>
+        <!-- 용머리 해안 -->
+        <g transform="translate(520,0)">
+          <path d="M-56,132 L-50,104 L-10,96 L30,102 L58,118 L64,132 Z" fill="#9A9F96"/>
+          <g stroke="#83887F" stroke-width="2" fill="none" opacity=".75">
+            <path d="M-50,112 L56,122"/><path d="M-48,120 L58,128"/>
+          </g>
+          <path d="M58,118 q14,-8 24,2 q-4,10 -14,12 z" fill="#8A8F86"/>
+        </g>
+        <!-- 바다 -->
+        <rect x="0" y="132" width="840" height="38" fill="#BBD4D8"/>
+        <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M60,152 q10,-5 20,0 q10,5 20,0"/><path d="M620,160 q10,-5 20,0 q10,5 20,0"/>
+        </g>
+        <!-- 가파도 청보리 섬 -->
+        <g transform="translate(726,0)">
+          <path d="M-70,132 q70,-16 140,0 z" fill="#8FB055"/>
+          <g stroke="#6F8C3E" stroke-width="2" stroke-linecap="round">
+            <path d="M-50,130 q3,-10 0,-16"/><path d="M-34,128 q3,-11 0,-18"/><path d="M-18,126 q3,-11 0,-18"/>
+            <path d="M-2,125 q3,-11 0,-18"/><path d="M14,126 q3,-11 0,-18"/><path d="M30,127 q3,-10 0,-17"/>
+            <path d="M46,129 q3,-10 0,-16"/>
+          </g>
+        </g>
+        <!-- 유채꽃밭 -->
+        <g transform="translate(150,-18)">
+          <g fill="#F2CE42">
+            <circle cx="-60" cy="126" r="5"/><circle cx="-40" cy="132" r="5.6"/><circle cx="-20" cy="124" r="5"/>
+            <circle cx="0" cy="130" r="5.6"/><circle cx="20" cy="123" r="5"/><circle cx="40" cy="129" r="5.4"/>
+            <circle cx="-50" cy="140" r="5"/><circle cx="-10" cy="140" r="5.4"/><circle cx="30" cy="139" r="5"/>
+          </g>
+          <g stroke="#7FA054" stroke-width="2" stroke-linecap="round">
+            <path d="M-60,142 v-10"/><path d="M-40,148 v-10"/><path d="M-20,140 v-10"/>
+            <path d="M0,146 v-10"/><path d="M20,139 v-10"/><path d="M40,145 v-10"/>
+          </g>
+        </g>
+        <!-- 여객선 -->
+        <g transform="translate(628,0)">
+          <path d="M-22,150 h44 l-7,10 h-30 z" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.3"/>
+          <rect x="-12" y="140" width="24" height="10" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.2"/>
+          <line x1="0" y1="140" x2="0" y2="130" stroke="#7A9199" stroke-width="1.4"/>
+          <path d="M0,130 h11 l-4,5 h-7 z" fill="#CE4A2A"/>
+        </g>
+      </svg>
+      <figcaption>80만 년 된 산방산 용암돔, 층층이 쌓인 용머리 해안, 유채꽃, 그리고 청보리의 가파도</figcaption>
+    </figure>
+    <p class="gtext">한라산보다 먼저 생긴 땅이 이쪽에 있다. 용머리 해안은 약 100만 년 전 바닷속 화산이 터져 쌓인 응회환으로, 제주에서 가장 오래된 화산체다. 바로 옆 산방산은 약 80만 년 전, 너무 끈적해서 멀리 흐르지 못한 조면암 용암이 그 자리에 굳어 만든 종 모양 용암돔이다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">용머리 해안의 줄무늬</span>절벽에 켜켜이 그어진 가로줄은 화산이 터질 때마다 쌓인 화산재층이다. 세 개의 지층 묶음이 서로 다른 세 화구에서 나온 것으로 밝혀졌다. 한라산이 생기기 훨씬 전의 기록이다.</li>
+        <li><span class="gname">산방산이 뾰족하지 않은 이유</span>보통 화산은 용암이 흘러내려 완만한 산을 만드는데, 조면암 용암은 점성이 너무 높아 화구에서 멀리 가지 못하고 그대로 부풀어 굳는다. 해발 395m의 둥근 덩어리가 된 건 그래서다.</li>
+        <li><span class="gname">가파도는 가장 낮은 섬</span>해발 20.5m로 국내 유인도 중 가장 납작하다. 모슬포와 최남단 마라도 중간에 있고, 섬 전체가 평지라 바람이 불면 청보리밭이 통째로 물결친다. 축제는 4월에서 5월 초 사이다.</li>
+        <li><span class="gname">오설록은 황무지였다</span>1979년에 돌과 잡목을 걷어내며 개간을 시작한 땅이다. 제주 서남부의 척박한 화산토를 2년 동안 뒤집어 차밭으로 만들었고, 지금은 국내 최대 차 산지가 됐다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">용머리는 당일 공지 확인</span>만조나 높은 파도에는 입장이 막힌다. 대체지로 제주곶자왈(09:00~16:00)이 19분 거리에 있다.</li>
+        <li><span class="gname">가파도 배는 결항이 잦다</span>바람이 조금만 불어도 뜨지 않는다. 전날 저녁에 확인하고, 멀미약을 챙긴다.</li>
+        <li><span class="gname">유채밭은 사유지</span>산방산 일대 유채밭은 대부분 입장료를 받는다.</li>
+    </ul>
+  </section>
+  <section class="region" id="g-aewol">
+    <div class="dayhead"><h2 style="font-size:23px">애월 · 한림</h2><span class="datebadge" style="background:var(--sea-mid)">소금밭과 조개껍질 해변</span></div>
+    <figure class="routemap" style="margin:18px 0 8px">
+      <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="현무암 위에 둑을 쌓아 소금을 얻던 구엄리 돌염전, 조개껍질이 부서져 만든 협재의 흰 모래, 그리고 비양도로 지는 해">
+        <defs><linearGradient id="jaSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F7DEBE"/><stop offset="100%" stop-color="#EAF2F0"/>
+        </linearGradient></defs>
+        <rect x="0" y="0" width="840" height="140" fill="url(#jaSky)"/>
+
+        <circle cx="716" cy="56" r="19" fill="#F2A95C" opacity=".85"/>
+        <!-- 비양도 -->
+        <path d="M548,98 Q600,52 652,98 Z" fill="#95AB9E"/>
+        <!-- 바다 -->
+        <rect x="0" y="96" width="840" height="44" fill="#BBD4D8"/>
+        <path d="M702,96 L730,96 L746,140 L686,140 Z" fill="#F2CE7E" opacity=".4"/>
+        <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M120,112 q10,-5 20,0 q10,5 20,0"/><path d="M430,120 q10,-5 20,0 q10,5 20,0"/>
+          <path d="M620,114 q10,-5 20,0 q10,5 20,0"/>
+        </g>
+        <!-- 협재 백사장 -->
+        <path d="M404,140 Q560,120 840,130 L840,170 L404,170 Z" fill="#F2EADA"/>
+        <path d="M404,140 Q560,120 840,130" fill="none" stroke="#FBFDFC" stroke-width="3"/>
+        <g fill="#E4DAC4"><circle cx="560" cy="156" r="3"/><circle cx="640" cy="164" r="2.6"/><circle cx="730" cy="150" r="3"/><circle cx="800" cy="162" r="2.6"/></g>
+        <!-- 구엄리 돌염전 -->
+        <path d="M0,118 Q200,126 420,140 L420,170 L0,170 Z" fill="#7E837B"/>
+        <g fill="#A9C2C6" stroke="#616760" stroke-width="2">
+          <path d="M24,130 l62,3 l5,13 l-64,-3 z"/>
+          <path d="M104,134 l64,4 l5,13 l-66,-3 z"/>
+          <path d="M186,139 l64,4 l5,14 l-66,-4 z"/>
+          <path d="M272,144 l64,5 l4,14 l-66,-5 z"/>
+          <path d="M14,152 l70,4 l6,15 l-72,-4 z"/>
+          <path d="M102,157 l70,4 l6,15 l-72,-5 z"/>
+          <path d="M190,162 l70,5 l5,15 l-72,-5 z"/>
+        </g>
+        <g fill="#FBFDFC" opacity=".8">
+          <circle cx="44" cy="137" r="2.6"/><circle cx="126" cy="141" r="2.6"/><circle cx="208" cy="146" r="2.6"/>
+          <circle cx="294" cy="151" r="2.6"/><circle cx="38" cy="160" r="2.8"/><circle cx="126" cy="165" r="2.8"/>
+        </g>
+        <!-- 갈매기 -->
+        <g stroke="#8CA3A8" stroke-width="2" fill="none" stroke-linecap="round">
+          <path d="M416,40 q9,-7 18,0"/><path d="M434,40 q9,-7 18,0"/>
+          <path d="M498,24 q7,-6 14,0"/><path d="M512,24 q7,-6 14,0"/>
+          <path d="M254,32 q8,-6 16,0"/><path d="M270,32 q8,-6 16,0"/>
+        </g>
+      </svg>
+      <figcaption>현무암 위에 둑을 쌓아 소금을 얻던 구엄리 돌염전, 조개껍질이 부서져 만든 협재의 흰 모래, 그리고 비양도로 지는 해</figcaption>
+    </figure>
+    <p class="gtext">제주 서쪽 해안은 흰 모래와 검은 바위가 번갈아 나온다. 협재의 모래가 하얀 건 조개껍질이 부서져 섞였기 때문이고, 구엄리의 검은 바위는 조선시대부터 소금을 얻던 밭이었다.</p>
+    <div class="gsub">알고 가면 보이는 것</div>
+    <ul class="glist">
+        <li><span class="gname">구엄리 돌염전은 390년 일터</span>1559년 강려 목사가 주민들에게 방법을 가르친 데서 시작했다. 넓게 누운 현무암 위에 찰흙으로 둑을 쌓고 바닷물을 가둔 뒤, 햇볕에 말려 소금을 거뒀다. 해방 이후 끊겼다가 2009년에 일부가 복원됐다. 제주말로 소금빌레라 부른다.</li>
+        <li><span class="gname">협재의 흰 모래는 조개껍질</span>화산섬인데 모래가 하얀 건 부서진 조개껍질이 섞였기 때문이다. 물이 얕고 바닥이 밝아 맑은 날에는 바다가 에메랄드색으로 보인다.</li>
+        <li><span class="gname">비양도는 고려사에 나온다</span>고려사에 목종 5년(1002년) 제주 서남쪽 바다에서 화산이 터졌다는 기록이 있어 천년의 섬으로 불려 왔다. 다만 최근 연대 측정에서는 수만 년 전 생긴 것으로 나와, 그 기록이 비양도라는 증거는 사라졌다.</li>
+        <li><span class="gname">애월 카페거리가 생긴 이유</span>해안도로가 바다에 바짝 붙어 있어 어느 건물에서나 수평선이 보인다. 어촌 마을에 전망만 보고 카페가 들어선 결과다.</li>
+    </ul>
+    <div class="gsub">현장 메모</div>
+    <ul class="glist">
+        <li><span class="gname">돌염전은 일몰에</span>낮에는 그냥 검은 바위다. 해 지기 한 시간 전에 가면 둑에 고인 물에 하늘이 통째로 비친다.</li>
+        <li><span class="gname">곽지는 주차비가 따로</span>해수욕장 공영주차장은 유료인 곳이 있다.</li>
+        <li><span class="gname">까사데마마는 전화 예약</span>코스가 90분이라 뒤에 일정을 붙이기 어렵다.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <div class="wave">～ ～ ～</div>
+  제주시 · 서귀포 · 가파도 · 애월 · 2025년 봄
+</footer>
+
+</div>
+
+<script>
+  (function(){
+    var tabs = document.querySelectorAll('#view-itinerary .daytab');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-itinerary section.day').forEach(function(s){ s.classList.remove('visible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('visible');
+      });
+    });
+  })();
+  (function(){
+    var rtabs = document.querySelectorAll('#view-guide .daytab');
+    rtabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-target');
+        if (!target) return;
+        rtabs.forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('#view-guide section.region').forEach(function(s){ s.classList.remove('rvisible'); });
+        var sec = document.getElementById(target);
+        if (sec) sec.classList.add('rvisible');
+      });
+    });
+  })();
+  (function(){
+    document.querySelectorAll('.modetab').forEach(function(bt){
+      bt.addEventListener('click', function(){
+        document.querySelectorAll('.modetab').forEach(function(b){ b.classList.remove('active'); });
+        bt.classList.add('active');
+        document.body.classList.toggle('mode-guide', bt.getAttribute('data-view') === 'view-guide');
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    });
+  })();
+</script>
+</body>
+</html>
