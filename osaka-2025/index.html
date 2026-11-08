@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -598,6 +606,7 @@
   </section>
   <section class="region" id="g-osaka">
     <div class="dayhead"><h2 style="font-size:23px">오사카 大阪</h2><span class="datebadge" style="background:var(--sea-mid)">운하 하나로 시작된 먹자골목</span></div>
+    <figure class="rphoto" data-rphoto="g-osaka"><img src="./../img/regions/osaka-2025/g-osaka.jpg" alt="오사카 大阪" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Osaka_Castle_Outer_Moat_and_Osaka_Business_Park,_November_2016.jpg">사진 · Martin Falbisoner · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="금샤치를 인 오사카성, 도톤보리의 간판과 운하, 츠텐카쿠, 그리고 타코야키">
         <defs><linearGradient id="osSky" x1="0" y1="0" x2="0" y2="1">
@@ -679,6 +688,7 @@
   </section>
   <section class="region" id="g-kyoto">
     <div class="dayhead"><h2 style="font-size:23px">교토 京都</h2><span class="datebadge" style="background:var(--sea-mid)">못 하나 없이 세운 무대</span></div>
+    <figure class="rphoto" data-rphoto="g-kyoto"><img src="./../img/regions/osaka-2025/g-kyoto.jpg" alt="교토 京都" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Kiyomizu-dera,_Kyoto,_November_2016_-01.jpg">사진 · Martin Falbisoner · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="못 하나 없이 짜 올린 기요미즈 무대, 붉은 야사카 신사, 아라시야마 치쿠린, 그리고 말차 아이스크림">
         <defs><linearGradient id="kySky2" x1="0" y1="0" x2="0" y2="1">

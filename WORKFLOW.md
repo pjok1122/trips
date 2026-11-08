@@ -82,6 +82,13 @@ CSS는 `setouchi-2026/index.html`의 `<style>` 블록을 그대로 재사용한�
 - `sips --resampleWidth 720`, 품질 78로 줄여 `img/cards/<슬러그>.jpg`에 두고 `<img ... loading="lazy">`로 넣는다. 위쪽 피사체가 모바일에서 잘리면 `object-position`으로 맞춘다
 - `credits.html`에 제목·촬영자·라이선스·원본 링크를 한 줄씩 추가한다 (CC BY 계열은 출처 표기가 조건)
 
+## 5-1. 이야기 탭 지역 사진
+
+- 지역 섹션마다 커먼즈 사진 한 장을 제목 바로 아래에 넣고, 기존 SVG 일러스트는 그 아래에 그대로 둔다
+- 사진은 `img/regions/<페이지>/<섹션 id>.jpg`(폭 1200px, 품질 78), 출처는 `img/regions/credits.json`에 `"<페이지>/<섹션 id>"` 키로 적는다
+- `python3 tools/region_photos.py`가 credits.json을 읽어 각 페이지에 `<figure class="rphoto">`를 끼운다. 이미 들어간 섹션은 건너뛰므로 **생성기로 페이지를 다시 만든 뒤에는 이 스크립트를 한 번 더 돌린다**
+- 후보는 지역당 3장씩 320px로 받아 한 장짜리 비교 화면으로 보고 고른다. `credits.html`의 "이야기 탭 지역 사진" 목록도 같이 늘린다
+
 ## 6. 마무리
 
 1. 커밋 후 푸시

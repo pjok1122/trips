@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -549,6 +557,7 @@
   </section>
   <section class="region" id="g-jeju">
     <div class="dayhead"><h2 style="font-size:23px">제주 濟州</h2><span class="datebadge" style="background:var(--sea-mid)">화산이 쌓아 올린 섬</span></div>
+    <figure class="rphoto" data-rphoto="g-jeju"><img src="./../img/regions/jeju-2025-10/g-jeju.jpg" alt="제주 濟州" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Dol_Hareubangs_in_Spirited_Garden_02.jpg">사진 · Bernard Gagnon · CC0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한라산과 오름, 검은 현무암 밭담, 돌하르방, 감귤나무, 그리고 봄의 유채꽃">
         <defs><linearGradient id="jjSky" x1="0" y1="0" x2="0" y2="1">
@@ -621,6 +630,7 @@
   </section>
   <section class="region" id="g-east">
     <div class="dayhead"><h2 style="font-size:23px">조천 · 구좌</h2><span class="datebadge" style="background:var(--sea-mid)">분화구와 숲</span></div>
+    <figure class="rphoto" data-rphoto="g-east"><img src="./../img/regions/jeju-2025-10/g-east.jpg" alt="조천 · 구좌" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Sangumburi,_Jeju_(%EC%A0%9C%EC%A3%BC_%EC%82%B0%EA%B5%BC%EB%B6%80%EB%A6%AC)_-_panoramio.jpg">사진 · 골뱅이 · CC BY-SA 3.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="산보다 깊은 산굼부리 분화구와 억새, 수백 년 된 비자나무 숲, 그리고 에코랜드의 증기기관차">
         <defs><linearGradient id="jeSky" x1="0" y1="0" x2="0" y2="1">
@@ -701,6 +711,7 @@
   </section>
   <section class="region" id="g-seongsan">
     <div class="dayhead"><h2 style="font-size:23px">성산 · 우도</h2><span class="datebadge" style="background:var(--sea-mid)">섬에서 가장 젊은 화산</span></div>
+    <figure class="rphoto" data-rphoto="g-seongsan"><img src="./../img/regions/jeju-2025-10/g-seongsan.jpg" alt="성산 · 우도" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Seongsan_Ilchulbong_01.jpg">사진 · Bernard Gagnon · CC0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="5천 년 전 바다에서 터져 만들어진 성산일출봉, 소가 누운 모양의 우도와 흰 등대, 그리고 홍조단괴가 쌓인 서빈백사">
         <defs><linearGradient id="jsSky" x1="0" y1="0" x2="0" y2="1">

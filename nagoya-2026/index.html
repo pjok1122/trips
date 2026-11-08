@@ -234,6 +234,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -649,6 +657,7 @@
   </section>
   <section class="region" id="g-takayama">
     <div class="dayhead"><h2 style="font-size:23px">다카야마 高山</h2><span class="datebadge" style="background:var(--sea-mid)">막부가 직접 거둬 간 나무의 고장</span></div>
+    <figure class="rphoto" data-rphoto="g-takayama"><img src="./../img/regions/nagoya-2026/g-takayama.jpg" alt="다카야마 高山" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Sanmachi_Takayama03ds3200.jpg">사진 · 663highland · CC BY 2.5</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="처마 높이를 맞춘 산마치스지 町家, 양조장 처마에 걸린 스기다마, 붉은 나카바시, 그리고 히다의 사루보보">
         <defs><linearGradient id="tkSky" x1="0" y1="0" x2="0" y2="1">
@@ -726,6 +735,7 @@
   </section>
   <section class="region" id="g-shirakawa">
     <div class="dayhead"><h2 style="font-size:23px">시라카와고 白川郷</h2><span class="datebadge" style="background:var(--sea-mid)">눈과 누에가 만든 60도 지붕</span></div>
+    <figure class="rphoto" data-rphoto="g-shirakawa"><img src="./../img/regions/nagoya-2026/g-shirakawa.jpg" alt="시라카와고 白川郷" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Ogi_Shirakawa-g%C5%8D,_Gifu,_Japan.jpg">사진 · 663highland · CC BY 2.5</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="60도로 선 갓쇼즈쿠리 지붕, 다락의 양잠 창, 마을이 함께 지붕을 잇는 유이, 그리고 논 사이 수로">
         <defs><linearGradient id="swSky" x1="0" y1="0" x2="0" y2="1">
@@ -782,6 +792,7 @@
   </section>
   <section class="region" id="g-nagoya">
     <div class="dayhead"><h2 style="font-size:23px">나고야 名古屋</h2><span class="datebadge" style="background:var(--sea-mid)">금샤치의 성과 콩된장의 도시</span></div>
+    <figure class="rphoto" data-rphoto="g-nagoya"><img src="./../img/regions/nagoya-2026/g-nagoya.jpg" alt="나고야 名古屋" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Nagoya_Castle(Larger).jpg">사진 · Base64 · CC BY-SA 3.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="금샤치를 인 나고야성, 츠루마의 벚꽃, 미라이 타워와 오아시스 21, 그리고 오구라 토스트와 킷사텐 커피">
         <defs><linearGradient id="ngSky" x1="0" y1="0" x2="0" y2="1">

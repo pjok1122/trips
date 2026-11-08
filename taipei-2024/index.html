@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -672,6 +680,7 @@
   </section>
   <section class="region" id="g-city">
     <div class="dayhead"><h2 style="font-size:23px">타이베이 台北</h2><span class="datebadge" style="background:var(--sea-mid)">절과 야시장과 101이 한 도시에</span></div>
+    <figure class="rphoto" data-rphoto="g-city"><img src="./../img/regions/taipei-2024/g-city.jpg" alt="타이베이 台北" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Longshan_Temple,_Taipei_01.jpg">사진 · Bernard Gagnon · CC BY-SA 3.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="샹산에서 보는 타이베이 101, 홍등이 걸린 용산사, 야시장 노점, 그리고 버블티">
         <defs><linearGradient id="tpSky" x1="0" y1="0" x2="0" y2="1">
@@ -745,6 +754,7 @@
   </section>
   <section class="region" id="g-shankan">
     <div class="dayhead"><h2 style="font-size:23px">지우펀 · 스펀 · 진과스</h2><span class="datebadge" style="background:var(--sea-mid)">금과 석탄이 떠난 자리</span></div>
+    <figure class="rphoto" data-rphoto="g-shankan"><img src="./../img/regions/taipei-2024/g-shankan.jpg" alt="지우펀 · 스펀 · 진과스" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:TRA_DR1000_passing_Shifen_Old_Street_(6425796957).jpg">사진 · MiNe · CC BY 2.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="홍등이 걸린 지우펀의 계단 거리, 하늘로 올라가는 천등, 폐광의 광차, 그리고 허우통의 고양이">
         <defs><linearGradient id="skSky" x1="0" y1="0" x2="0" y2="1">
@@ -814,6 +824,7 @@
   </section>
   <section class="region" id="g-beitou">
     <div class="dayhead"><h2 style="font-size:23px">베이터우와 단수이 北投 · 淡水</h2><span class="datebadge" style="background:var(--sea-mid)">일본이 연 온천, 스페인이 쌓은 요새</span></div>
+    <figure class="rphoto" data-rphoto="g-beitou"><img src="./../img/regions/taipei-2024/g-beitou.jpg" alt="베이터우와 단수이 北投 · 淡水" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Thermal_Valley_in_Beitou.jpg">사진 · GiveMeMollusks · CC0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="김이 솟는 베이터우 지열곡과 온천 료칸, 붉은 성벽의 홍마오청, 그리고 단수이의 저녁 바다">
         <defs><linearGradient id="btSky" x1="0" y1="0" x2="0" y2="1">

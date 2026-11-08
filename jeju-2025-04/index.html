@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -708,6 +716,7 @@
   </section>
   <section class="region" id="g-jeju">
     <div class="dayhead"><h2 style="font-size:23px">제주 濟州</h2><span class="datebadge" style="background:var(--sea-mid)">화산이 쌓아 올린 섬</span></div>
+    <figure class="rphoto" data-rphoto="g-jeju"><img src="./../img/regions/jeju-2025-04/g-jeju.jpg" alt="제주 濟州" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Wooden_staircase_along_Yeongsil_Trail_with_the_mountains_of_Hallasan_Park_Jeju_Island_South_Korea.jpg">사진 · Basile Morin · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한라산과 오름, 검은 현무암 밭담, 돌하르방, 감귤나무, 그리고 봄의 유채꽃">
         <defs><linearGradient id="jjSky" x1="0" y1="0" x2="0" y2="1">
@@ -780,6 +789,7 @@
   </section>
   <section class="region" id="g-southwest">
     <div class="dayhead"><h2 style="font-size:23px">산방산 · 용머리 · 가파도</h2><span class="datebadge" style="background:var(--sea-mid)">섬에서 가장 오래된 바위</span></div>
+    <figure class="rphoto" data-rphoto="g-southwest"><img src="./../img/regions/jeju-2025-04/g-southwest.jpg" alt="산방산 · 용머리 · 가파도" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Yongmeori_Coast.jpg">사진 · Bernard Gagnon · CC0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="80만 년 된 산방산 용암돔, 층층이 쌓인 용머리 해안, 유채꽃, 그리고 청보리의 가파도">
         <defs><linearGradient id="jwSky" x1="0" y1="0" x2="0" y2="1">
@@ -857,6 +867,7 @@
   </section>
   <section class="region" id="g-aewol">
     <div class="dayhead"><h2 style="font-size:23px">애월 · 한림</h2><span class="datebadge" style="background:var(--sea-mid)">소금밭과 조개껍질 해변</span></div>
+    <figure class="rphoto" data-rphoto="g-aewol"><img src="./../img/regions/jeju-2025-04/g-aewol.jpg" alt="애월 · 한림" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Hyeopjae_Beach_Scenery.jpg">사진 · Lcarrion88 · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="현무암 위에 둑을 쌓아 소금을 얻던 구엄리 돌염전, 조개껍질이 부서져 만든 협재의 흰 모래, 그리고 비양도로 지는 해">
         <defs><linearGradient id="jaSky" x1="0" y1="0" x2="0" y2="1">

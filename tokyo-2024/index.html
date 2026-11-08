@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -764,6 +772,7 @@
   </section>
   <section class="region" id="g-tokyo">
     <div class="dayhead"><h2 style="font-size:23px">도쿄 東京</h2><span class="datebadge" style="background:var(--sea-mid)">에도 위에 올린 도시</span></div>
+    <figure class="rphoto" data-rphoto="g-tokyo"><img src="./../img/regions/tokyo-2024/g-tokyo.jpg" alt="도쿄 東京" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Tokyo_Tower,_Minato_City.jpg">사진 · David Kernan · CC BY 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="붉은 벽돌의 도쿄역 마루노우치 역사와 도쿄타워, 마루노우치의 가로수, 그리고 노란 전철">
         <defs><linearGradient id="tkSky" x1="0" y1="0" x2="0" y2="1">
@@ -851,6 +860,7 @@
   </section>
   <section class="region" id="g-asakusa">
     <div class="dayhead"><h2 style="font-size:23px">아사쿠사 浅草</h2><span class="datebadge" style="background:var(--sea-mid)">도쿄에서 가장 오래된 절</span></div>
+    <figure class="rphoto" data-rphoto="g-asakusa"><img src="./../img/regions/tokyo-2024/g-asakusa.jpg" alt="아사쿠사 浅草" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Kaminarimon_Gate_of_Sensoji_Temple.JPG">사진 · そらみみ (Soramimi) · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="628년에 시작된 센소지의 가미나리몬 대제등과 오중탑, 인력거, 그리고 아사쿠사의 메론빵">
         <defs><linearGradient id="asSky" x1="0" y1="0" x2="0" y2="1">
@@ -928,6 +938,7 @@
   </section>
   <section class="region" id="g-odaiba">
     <div class="dayhead"><h2 style="font-size:23px">오다이바 お台場</h2><span class="datebadge" style="background:var(--sea-mid)">포대 자리에 세운 섬</span></div>
+    <figure class="rphoto" data-rphoto="g-odaiba"><img src="./../img/regions/tokyo-2024/g-odaiba.jpg" alt="오다이바 お台場" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Views_of_Rainbow_Bridge_and_Tokyo_Tower_from_Odaiba_at_night_2013-09-11.jpg">사진 · Stephen Kelly · CC BY 2.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="에도 방어용 포대 자리에 선 오다이바와 레인보우 브릿지, 건담, 자유의 여신상, 그리고 유리카모메">
         <defs><linearGradient id="odSky" x1="0" y1="0" x2="0" y2="1">

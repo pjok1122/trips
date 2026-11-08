@@ -233,6 +233,14 @@
     table.sched td.note{display:block;width:auto;margin-top:5px}
     .summary{grid-template-columns:1fr}
   }
+
+  /* 이야기 탭 지역 사진 */
+  .rphoto{position:relative;margin:18px 0 4px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#DCE6E3}
+  .rphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .rphoto figcaption{position:absolute;right:8px;bottom:7px;font-size:10.5px;line-height:1.4;color:#FBFDFC;
+    background:rgba(20,32,38,.45);padding:2px 8px;border-radius:999px;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rphoto figcaption a{color:inherit;text-decoration:none}
+  @media (max-width:640px){.rphoto{aspect-ratio:3/2}}
 </style>
 </head>
 <body>
@@ -826,6 +834,7 @@
   </section>
   <section class="region" id="g-sapporo">
     <div class="dayhead"><h2 style="font-size:23px">삿포로 札幌</h2><span class="datebadge" style="background:var(--sea-mid)">방화선에서 시작된 도시</span></div>
+    <figure class="rphoto" data-rphoto="g-sapporo"><img src="./../img/regions/sapporo-2024/g-sapporo.jpg" alt="삿포로 札幌" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Sapporo_TV_Tower_at_Odori_Park_02.jpg">사진 · ノボホショコロトソ · CC BY 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="방화선에서 시작된 오도리공원과 삿포로 TV 타워, 격자로 뻗은 거리, 시계탑, 그리고 가을 단풍">
         <defs><linearGradient id="spSky" x1="0" y1="0" x2="0" y2="1">
@@ -915,6 +924,7 @@
   </section>
   <section class="region" id="g-otaru">
     <div class="dayhead"><h2 style="font-size:23px">오타루 小樽</h2><span class="datebadge" style="background:var(--sea-mid)">청어가 남긴 항구</span></div>
+    <figure class="rphoto" data-rphoto="g-otaru"><img src="./../img/regions/sapporo-2024/g-otaru.jpg" alt="오타루 小樽" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Sakaimachi_street_Otaru_Hokkaido04bs3.jpg">사진 · 663highland · CC BY 2.5</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="하역선이 드나들던 오타루 운하와 석조창고, 가스등, 청어 시대의 유리 램프, 그리고 증기시계">
         <defs><linearGradient id="otSky" x1="0" y1="0" x2="0" y2="1">
@@ -1001,6 +1011,7 @@
   </section>
   <section class="region" id="g-noboribetsu">
     <div class="dayhead"><h2 style="font-size:23px">노보리베츠 登別</h2><span class="datebadge" style="background:var(--sea-mid)">폭발 화구 위의 온천</span></div>
+    <figure class="rphoto" data-rphoto="g-noboribetsu"><img src="./../img/regions/sapporo-2024/g-noboribetsu.jpg" alt="노보리베츠 登別" loading="lazy"><figcaption><a href="https://commons.wikimedia.org/wiki/File:Jigokudani_(Hell_Valley),_Noboribetsu_Onsen,_Hokkaido,_April_2023_05.jpg">사진 · Calistemon · CC BY-SA 4.0</a></figcaption></figure>
     <figure class="routemap" style="margin:18px 0 8px">
       <svg viewBox="0 0 840 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="폭발 화구 자리에 남은 지옥계곡의 수증기, 130도 유황천이 솟는 오유누마, 온천을 지키는 오니, 그리고 10월의 단풍">
         <defs><linearGradient id="nbSky" x1="0" y1="0" x2="0" y2="1">
