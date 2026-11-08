@@ -99,12 +99,12 @@
     border-left:1px solid var(--line);
     background:var(--sea-mist);
   }
-  .trip-art svg{
+  .trip-art img{
     position:absolute;inset:0;width:100%;height:100%;
-    display:block;
+    object-fit:cover;display:block;
     transition:transform .4s ease;
   }
-  .trip:hover .trip-art svg{transform:scale(1.045)}
+  .trip:hover .trip-art img{transform:scale(1.045)}
 
   .trip-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}
   .trip-meta{
@@ -141,6 +141,7 @@
     font-size:12px;color:var(--dim);letter-spacing:.05em;
   }
   footer a{color:var(--sea-mid)}
+  footer .credit{margin-top:6px;font-size:11px}
 
   @media (max-width:640px){
     .trip{grid-template-columns:1fr}
@@ -188,27 +189,7 @@
           <div class="trip-dates">7박 8일 · 2026. 9. 30(수) – 10. 7(수)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="바다 위의 붉은 도리이">
-            <defs><linearGradient id="aSe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6E7EA"/><stop offset="1" stop-color="#F1F7F4"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aSe)"/>
-            <circle cx="202" cy="30" r="12" fill="#F2CE7E" opacity=".7"/>
-            <path d="M0,106 Q40,64 88,106 Z" fill="#BACFC4"/>
-            <path d="M152,106 Q198,58 240,106 Z" fill="#A6BEA8"/>
-            <rect y="106" width="240" height="54" fill="#BBD4D8"/>
-            <g fill="#CE4A2A">
-              <path d="M82,54 q38,-8 76,0 l-3,7 q-35,-7 -70,0 z"/>
-              <rect x="86" y="66" width="68" height="6" rx="1"/>
-              <rect x="95" y="60" width="8" height="66" rx="1.5"/>
-              <rect x="137" y="60" width="8" height="66" rx="1.5"/>
-              <rect x="115" y="72" width="10" height="5"/>
-              <rect x="88" y="94" width="64" height="5" rx="1.5"/>
-            </g>
-            <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round" opacity=".9">
-              <path d="M16,132 q8,-5 16,0 q8,5 16,0"/>
-              <path d="M172,142 q8,-5 16,0 q8,5 16,0"/>
-              <path d="M60,148 q8,-5 16,0 q8,5 16,0"/>
-            </g>
-          </svg>
+          <img style="object-position:center 15%" src="./img/cards/setouchi-2026.jpg" alt="바다 위의 붉은 도리이" loading="lazy">
         </div>
       </a>
 
@@ -223,29 +204,7 @@
           <div class="trip-dates">4박 5일 · 2026. 3. 28(토) – 4. 1(수)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="눈 덮인 시라카와고의 갓쇼즈쿠리">
-            <defs><linearGradient id="aNg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3ECF2"/><stop offset="1" stop-color="#F6F8F5"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aNg)"/>
-            <path d="M0,100 Q54,46 112,100 Z" fill="#BCC9CF"/>
-            <path d="M94,102 Q158,40 240,102 Z" fill="#A9B9C0"/>
-            <rect y="100" width="240" height="60" fill="#EFF3EE"/>
-            <g transform="translate(74,0)">
-              <path d="M-36,102 L0,40 L36,102 Z" fill="#9C7B5A"/>
-              <g stroke="#7A5C40" stroke-width="1.3" opacity=".55"><path d="M-24,102 L0,60"/><path d="M0,60 L24,102"/><path d="M-12,102 L0,81"/><path d="M0,81 L12,102"/></g>
-              <path d="M-36,102 L0,40 L36,102" fill="none" stroke="#6E5238" stroke-width="2.2" stroke-linejoin="round"/>
-              <rect x="-13" y="84" width="26" height="18" fill="#EFE3CB" stroke="#9C7B5A" stroke-width="1.2"/>
-            </g>
-            <g transform="translate(168,22) scale(.78)">
-              <path d="M-36,102 L0,40 L36,102 Z" fill="#A88664"/>
-              <g stroke="#7A5C40" stroke-width="1.5" opacity=".5"><path d="M-22,102 L0,64"/><path d="M0,64 L22,102"/></g>
-              <path d="M-36,102 L0,40 L36,102" fill="none" stroke="#6E5238" stroke-width="2.6" stroke-linejoin="round"/>
-              <rect x="-11" y="86" width="22" height="16" fill="#EFE3CB" stroke="#A88664" stroke-width="1.4"/>
-            </g>
-            <g fill="#FBFDFC" opacity=".9">
-              <circle cx="26" cy="30" r="3"/><circle cx="56" cy="54" r="2.2"/><circle cx="130" cy="26" r="2.6"/>
-              <circle cx="196" cy="48" r="2.4"/><circle cx="222" cy="22" r="3"/><circle cx="104" cy="62" r="2"/>
-            </g>
-          </svg>
+          <img src="./img/cards/nagoya-2026.jpg" alt="눈 덮인 시라카와고의 갓쇼즈쿠리" loading="lazy">
         </div>
       </a>
 
@@ -267,38 +226,7 @@
           <div class="trip-dates">7박 8일 · 2025. 12. 10(수) – 12. 17(수)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="롄츠탄의 용호탑과 야자수">
-            <defs><linearGradient id="aKs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E0C4"/><stop offset="1" stop-color="#F3F1E6"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aKs)"/>
-            <circle cx="36" cy="32" r="14" fill="#F2A95C" opacity=".75"/>
-            <rect y="116" width="240" height="44" fill="#BBD4D8"/>
-            <g>
-              <rect x="116" y="56" width="26" height="60" fill="#F0E6CE" stroke="#C7A45C" stroke-width="1.4"/>
-              <path d="M110,56 h38 l-7,-9 h-24 z" fill="#C0392B"/>
-              <path d="M112,74 h34" stroke="#C0392B" stroke-width="4"/>
-              <path d="M112,92 h34" stroke="#C0392B" stroke-width="4"/>
-              <path d="M129,47 v-8" stroke="#C7A45C" stroke-width="2"/>
-            </g>
-            <g>
-              <rect x="164" y="66" width="24" height="50" fill="#F0E6CE" stroke="#C7A45C" stroke-width="1.4"/>
-              <path d="M158,66 h36 l-6,-8 h-24 z" fill="#C0392B"/>
-              <path d="M160,83 h32" stroke="#C0392B" stroke-width="3.6"/>
-              <path d="M160,99 h32" stroke="#C0392B" stroke-width="3.6"/>
-              <path d="M176,58 v-7" stroke="#C7A45C" stroke-width="2"/>
-            </g>
-            <g transform="translate(56,0)">
-              <path d="M0,118 q-5,-32 2,-50" fill="none" stroke="#8A7A4E" stroke-width="5" stroke-linecap="round"/>
-              <g fill="#6B9A6E">
-                <path d="M2,68 q-24,-8 -30,6 q18,-2 30,-6z"/>
-                <path d="M2,68 q24,-10 31,4 q-19,-2 -31,-4z"/>
-                <path d="M2,68 q-14,-20 -3,-28 q4,16 3,28z"/>
-                <path d="M2,68 q16,-18 22,-6 q-13,0 -22,6z"/>
-              </g>
-            </g>
-            <g stroke="#9FC2C8" stroke-width="2" fill="none" stroke-linecap="round">
-              <path d="M18,136 q8,-5 16,0 q8,5 16,0"/><path d="M186,146 q8,-5 16,0 q8,5 16,0"/>
-            </g>
-          </svg>
+          <img src="./img/cards/kaohsiung-2025.jpg" alt="롄츠탄의 용호탑과 야자수" loading="lazy">
         </div>
       </a>
 
@@ -313,32 +241,7 @@
           <div class="trip-dates">3박 4일 · 2025. 10. 18(토) – 10. 21(화)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="성산일출봉과 우도">
-            <defs><linearGradient id="aJa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DCC4"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aJa)"/>
-            <circle cx="40" cy="36" r="13" fill="#F2A95C" opacity=".8"/>
-            <g transform="translate(112,0)">
-              <path d="M-62,118 Q-58,76 -38,63 L38,63 Q58,76 62,118 Z" fill="#9CAE9E"/>
-              <path d="M-38,64 L-32,44 L-26,64 L-20,40 L-14,64 L-8,42 L-2,64 L4,38 L10,64 L16,43 L22,64 L28,41 L38,64 Z" fill="#8B9E8D"/>
-              <g stroke="#7E9180" stroke-width="1.6" fill="none" opacity=".55"><path d="M-54,88 q54,-8 108,0"/><path d="M-58,103 q58,-9 116,0"/></g>
-            </g>
-            <rect y="118" width="240" height="42" fill="#BBD4D8"/>
-            <g transform="translate(192,0)">
-              <path d="M-38,118 Q-18,105 2,110 Q22,103 40,118 Z" fill="#A9BDA8"/>
-              <path d="M-38,118 Q-24,110 -10,118 Z" fill="#F6F2E4"/>
-              <rect x="14" y="95" width="6" height="16" fill="#F4F1E6" stroke="#7A9199" stroke-width="1"/>
-              <path d="M12,95 h10 l-5,-7 z" fill="#CE4A2A"/>
-            </g>
-            <g transform="translate(56,0)">
-              <path d="M-18,132 h36 l-6,8 h-24 z" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.2"/>
-              <rect x="-10" y="124" width="20" height="8" fill="#FBFDFC" stroke="#7A9199" stroke-width="1.1"/>
-              <line x1="0" y1="124" x2="0" y2="114" stroke="#7A9199" stroke-width="1.2"/>
-              <path d="M0,114 h9 l-3,5 h-6 z" fill="#CE4A2A"/>
-            </g>
-            <g stroke="#8CA3A8" stroke-width="1.8" fill="none" stroke-linecap="round">
-              <path d="M44,56 q7,-5 14,0"/><path d="M58,56 q7,-5 14,0"/>
-            </g>
-          </svg>
+          <img src="./img/cards/jeju-2025-10.jpg" alt="성산일출봉과 우도" loading="lazy">
         </div>
       </a>
 
@@ -353,32 +256,7 @@
           <div class="trip-dates">4박 5일 · 2025. 5. 5(월) – 5. 9(금)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="오사카성과 도톤보리의 간판">
-            <defs><linearGradient id="aOs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2DCC6"/><stop offset="1" stop-color="#EFF4F0"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aOs)"/>
-            <circle cx="206" cy="28" r="11" fill="#F2CE7E" opacity=".75"/>
-            <g transform="translate(66,10)">
-              <path d="M-40,104 h80 l-12,-18 h-56 z" fill="#A6AFA6"/>
-              <rect x="-26" y="66" width="52" height="20" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.4"/>
-              <path d="M-34,66 h68 l-9,-11 h-50 z" fill="#4A6B54"/>
-              <rect x="-17" y="44" width="34" height="12" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.3"/>
-              <path d="M-24,44 h48 l-7,-9 h-34 z" fill="#4A6B54"/>
-              <rect x="-9" y="28" width="18" height="8" fill="#F4F1E6" stroke="#3A5260" stroke-width="1.2"/>
-              <path d="M-15,28 h30 l-5,-8 h-20 z" fill="#4A6B54"/>
-              <g fill="#D9A93E"><ellipse cx="-5" cy="17" rx="4" ry="2.4"/><ellipse cx="5" cy="17" rx="4" ry="2.4"/></g>
-            </g>
-            <rect x="126" y="108" width="114" height="20" fill="#8FA8B4"/>
-            <g transform="translate(160,0)">
-              <rect x="-20" y="58" width="40" height="50" fill="#B0463A" stroke="#8A3F36" stroke-width="1.4"/>
-              <g fill="#F4E8D0"><rect x="-12" y="66" width="24" height="6" rx="2"/><rect x="-12" y="78" width="24" height="6" rx="2"/><rect x="-12" y="90" width="16" height="6" rx="2"/></g>
-            </g>
-            <g transform="translate(200,0)">
-              <rect x="-18" y="72" width="36" height="36" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.4"/>
-              <g fill="#3E7C8A"><rect x="-11" y="80" width="22" height="6" rx="2"/><rect x="-11" y="92" width="16" height="6" rx="2"/></g>
-            </g>
-            <rect y="128" width="240" height="32" fill="#DCD3BE"/>
-            <g stroke="#9FC2C8" stroke-width="1.8" fill="none" stroke-linecap="round"><path d="M138,120 q7,-4 14,0 q7,4 14,0"/><path d="M190,118 q7,-4 14,0 q7,4 14,0"/></g>
-          </svg>
+          <img src="./img/cards/osaka-2025.jpg" alt="오사카성과 도톤보리의 간판" loading="lazy">
         </div>
       </a>
 
@@ -393,28 +271,7 @@
           <div class="trip-dates">6박 7일 · 2025. 4. 20(일) – 4. 26(토)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="한라산과 돌하르방, 봄의 유채꽃">
-            <defs><linearGradient id="aJs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCEAF0"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aJs)"/>
-            <circle cx="202" cy="34" r="12" fill="#F2CE7E" opacity=".75"/>
-            <path d="M0,110 Q40,82 80,110 Z" fill="#BACFC4"/>
-            <path d="M164,110 Q202,86 240,110 Z" fill="#BACFC4"/>
-            <path d="M30,110 Q118,38 206,110 Z" fill="#A9BDB4"/>
-            <path d="M83,80 Q118,68 153,80 Q140,89 124,83 Q106,90 83,80 Z" fill="#F4F7F5"/>
-            <rect y="110" width="240" height="50" fill="#DCD8C6"/>
-            <g transform="translate(56,0)" fill="#8A8F86">
-              <path d="M-13,112 q-2,-26 13,-26 q15,0 13,26 z"/>
-              <ellipse cx="0" cy="74" rx="12" ry="14"/>
-              <path d="M-12,71 q12,-11 24,0 l0,-7 q-12,-10 -24,0 z" fill="#767C73"/>
-              <g fill="#F1F4F0"><circle cx="-5" cy="75" r="2.8"/><circle cx="5" cy="75" r="2.8"/></g>
-              <ellipse cx="0" cy="81" rx="2.2" ry="2.8" fill="#6E7369"/>
-              <path d="M-7,88 q7,4 14,0" fill="none" stroke="#6E7369" stroke-width="1.4"/>
-            </g>
-            <g>
-              <g stroke="#7FA054" stroke-width="2" stroke-linecap="round"><path d="M100,128 v-10"/><path d="M124,134 v-10"/><path d="M148,127 v-10"/><path d="M172,133 v-10"/><path d="M196,129 v-10"/></g>
-              <g fill="#F2CE42"><circle cx="100" cy="115" r="4.2"/><circle cx="124" cy="121" r="4.6"/><circle cx="148" cy="114" r="4.2"/><circle cx="172" cy="120" r="4.6"/><circle cx="196" cy="116" r="4.2"/></g>
-            </g>
-          </svg>
+          <img src="./img/cards/jeju-2025-04.jpg" alt="한라산과 돌하르방, 봄의 유채꽃" loading="lazy">
         </div>
       </a>
 
@@ -436,36 +293,7 @@
           <div class="trip-dates">5박 6일 · 2024. 12. 20(금) – 12. 25(수)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="타이베이 101과 하늘로 오르는 천등">
-            <defs><linearGradient id="aTp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EADFD0"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aTp)"/>
-            <path d="M0,112 Q46,56 104,112 Z" fill="#9DBBA8"/>
-            <path d="M150,112 Q196,66 240,112 Z" fill="#B3C9B8"/>
-            <g transform="translate(130,0)">
-              <rect x="-11" y="94" width="22" height="18" fill="#CBD9D4" stroke="#9FB3AB" stroke-width="1.2"/>
-              <g fill="#CBE0E4" stroke="#9FB3AB" stroke-width="1.2">
-                <path d="M-13,94 h26 l-2.6,-14 h-20.8 z"/>
-                <path d="M-15,80 h30 l-2.6,-14 h-24.8 z"/>
-                <path d="M-17,66 h34 l-2.6,-14 h-28.8 z"/>
-                <path d="M-19,52 h38 l-2.6,-14 h-32.8 z"/>
-              </g>
-              <rect x="-3.5" y="26" width="7" height="12" fill="#9FB3AB"/>
-              <line x1="0" y1="26" x2="0" y2="14" stroke="#9FB3AB" stroke-width="1.8"/>
-            </g>
-            <g fill="#F2CE7E" stroke="#D9A93E" stroke-width="1.2">
-              <path d="M34,40 q13,-16 26,0 l-4,16 h-18 z"/>
-              <path d="M70,76 q10,-13 20,0 l-3,13 h-14 z"/>
-              <path d="M198,46 q9,-11 18,0 l-2.5,11 h-13 z"/>
-            </g>
-            <path d="M188,98 q9,-11 18,0 l-2.5,11 h-13 z" fill="#E7A9B4" stroke="#D08E9C" stroke-width="1.1"/>
-            <rect y="112" width="240" height="48" fill="#DCD3BE"/>
-            <g transform="translate(58,116)">
-              <rect x="-26" y="-14" width="52" height="14" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.2"/>
-              <path d="M-31,-14 h62 l-5,-8 h-52 z" fill="#C0392B"/>
-              <g stroke="#8A6A3E" stroke-width="1.8"><line x1="-21" y1="0" x2="-21" y2="16"/><line x1="21" y1="0" x2="21" y2="16"/></g>
-              <g fill="#F2CE7E"><circle cx="-11" cy="-7" r="2.6"/><circle cx="0" cy="-7" r="2.6"/><circle cx="11" cy="-7" r="2.6"/></g>
-            </g>
-          </svg>
+          <img src="./img/cards/taipei-2024.jpg" alt="타이베이 101과 하늘로 오르는 천등" loading="lazy">
         </div>
       </a>
 
@@ -481,37 +309,7 @@
           <div class="trip-dates">8박 9일 · 2024. 10. 4(금) – 10. 12(토)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="오도리공원과 삿포로 TV 타워, 가을 단풍">
-            <defs><linearGradient id="aSp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2ECF2"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aSp)"/>
-            <circle cx="38" cy="36" r="11" fill="#F2CE7E" opacity=".7"/>
-            <path d="M0,96 Q56,54 116,96 Z" fill="#B6C6C2"/>
-            <path d="M142,96 Q196,58 250,96 Z" fill="#B6C6C2"/>
-            <g fill="#C3D2D6">
-              <rect x="32" y="74" width="22" height="24"/><rect x="60" y="62" width="16" height="36"/>
-              <rect x="178" y="66" width="18" height="32"/><rect x="202" y="78" width="22" height="20"/>
-            </g>
-            <g transform="translate(124,0)">
-              <path d="M-19,98 L-7,46 h14 L19,98 Z" fill="none" stroke="#C0392B" stroke-width="2.6"/>
-              <g stroke="#C0392B" stroke-width="1.2" opacity=".75">
-                <line x1="-14" y1="80" x2="14" y2="80"/><line x1="-10" y1="63" x2="10" y2="63"/>
-                <line x1="-14" y1="80" x2="10" y2="63"/><line x1="14" y1="80" x2="-10" y2="63"/>
-              </g>
-              <rect x="-11" y="48" width="22" height="9" rx="2" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.1"/>
-              <rect x="-5" y="50" width="10" height="5" rx="1" fill="#3A5260"/>
-              <line x1="0" y1="46" x2="0" y2="32" stroke="#C0392B" stroke-width="1.8"/>
-            </g>
-            <rect y="98" width="240" height="26" fill="#9FBF96"/>
-            <rect y="124" width="240" height="36" fill="#D7D3BE"/>
-            <g transform="translate(60,0)">
-              <rect x="-3" y="104" width="5" height="20" fill="#7A5C40"/>
-              <circle cx="0" cy="96" r="16" fill="#D4703A"/><circle cx="-11" cy="104" r="10" fill="#E08A46"/><circle cx="11" cy="104" r="9" fill="#C85F30"/>
-            </g>
-            <g transform="translate(194,0)">
-              <rect x="-3" y="106" width="5" height="18" fill="#7A5C40"/>
-              <circle cx="0" cy="99" r="13" fill="#C85F30"/><circle cx="-9" cy="106" r="8" fill="#D4703A"/>
-            </g>
-          </svg>
+          <img src="./img/cards/sapporo-2024.jpg" alt="오도리공원과 삿포로 TV 타워, 가을 단풍" loading="lazy">
         </div>
       </a>
 
@@ -527,48 +325,7 @@
           <div class="trip-dates">7박 8일 · 2024. 5. 1(수) – 5. 8(수)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="도쿄역 마루노우치 역사와 도쿄타워">
-            <defs><linearGradient id="aTk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4EAF2"/><stop offset="1" stop-color="#F2F6F2"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aTk)"/>
-            <circle cx="40" cy="36" r="11" fill="#F2CE7E" opacity=".7"/>
-            <g fill="#BFCCD6">
-              <rect x="26" y="66" width="20" height="46"/><rect x="50" y="54" width="15" height="58"/>
-              <rect x="206" y="60" width="18" height="52"/><rect x="228" y="76" width="18" height="36"/>
-            </g>
-            <g transform="translate(190,0)">
-              <path d="M-24,112 L-8,48 h16 L24,112 Z" fill="none" stroke="#C0392B" stroke-width="2.8"/>
-              <g stroke="#C0392B" stroke-width="1.2" opacity=".7">
-                <line x1="-17" y1="84" x2="17" y2="84"/><line x1="-11" y1="62" x2="11" y2="62"/>
-                <line x1="-17" y1="84" x2="11" y2="62"/><line x1="17" y1="84" x2="-11" y2="62"/>
-              </g>
-              <rect x="-13" y="66" width="26" height="10" rx="2" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.1"/>
-              <rect x="-8" y="49" width="16" height="7" rx="2" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1"/>
-              <line x1="0" y1="48" x2="0" y2="34" stroke="#C0392B" stroke-width="1.8"/>
-            </g>
-            <g transform="translate(104,0)">
-              <rect x="-74" y="82" width="148" height="30" fill="#A9543E" stroke="#8A4332" stroke-width="1.4"/>
-              <rect x="-74" y="77" width="148" height="7" fill="#E6DCC8"/>
-              <g fill="#8A4332">
-                <path d="M-58,77 q15,-22 30,0 z"/><path d="M28,77 q15,-22 30,0 z"/><path d="M-16,77 q16,-16 32,0 z"/>
-              </g>
-              <g fill="#E6DCC8">
-                <rect x="-66" y="90" width="9" height="14"/><rect x="-50" y="90" width="9" height="14"/>
-                <rect x="-12" y="90" width="9" height="14"/><rect x="4" y="90" width="9" height="14"/>
-                <rect x="42" y="90" width="9" height="14"/><rect x="58" y="90" width="9" height="14"/>
-              </g>
-              <circle cx="0" cy="64" r="7" fill="#F4F1E6" stroke="#8A4332" stroke-width="1.2"/>
-            </g>
-            <rect y="112" width="240" height="48" fill="#D7D3C0"/>
-            <rect y="122" width="240" height="3" fill="#C7C3B0"/>
-            <g transform="translate(46,0)">
-              <rect x="-3" y="102" width="5" height="18" fill="#7A5C40"/>
-              <circle cx="0" cy="96" r="14" fill="#6F9A72"/><circle cx="-10" cy="103" r="9" fill="#7FAB80"/>
-            </g>
-            <g transform="translate(206,0)">
-              <rect x="-42" y="128" width="78" height="20" rx="5" fill="#E8C24A" stroke="#C09B2E" stroke-width="1.3"/>
-              <g fill="#CBE0E4"><rect x="-34" y="133" width="14" height="9" rx="2"/><rect x="-16" y="133" width="14" height="9" rx="2"/><rect x="2" y="133" width="14" height="9" rx="2"/></g>
-            </g>
-          </svg>
+          <img src="./img/cards/tokyo-2024.jpg" alt="도쿄역 마루노우치 역사와 도쿄타워" loading="lazy">
         </div>
       </a>
 
@@ -590,29 +347,7 @@
           <div class="trip-dates">12박 13일 · 2023. 9. 30(토) – 10. 12(목)</div>
         </div>
         <div class="trip-art">
-          <svg viewBox="0 0 240 160" preserveAspectRatio="xMidYMid slice" role="img" aria-label="김이 오르는 온천과 규슈를 도는 기차">
-            <defs><linearGradient id="aKy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7E2D4"/><stop offset="1" stop-color="#EFF4F0"/></linearGradient></defs>
-            <rect width="240" height="160" fill="url(#aKy)"/>
-            <path d="M0,96 Q48,38 104,96 Z" fill="#B2C3B4"/>
-            <path d="M74,100 Q132,44 192,100 Z" fill="#A0B5A4"/>
-            <rect y="98" width="240" height="62" fill="#DCD9C6"/>
-            <g transform="translate(70,0)">
-              <ellipse cx="0" cy="118" rx="38" ry="11" fill="#9FC2C8" stroke="#7FA6AE" stroke-width="1.5"/>
-              <ellipse cx="0" cy="116" rx="26" ry="7" fill="#CBE0E4"/>
-              <g stroke="#FBFDFC" stroke-width="3" fill="none" opacity=".9" stroke-linecap="round">
-                <path d="M-18,108 q7,-16 0,-30"/><path d="M2,102 q8,-18 0,-34"/><path d="M20,110 q7,-14 0,-26"/>
-              </g>
-            </g>
-            <g transform="translate(158,0)">
-              <line x1="-42" y1="140" x2="50" y2="140" stroke="#A6AFA6" stroke-width="2.6"/>
-              <g stroke="#BFC6BA" stroke-width="2"><line x1="-40" y1="136" x2="-40" y2="144"/><line x1="-16" y1="136" x2="-16" y2="144"/><line x1="8" y1="136" x2="8" y2="144"/><line x1="32" y1="136" x2="32" y2="144"/></g>
-              <rect x="-34" y="112" width="40" height="22" rx="3" fill="#B0463A" stroke="#8A3F36" stroke-width="1.4"/>
-              <rect x="10" y="116" width="34" height="18" rx="3" fill="#E8DCC2" stroke="#8A6A3E" stroke-width="1.3"/>
-              <g fill="#F4E8D0"><rect x="-28" y="118" width="10" height="9" rx="1.5"/><rect x="-13" y="118" width="10" height="9" rx="1.5"/></g>
-              <g fill="#CBE0E4"><rect x="16" y="121" width="9" height="8" rx="1.5"/><rect x="29" y="121" width="9" height="8" rx="1.5"/></g>
-              <g fill="#6E7A72"><circle cx="-26" cy="136" r="3.4"/><circle cx="-2" cy="136" r="3.4"/><circle cx="20" cy="136" r="3"/><circle cx="38" cy="136" r="3"/></g>
-            </g>
-          </svg>
+          <img src="./img/cards/kyushu-2023.jpg" alt="김이 오르는 온천과 규슈를 도는 기차" loading="lazy">
         </div>
       </a>
 
@@ -623,6 +358,7 @@
 
   <footer>
     <a href="https://github.com/pjok1122/trips">github.com/pjok1122/trips</a>
+    <div class="credit"><a href="./credits.html">카드 사진 출처</a> · Wikimedia Commons</div>
   </footer>
 
 </div>
